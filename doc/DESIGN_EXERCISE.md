@@ -23,7 +23,20 @@ Function will run through all cells and update the graphical array accordingly d
 
 #### Class Hierarchy
 Runner class
+    Methods:
+        setup
+        startSim
+        updateGrid
+        endSim
 Abstract Cell
-    MiddleCell
-    EdgeCell
-    CornerCell
+    Methods:
+        getState
+        setState
+        getTop
+        getBottom
+        getLeft
+        getRight
+        update
+MiddleCell extends Cell
+EdgeCell extends Cell
+CornerCell extends Cell
