@@ -1,4 +1,4 @@
-####How does a Cell know about its neighbors? How can it update itself without effecting its neighbors update?
+#### How does a Cell know about its neighbors? How can it update itself without effecting its neighbors update?
 
 We will have a cell class that contains a top, bottom, left, and right data elements of type cell.
 Cells will need a current state and a future state.
