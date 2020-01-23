@@ -16,3 +16,4 @@ This class hierachy should also work for new game files.
 For example if you were using an arraylists, it would be very easy to create and read all the object relationships, but it would be a pain to loop through all of the values.
 You could use a hashmap, but the efficiency compared to an arraylist when the dataset is this small would be negligible.
 With a hashmap you also have the added complexity of hashing each object and returning it, while in an arraylist implementation, it would be easy to do both.
+We could use an array but it wouldn't generalize well to adding new options, since you would have to create a new array every time. 
