@@ -20,3 +20,10 @@ Rules, size dimensions, intial state cells.
 #### How is the graphical view of the simulation updated after all the cells have been updated?
 Function will run through all cells and update the graphical array accordingly depending on the cells' values.
 
+
+#### Class Hierarchy
+Runner class
+Abstract Cell
+    MiddleCell
+    EdgeCell
+    CornerCell
