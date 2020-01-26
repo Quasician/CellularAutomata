@@ -11,11 +11,11 @@ since its operation is the same everytime. Visualization needs to be closed beca
 ## Overview
     ADD PICTURES OF CRC CARDS
     
-We plan to have a runner class should just have a main method, setupSimulation
+We plan to have a runner class that should just have a main method, setupSimulation
     The runner class would do the configuration of the simulation with the setupSimulation method.
     start and update the simulation, and graphically visualize the simulation to the user. 
     
-Simulation class that will contain the rules of the simulation and a constructor, startSim method, updateGrid method, and a show method.
+Simulation class that will contain the rules of the simulation and a constructor, updateGrid method, and a show method.
     We will have to create an object inside the runner class for the actual simulation to start.
     
 We plan to also have an abstract Cell class that has the methods:
@@ -56,9 +56,55 @@ Two different implementations:
 
 ## Design Details
     
+We plan to have a runner class that should just have a main method, setupSimulation
+    The runner class would do the configuration of the simulation with the setupSimulation method.
+    It would update the simulation with setter methods and simulation's updateGrid method, and graphically visualize 
+    the simulation to the user using simulation's show method. 
     
+    Simulation class that will contain the rules of the simulation and a constructor, updateGrid method, and a show method.
+    We will have to create an object inside the runner class for the actual simulation to start.
+    Once started to update the simulation with the UI's button presses, the code will utilize simulation setter methods for data elemtents
+    within the simulation class. To add additional updates, one only needs to create a new variable inside of the simulation class and
+    make a setter method for that variable.
     
+We plan to also have an abstract Cell class that has the methods:
+    getState
+    setState
+    getTopCell
+    getBottomCell
+    getLeftCell
+    getRightCell
+    updateState
+We also need a Middle Cell, Edge Cell, and Corner Cell that will extend from the abstract Cell class.
+
+Middle Cell will have a constructor
+    variables:
+        TopCell
+        BottomCell
+        LeftCell
+        RightCell
+    updateState will factor in all neighbors
     
+Edge Cell will have a constructor
+    variables:
+        TopCell
+        BottomCell
+        LeftCell
+        RightCell
+    1 cell will be set to null depending on the constructor and 3 cells will point to an actual cell.
+    updateState will factor in 3 neighbors
+        
+Corner Cell will have a constructor
+    variables:
+        TopCell
+        BottomCell
+        LeftCell
+        RightCell
+    2 cells will be set to null depending on the constructor and 2 cells will point to an actual cell.
+    updateState will factor in 2 neighbors
+
+If we need to add a new type of cell then we could create that specific type of cell and make it extend the abstract class Cell.
+
     *Apply the rules to a middle cell: set the next state of a cell to dead by counting its number of neighbors using the Game of Life rules for a cell in the middle (i.e., with all its neighbors)
     
         This will be completed by using the Middle Cell's own updateState method. Since a middle cell has 4 neighbors, the updateState 
@@ -84,6 +130,15 @@ Two different implementations:
         
         To load up a new simulation, we would call the setupSimulation method and make the current simulation = to the result of the method.
 
+    We are creating 3 different types of cells because their update methods will be unique to them since all three do not share the same
+    number of neighbors. Since they do share common methods they will all extend an abstract Cell class. This demonstrates Polymorphism and
+    inheritance.
+    
+    We will be creating a simulation class that has all of its pertinent data elements within itself which demonstrates encapsulation and
+    open/closed design.
+    
+
+    
 ## Design Considerations
 
 #### Components
