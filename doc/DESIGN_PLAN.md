@@ -105,6 +105,8 @@ Corner Cell will have a constructor
 
 If we need to add a new type of cell then we could create that specific type of cell and make it extend the abstract class Cell.
 
+
+### Use Cases
     *Apply the rules to a middle cell: set the next state of a cell to dead by counting its number of neighbors using the Game of Life rules for a cell in the middle (i.e., with all its neighbors)
     
         This will be completed by using the Middle Cell's own updateState method. Since a middle cell has 4 neighbors, the updateState 
@@ -178,16 +180,19 @@ If we need to add a new type of cell then we could create that specific type of 
         Assuming the grid will not be big enough to extend past someone's laptop screen
         Assuming the grid will always be 2 dimensional
         
-#### Components
-
-#### Use Cases
 
 
 ## Team Responsibilities
 
- * Team Member #1
+ * Team Member #1 Thomas Chemmanoor 
+ *  Primary: Visualization
+ *  Secondary: Implementating Cell class structure
 
- * Team Member #2
+ * Team Member #2 Rodrigo Araujo-
+ *  Primary: Simulation
+ *  Secondary: Methods for updating the simulation
 
- * Team Member #3
+ * Team Member #3 Vineet Alaparthi
+ * Primary: Configuration
+ * Secondary: 
 
