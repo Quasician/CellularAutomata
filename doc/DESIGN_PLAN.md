@@ -15,7 +15,7 @@ We plan to have a runner class should just have a main method, setupSimulation
     The runner class would do the configuration of the simulation with the setupSimulation method.
     start and update the simulation, and graphically visualize the simulation to the user. 
     
-Simulation class that will contain the rules of the simulation and a constructor, startSim method, and updateGrid method.
+Simulation class that will contain the rules of the simulation and a constructor, startSim method, updateGrid method, and a show method.
     We will have to create an object inside the runner class for the actual simulation to start.
     
 We plan to also have an abstract Cell class that has the methods:
@@ -56,16 +56,33 @@ Two different implementations:
 
 ## Design Details
     
+    
+    
+    
     *Apply the rules to a middle cell: set the next state of a cell to dead by counting its number of neighbors using the Game of Life rules for a cell in the middle (i.e., with all its neighbors)
     
+        This will be completed by using the Middle Cell's own updateState method. Since a middle cell has 4 neighbors, the updateState 
+        method will look at all 4 neighbors.
+        
     *Apply the rules to an edge cell: set the next state of a cell to live by counting its number of neighbors using the Game of Life rules for a cell on the edge (i.e., with some of its neighbors missing)
-    
+     
+        This will be completed by using the Edge Cell's own updateState method. Since a edge cell has 3 neighbors, the updateState 
+        method will look at all 3 neighbors.
+        
     *Move to the next generation: update all cells in a simulation from their current state to their next state and display the result graphically
     
+        Inside the runner class the current simulation will use its updateGrid method to update the state of all cells
+        and use the show method to show the state of all cells graphically.
+        
     *Set a simulation parameter: set the value of a global configuration parameter, probCatch, for a simulation, Fire, based on the value given in an XML fire
     
+        This will happen inside the setupSimulation method inside of the runner class. Reading values from the XML file, it will create
+        a new simulation object. If you are updating a simulation parameter as the simulation is running then you can use the various set methods
+        for a simulation's variables to update the current simulation.
+        
     *Switch simulations: load a new simulation from an XML file, stopping the current running simulation, Segregation, and starting the newly loaded simulation, Wator
-
+        
+        To load up a new simulation, we would call the setupSimulation method and make the current simulation = to the result of the method.
 
 ## Design Considerations
 
