@@ -9,6 +9,15 @@ to work with different types of rules. The simulation is where the code needs to
 since its operation is the same everytime. Visualization needs to be closed because it will be the same everytime. 
 
 ## Overview
+We plan to have a runner class that has a setup method, startSim method, endSim method, and updateGrid method.
+We plan to also have an abstract Cell class that has the methods:
+    getState
+    setState
+    getTopCell
+    getBottomCell
+    getLeftCell
+    getRightCell
+    updateState
 
 
 ## User Interface
