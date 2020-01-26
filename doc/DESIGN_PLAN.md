@@ -9,7 +9,12 @@ to work with different types of rules. The simulation is where the code needs to
 since its operation is the same everytime. Visualization needs to be closed because it will be the same everytime. 
 
 ## Overview
-We plan to have a runner class that has a setup method, startSim method, endSim method, and updateGrid method.
+We plan to have a runner class should just have a main method, setupSimulation
+    The runner class would do the configuration of the simulation with the setupSimulation method.
+    start and update the simulation, and graphically visualize the simulation to the user. 
+Simulation class that will contain the rules of the simulation and a setup method, startSim method, endSim method, 
+and updateGrid method.
+    We will have to create an object inside the runner class for the actual simulation to start.
 We plan to also have an abstract Cell class that has the methods:
     getState
     setState
@@ -18,7 +23,17 @@ We plan to also have an abstract Cell class that has the methods:
     getLeftCell
     getRightCell
     updateState
+We also need a Middle Cell, Edge Cell, and Corner Cell that will extend from the abstract Cell class.
 
+Two different implementations:
+    the grid is 2d array
+    the grid is map
+        To make our program as flexible as possible, grid, regardless of its data structure will be made in the runner class so 
+        any methods in the Runner class would not need to pass in the grid.
+        
+        Runner file
+        
+        public void setupSimulation () {}
 
 ## User Interface
 
