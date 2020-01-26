@@ -11,21 +11,21 @@ since its operation is the same everytime. Visualization needs to be closed beca
 ## Overview
     ADD PICTURES OF CRC CARDS
     
-*We plan to have a runner class that should just have a main method, setupSimulation
-    *The runner class would do the configuration of the simulation with the setupSimulation method.
-    *It's main method would start and update the simulation, and graphically visualize the simulation to the user. 
+* We plan to have a runner class that should just have a main method, setupSimulation
+    * The runner class would do the configuration of the simulation with the setupSimulation method.
+    * It's main method would start and update the simulation, and graphically visualize the simulation to the user. 
     
-*Simulation class that will contain the rules of the simulation and a constructor, updateGrid method, and a show method.
-    *We will have to create an object inside the runner class for the actual simulation to start.
+* Simulation class that will contain the rules of the simulation and a constructor, updateGrid method, and a show method.
+    * We will have to create an object inside the runner class for the actual simulation to start.
     
-*We plan to also have an abstract Cell class that has the methods:
-    *getState
-    *setState
-    *getTopCell
-    *getBottomCell
-    *getLeftCell
-    *getRightCell
-    *updateState
+* We plan to also have an abstract Cell class that has the methods:
+    * getState
+    * setState
+    * getTopCell
+    * getBottomCell
+    * getLeftCell
+    * getRightCell
+    * updateState
     
 We also need a Middle Cell, Edge Cell, and Corner Cell that will extend from the abstract Cell class.
 
