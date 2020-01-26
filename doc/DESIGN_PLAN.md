@@ -135,12 +135,49 @@ If we need to add a new type of cell then we could create that specific type of 
     inheritance.
     
     We will be creating a simulation class that has all of its pertinent data elements within itself which demonstrates encapsulation and
-    open/closed design.
+    open/closed design. The runner class seperates the configuration of the simulation from the rest of the program to demonstrate
+    SHY programming.
     
 
     
 ## Design Considerations
+    Issues which need to be addressed or resolved before attempting to devise a complete design solution:
+        Figuring out which neighbor/s an edge or corner cell will be missing to create the cell
 
+    Design Decisions:
+        Runner class and Simulation class vs. One Runner class
+            Runner class and Simulation class
+                Pros: Uses encapsulation and open/close design, makes code readable, simpler to think about
+                Cons: more lines of code, slightly more complicated in passing method arguments
+            
+            One Runner class
+                Pros: less files, never having variable scope issues 
+                Cons: way less organized
+                
+        Reading file within separate method inside the runner class vs. inside the main method
+            Reading file within separate method inside the runner class
+                Pros: Uses encapsulation and open/close design, makes code readable
+                Cons: more lines of code
+            
+            Reading file inside the main method
+                Pros: less lines of code
+                Cons: not readable, not modular
+                
+        One non-abstract cell vs Abstract cell with extended specific cells
+            One non-abstract cell
+                Pros: design is simpler (less files)
+                Cons: having to create a general update method that would work for all types of cells
+            
+            Abstract cell with extended specific cells
+                Pros: Allows for easier conceptualization, easier creation of specific update method
+                    uses Polymorphism and inheritance
+                Cons: design will be more complex (more files)
+            
+    Assumption/Dependencies
+        Assuming the file format will generally be the same
+        Assuming the grid will not be big enough to extend past someone's laptop screen
+        Assuming the grid will always be 2 dimensional
+        
 #### Components
 
 #### Use Cases
