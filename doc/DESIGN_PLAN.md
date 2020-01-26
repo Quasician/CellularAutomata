@@ -11,27 +11,28 @@ since its operation is the same everytime. Visualization needs to be closed beca
 ## Overview
     ADD PICTURES OF CRC CARDS
     
-We plan to have a runner class that should just have a main method, setupSimulation
-    The runner class would do the configuration of the simulation with the setupSimulation method.
-    start and update the simulation, and graphically visualize the simulation to the user. 
+*We plan to have a runner class that should just have a main method, setupSimulation
+    *The runner class would do the configuration of the simulation with the setupSimulation method.
+    *It's main method would start and update the simulation, and graphically visualize the simulation to the user. 
     
-Simulation class that will contain the rules of the simulation and a constructor, updateGrid method, and a show method.
-    We will have to create an object inside the runner class for the actual simulation to start.
+*Simulation class that will contain the rules of the simulation and a constructor, updateGrid method, and a show method.
+    *We will have to create an object inside the runner class for the actual simulation to start.
     
-We plan to also have an abstract Cell class that has the methods:
-    getState
-    setState
-    getTopCell
-    getBottomCell
-    getLeftCell
-    getRightCell
-    updateState
+*We plan to also have an abstract Cell class that has the methods:
+    *getState
+    *setState
+    *getTopCell
+    *getBottomCell
+    *getLeftCell
+    *getRightCell
+    *updateState
+    
 We also need a Middle Cell, Edge Cell, and Corner Cell that will extend from the abstract Cell class.
 
-Two different implementations:
-    1. the grid is 2d array
-    2. the grid is map
-        To make our program as flexible as possible, grid, regardless of its data structure will be made in the simulation class so 
+*Two different implementations:
+    *1. the grid is 2d array
+    *2. the grid is map
+        *To make our program as flexible as possible, grid, regardless of its data structure will be made in the simulation class so 
         any methods in the simulation that need to use the grid would not need to pass in the grid. No method signatures in our program
         will need to pass in grid since all methods that need to use grid will be inside the simulation class and have access to the 
         private variable.
@@ -56,34 +57,34 @@ Two different implementations:
 
 ## Design Details
     
-We plan to have a runner class that should just have a main method, setupSimulation
-    The runner class would do the configuration of the simulation with the setupSimulation method.
-    It would update the simulation with setter methods and simulation's updateGrid method, and graphically visualize 
+*We plan to have a runner class that should just have a main method, setupSimulation
+    *The runner class would do the configuration of the simulation with the setupSimulation method.
+    *It would update the simulation with setter methods and simulation's updateGrid method, and graphically visualize 
     the simulation to the user using simulation's show method. 
     
-    Simulation class that will contain the rules of the simulation and a constructor, updateGrid method, and a show method.
-    We will have to create an object inside the runner class for the actual simulation to start.
-    Once started to update the simulation with the UI's button presses, the code will utilize simulation setter methods for data elemtents
+    *Simulation class that will contain the rules of the simulation and a constructor, updateGrid method, and a show method.
+    *We will have to create an object inside the runner class for the actual simulation to start.
+    *Once started to update the simulation with the UI's button presses, the code will utilize simulation setter methods for data elemtents
     within the simulation class. To add additional updates, one only needs to create a new variable inside of the simulation class and
     make a setter method for that variable.
     
 We plan to also have an abstract Cell class that has the methods:
-    getState
-    setState
-    getTopCell
-    getBottomCell
-    getLeftCell
-    getRightCell
-    updateState
+    *getState
+    *setState
+    *getTopCell
+    *getBottomCell
+    *getLeftCell
+    *getRightCell
+    *updateState
 We also need a Middle Cell, Edge Cell, and Corner Cell that will extend from the abstract Cell class.
 
 Middle Cell will have a constructor
-    variables:
-        TopCell
-        BottomCell
-        LeftCell
-        RightCell
-    updateState will factor in all neighbors
+    *variables:
+        *TopCell
+        *BottomCell
+        *LeftCell
+        *RightCell
+    *updateState will factor in all neighbors
     
 Edge Cell will have a constructor
     variables:
