@@ -29,10 +29,10 @@ since its operation is the same everytime. Visualization needs to be closed beca
     
 We also need a Middle Cell, Edge Cell, and Corner Cell that will extend from the abstract Cell class.
 
-*Two different implementations:
-    *1. the grid is 2d array
-    *2. the grid is map
-        *To make our program as flexible as possible, grid, regardless of its data structure will be made in the simulation class so 
+* Two different implementations:
+    * 1. the grid is 2d array
+    * 2. the grid is map
+        * To make our program as flexible as possible, grid, regardless of its data structure will be made in the simulation class so 
         any methods in the simulation that need to use the grid would not need to pass in the grid. No method signatures in our program
         will need to pass in grid since all methods that need to use grid will be inside the simulation class and have access to the 
         private variable.
@@ -57,7 +57,7 @@ We also need a Middle Cell, Edge Cell, and Corner Cell that will extend from the
 
 ## Design Details
     
-*We plan to have a runner class that should just have a main method, setupSimulation
+* We plan to have a runner class that should just have a main method, setupSimulation
     *The runner class would do the configuration of the simulation with the setupSimulation method.
     *It would update the simulation with setter methods and simulation's updateGrid method, and graphically visualize 
     the simulation to the user using simulation's show method. 
@@ -78,8 +78,8 @@ We plan to also have an abstract Cell class that has the methods:
     *updateState
 We also need a Middle Cell, Edge Cell, and Corner Cell that will extend from the abstract Cell class.
 
-Middle Cell will have a constructor
-    *variables:
+* Middle Cell will have a constructor
+    * variables:
         *TopCell
         *BottomCell
         *LeftCell
@@ -87,12 +87,12 @@ Middle Cell will have a constructor
     *updateState will factor in all neighbors
     
 Edge Cell will have a constructor
-    variables:
-        TopCell
-        BottomCell
-        LeftCell
-        RightCell
-    1 cell will be set to null depending on the constructor and 3 cells will point to an actual cell.
+    * variables:
+        *TopCell
+        *BottomCell
+        *LeftCell
+        *RightCell
+    * 1 cell will be set to null depending on the constructor and 3 cells will point to an actual cell.
     updateState will factor in 3 neighbors
         
 Corner Cell will have a constructor
@@ -108,36 +108,36 @@ If we need to add a new type of cell then we could create that specific type of 
 
 
 ### Use Cases
-    *Apply the rules to a middle cell: set the next state of a cell to dead by counting its number of neighbors using the Game of Life rules for a cell in the middle (i.e., with all its neighbors)
-    
-        This will be completed by using the Middle Cell's own updateState method. Since a middle cell has 4 neighbors, the updateState 
-        method will look at all 4 neighbors.
-        
-    *Apply the rules to an edge cell: set the next state of a cell to live by counting its number of neighbors using the Game of Life rules for a cell on the edge (i.e., with some of its neighbors missing)
-     
-        This will be completed by using the Edge Cell's own updateState method. Since a edge cell has 3 neighbors, the updateState 
-        method will look at all 3 neighbors.
-        
-    *Move to the next generation: update all cells in a simulation from their current state to their next state and display the result graphically
-    
-        Inside the runner class the current simulation will use its updateGrid method to update the state of all cells
-        and use the show method to show the state of all cells graphically.
-        
-    *Set a simulation parameter: set the value of a global configuration parameter, probCatch, for a simulation, Fire, based on the value given in an XML fire
-    
-        This will happen inside the setupSimulation method inside of the runner class. Reading values from the XML file, it will create
-        a new simulation object. If you are updating a simulation parameter as the simulation is running then you can use the various set methods
-        for a simulation's variables to update the current simulation.
-        
-    *Switch simulations: load a new simulation from an XML file, stopping the current running simulation, Segregation, and starting the newly loaded simulation, Wator
-        
-        To load up a new simulation, we would call the setupSimulation method and make the current simulation = to the result of the method.
+* Apply the rules to a middle cell: set the next state of a cell to dead by counting its number of neighbors using the Game of Life rules for a cell in the middle (i.e., with all its neighbors)
 
-    We are creating 3 different types of cells because their update methods will be unique to them since all three do not share the same
+* This will be completed by using the Middle Cell's own updateState method. Since a middle cell has 4 neighbors, the updateState 
+    method will look at all 4 neighbors.
+    
+* Apply the rules to an edge cell: set the next state of a cell to live by counting its number of neighbors using the Game of Life rules for a cell on the edge (i.e., with some of its neighbors missing)
+ 
+   * This will be completed by using the Edge Cell's own updateState method. Since a edge cell has 3 neighbors, the updateState 
+    method will look at all 3 neighbors.
+    
+*Move to the next generation: update all cells in a simulation from their current state to their next state and display the result graphically
+
+* Inside the runner class the current simulation will use its updateGrid method to update the state of all cells
+    and use the show method to show the state of all cells graphically.
+    
+* Set a simulation parameter: set the value of a global configuration parameter, probCatch, for a simulation, Fire, based on the value given in an XML fire
+
+* This will happen inside the setupSimulation method inside of the runner class. Reading values from the XML file, it will create
+    a new simulation object. If you are updating a simulation parameter as the simulation is running then you can use the various set methods
+    for a simulation's variables to update the current simulation.
+    
+* Switch simulations: load a new simulation from an XML file, stopping the current running simulation, Segregation, and starting the newly loaded simulation, Wator
+    
+* To load up a new simulation, we would call the setupSimulation method and make the current simulation = to the result of the method.
+
+* We are creating 3 different types of cells because their update methods will be unique to them since all three do not share the same
     number of neighbors. Since they do share common methods they will all extend an abstract Cell class. This demonstrates Polymorphism and
     inheritance.
     
-    We will be creating a simulation class that has all of its pertinent data elements within itself which demonstrates encapsulation and
+* We will be creating a simulation class that has all of its pertinent data elements within itself which demonstrates encapsulation and
     open/closed design. The runner class seperates the configuration of the simulation from the rest of the program to demonstrate
     SHY programming.
     
