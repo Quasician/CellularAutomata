@@ -199,5 +199,5 @@ If we need to add a new type of cell then we could create that specific type of 
 
  * Team Member #3 Vineet Alaparthi
  * Primary: Configuration
- * Secondary: 
+ * Secondary: Creating inheritance heirarchy
 
