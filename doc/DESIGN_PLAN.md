@@ -1,4 +1,4 @@
-# Simulation Design Plan
+****# Simulation Design Plan
 ### Team Number: 18
 ### Names: Thomas Chemmanoor, Vineet Alaparthi, Rodrigo Araujo
 
@@ -10,7 +10,7 @@ since its operation is the same everytime. Visualization needs to be closed beca
 
 ## Overview
 
-![](https://coursework.cs.duke.edu/compsci308_2020spring/simulation_team18/blob/master/doc/CDC_Cards/IMG_2151.jpg)
+![](./CDC_Cards/IMG_2151.jpg)
     
 * We plan to have a runner class that should just have a main method, setupSimulation
     * The runner class would do the configuration of the simulation with the setupSimulation method.
