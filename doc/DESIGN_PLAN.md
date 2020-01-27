@@ -11,6 +11,9 @@ since its operation is the same everytime. Visualization needs to be closed beca
 ## Overview
 
 ![](./CDC_Cards/IMG_2151.jpg)
+![](./CDC_Cards/IMG_2152.jpg)
+![](./CDC_Cards/IMG_2153.jpg)
+![](./CDC_Cards/IMG_2154.jpg)
     
 * We plan to have a runner class that should just have a main method, setupSimulation
     * The runner class would do the configuration of the simulation with the setupSimulation method.
