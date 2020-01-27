@@ -1,4 +1,4 @@
-****# Simulation Design Plan
+#### Simulation Design Plan
 ### Team Number: 18
 ### Names: Thomas Chemmanoor, Vineet Alaparthi, Rodrigo Araujo
 
@@ -49,7 +49,7 @@ We also need a Middle Cell, Edge Cell, and Corner Cell that will extend from the
 
 ## User Interface 
 
-    ADD PICTURE
+![](./CDC_Cards/UI_for_Simulation.png)
 
     User will be presented with a screen that shows a grid of all cells. User has a text field that they can write a file name and click a 
     button near the textfield to load that file to restart the simulation. We will have a button for pausing, and a button for resuming
