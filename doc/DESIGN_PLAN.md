@@ -9,7 +9,7 @@ to work with different types of rules. The simulation is where the code needs to
 since its operation is the same everytime. Visualization needs to be closed because it will be the same everytime. 
 
 ## Overview
-    ![](CDC Cards/IMG_2151.jpg)
+    ![](CDC_Cards/IMG_2151.jpg)
     
 * We plan to have a runner class that should just have a main method, setupSimulation
     * The runner class would do the configuration of the simulation with the setupSimulation method.
