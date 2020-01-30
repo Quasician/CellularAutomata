@@ -12,12 +12,9 @@ public class Visualizer {
         this.visCol = col;
         this.visRow = row;
 
-        VBox temp = new VBox();
-        Scene scene = new Scene(temp);
-        Stage stage = new Stage();
-        stage.setScene(scene);
-        stage.show();
     }
+
+
 
 
 }
