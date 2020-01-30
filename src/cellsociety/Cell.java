@@ -1,0 +1,26 @@
+package cellsociety;
+
+public class Cell {
+
+    private int cellCol, cellRow;
+    private boolean state;
+
+    public Cell(int col, int row) {
+        this.cellCol = col;
+        this.cellRow = row;
+        this.state = false;
+    }
+
+    public boolean getState() {return state;}
+    public void setState(boolean state) {this.state = state;}
+    public int getX() {return cellCol;}
+    public void setX(int x) {this.cellCol = x;}
+    public int getY() {return cellRow;}
+    public void setY(int y) {this.cellRow = y;}
+
+
+    public boolean equals(Cell c) {
+        return cellCol == c.cellCol && cellRow == c.cellRow;
+    }
+
+}
