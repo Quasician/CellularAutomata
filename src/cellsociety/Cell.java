@@ -1,9 +1,11 @@
 package cellsociety;
 
-public class Cell {
+import java.util.ArrayList;
 
-    private int cellCol, cellRow;
-    private boolean state;
+public abstract class Cell {
+
+    protected int cellCol, cellRow;
+    protected boolean state;
 
     public Cell(int col, int row) {
         this.cellCol = col;
@@ -22,5 +24,6 @@ public class Cell {
     public boolean equals(Cell c) {
         return cellCol == c.cellCol && cellRow == c.cellRow;
     }
+
 
 }
