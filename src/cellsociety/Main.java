@@ -1,13 +1,24 @@
 package cellsociety;
 
-/**
- * Feel free to completely change this code or delete it entirely.
- */
-public class Main {
-    /**
-     * Start of the program.
-     */
+import javafx.application.Application;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+
+public class Main extends Application{
+
+    private final static int WIDTH = 500;
+    private final static int HEIGHT = 500;
+
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+
+        Parent root;
+        primaryStage.setScene(new Scene(root, WIDTH, HEIGHT));
+        primaryStage.show();
+    }
+
     public static void main (String[] args) {
-        System.out.println("Hello world");
+        launch(args);
     }
 }
