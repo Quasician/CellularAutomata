@@ -14,6 +14,7 @@ public class Main extends Application{
     public void start(Stage primaryStage) throws Exception {
 
         Parent root;
+        primaryStage.setTitle("temp title");
         primaryStage.setScene(new Scene(root, WIDTH, HEIGHT));
         primaryStage.show();
     }
