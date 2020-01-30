@@ -1,10 +1,13 @@
 package cellsociety;
 
+
+import java.util.List;
+
 public abstract class Simulation {
 
     private int simRow, simCol;
     private int simWidth, simHeight;
-    
+
     public Simulation(int row, int col, int width, int height){
         this.simRow = row;
         this.simCol = col;
@@ -20,6 +23,10 @@ public abstract class Simulation {
 
 
     public void updateCell(int x, int y){
+
+    }
+
+    public void createGrid(){
 
     }
 
