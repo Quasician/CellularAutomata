@@ -7,6 +7,8 @@ public abstract class Cell {
     protected int cellCol, cellRow;
     protected boolean state;
 
+    ArrayList<Cell> neighbors;
+
     public Cell(int row, int col) {
         this.cellCol = col;
         this.cellRow = row;
@@ -25,5 +27,24 @@ public abstract class Cell {
         return cellCol == c.cellCol && cellRow == c.cellRow;
     }
 
+    public void getNeighbors(Cell[][] grid)
+    {
+        if(cellRow >= 1)
+        {
+            neighbors.add(grid[cellRow-1][cellCol]);
+        }
+        if(cellRow <= grid.length-2)
+        {
+            neighbors.add(grid[cellRow+1][cellCol]);
+        }
+        if(cellCol >= 1)
+        {
+            neighbors.add(grid[cellRow][cellCol-1]);
+        }
+        if(cellCol <= grid[0].length-2)
+        {
+            neighbors.add(grid[cellRow][cellCol+1]);
+        }
 
+    }
 }
