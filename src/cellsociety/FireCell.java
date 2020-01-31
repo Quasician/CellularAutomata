@@ -2,27 +2,33 @@ package cellsociety;
 
 import java.util.ArrayList;
 
-public abstract class Cell {
+public class FireCell extends Cell{
+    ArrayList<FireCell> neighbors = new ArrayList<FireCell>();
 
-    protected int cellCol, cellRow;
-    protected boolean state;
-
-    public Cell(int col, int row) {
-        this.cellCol = col;
-        this.cellRow = row;
-        this.state = false;
+    public FireCell(int row, int col, FireCell[][] grid) {
+        super(row, col);
+        getNeighbors(grid);
     }
 
-    public boolean getState() {return state;}
-    public void setState(boolean state) {this.state = state;}
-    public int getX() {return cellCol;}
-    public void setX(int x) {this.cellCol = x;}
-    public int getY() {return cellRow;}
-    public void setY(int y) {this.cellRow = y;}
+    public void getNeighbors(FireCell[][] grid)
+    {
+        if(cellRow >= 1)
+        {
+            neighbors.add(grid[cellRow-1][cellCol]);
+        }
+        if(cellRow <= grid.length-2)
+        {
+            neighbors.add(grid[cellRow+1][cellCol]);
+        }
+        if(cellCol >= 1)
+        {
+            neighbors.add(grid[cellRow][cellCol-1]);
+        }
+        if(cellCol <= grid[0].length-2)
+        {
+            neighbors.add(grid[cellRow][cellCol+1]);
+        }
 
-
-    public boolean equals(Cell c) {
-        return cellCol == c.cellCol && cellRow == c.cellRow;
     }
 
 

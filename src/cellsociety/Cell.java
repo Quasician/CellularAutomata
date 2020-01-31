@@ -7,7 +7,7 @@ public abstract class Cell {
     protected int cellCol, cellRow;
     protected boolean state;
 
-    public Cell(int col, int row) {
+    public Cell(int row, int col) {
         this.cellCol = col;
         this.cellRow = row;
         this.state = false;

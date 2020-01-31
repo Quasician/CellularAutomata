@@ -1,6 +1,7 @@
 package cellsociety;
 
 import javafx.application.Application;
+import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -13,7 +14,7 @@ public class Main extends Application{
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        Parent root;
+        Group root =  new Group();
         primaryStage.setTitle("temp title");
         primaryStage.setScene(new Scene(root, WIDTH, HEIGHT));
         primaryStage.show();

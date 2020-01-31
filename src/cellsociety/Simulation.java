@@ -7,7 +7,6 @@ public abstract class Simulation {
 
     private int simRow, simCol;
     private int simWidth, simHeight;
-    private Cell[][] grid;
 
     public Simulation(int row, int col, int width, int height){
         this.simRow = row;
@@ -27,14 +26,7 @@ public abstract class Simulation {
 
     }
 
-    public void createGrid(int numCols, int numRows) {
-        grid = new Cell[numCols][numRows];
-        for(int i = 0; i < numCols; i++) {
-            for(int j = 0; j < numRows; j++) {
-                grid[i][j] = new Cell(i, j);
-            }
-        }
-    }
+    public void createGrid(int numRows, int numCols) {};
 
     public void updateGrid(){
 

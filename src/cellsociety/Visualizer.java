@@ -26,14 +26,14 @@ public class Visualizer {
         Parent root;
         Stage stage;
 
-        if(/** some action triggered **/) {
-            stage = /** new stage **/;
-            root = /** new root **/;
-
-            Scene scene = new Scene(root);
-            stage.setTitle("temp title");
-            stage.setScene(scene);
-            stage.show();
-        }
+//        if(/** some action triggered **/) {
+//            stage = /** new stage **/;
+//            root = /** new root **/;
+//
+//            Scene scene = new Scene(root);
+//            stage.setTitle("temp title");
+//            stage.setScene(scene);
+//            stage.show();
+//        }
     }
 }
