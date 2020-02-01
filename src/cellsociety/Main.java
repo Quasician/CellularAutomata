@@ -1,5 +1,6 @@
 package cellsociety;
 
+import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
@@ -33,8 +34,10 @@ public class Main extends Application{
                     sim.updateGrid();
                     System.out.println("ROUND");
                     vis.colorGrid(sim.getGrid());
+                    System.out.println("END ROUND");
                 })
         );
+        timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
     }
 
