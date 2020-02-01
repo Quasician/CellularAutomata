@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Game_of_life>
+    <title>Game of life xml file</title>
+    <author>Vineet</author>
+    <grid_size>9</grid_size>
+    <cell_config>
+        <c1>alive</c1>
+        <c2>alive</c2>
+        <c3>dead</c3>
+        <c4>alive</c4>
+        <c5>dead</c5>
+        <c6>dead</c6>
+        <c7>alive</c7>
+        <c8>alive</c8>
+        <c9>alive</c9>
+    </cell_config>
+</Game_of_life>
