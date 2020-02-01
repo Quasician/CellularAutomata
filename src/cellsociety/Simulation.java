@@ -1,19 +1,16 @@
 package cellsociety;
 
 
-import java.util.ArrayList;
-import java.util.List;
-
 public abstract class Simulation {
 
-    protected int simRow, simCol;
+    protected int simRows, simCols;
     protected int simWidth, simHeight;
 
-    protected ArrayList<ArrayList<Cell>> grid;
+    protected String[][] grid;
 
-    public Simulation(int row, int col, int width, int height){
-        this.simRow = row;
-        this.simCol = col;
+    public Simulation(int rows, int cols, int width, int height){
+        this.simRows = rows;
+        this.simCols = cols;
         this.simWidth = width;
         this.simHeight = height;
 
@@ -21,17 +18,70 @@ public abstract class Simulation {
 
     public int getWidth(){return simWidth;}
     public int getHeight(){return simHeight;}
-    public int getColPos(){return simCol;}
-    public int getRowPos(){return simRow;}
+    public int getColPos(){return simCols;}
+    public int getRowPos(){return simRows;}
 
 
-    public void updateCell(int x, int y){
+    public abstract void updateCell(int x, int y,String[][]gridCopy);
+
+    public abstract void createGrid(int numRows, int numCols);
+
+    public abstract void updateGrid();
+
+    public boolean inGrid(int rows, int cols)
+    {
+        if(rows>=0 && simRows< rows && cols>=0 && cols<simCols)
+        {
+            return true;
+        }
+        return false;
     }
 
-    public void createGrid(int numRows, int numCols) {};
-
-    public void updateGrid(){
-
+    public String[] get4Neighbors(int x, int y)
+    {
+        String[] neighbors = new String[4];
+        if(x >= 1)
+        {
+            neighbors[0]=grid[x-1][y];
+        }
+        if(x <= grid.length-2)
+        {
+            neighbors[1]=grid[x-1][y];
+        }
+        if(y >= 1)
+        {
+            neighbors[2]=grid[x][y-1];
+        }
+        if(y <= grid[0].length-2)
+        {
+            neighbors[2]=grid[x][y+1];
+        }
+        return neighbors;
     }
+
+    public String[] get8Neighbors(int x, int y)
+    {
+        String[] neighbors = new String[8];
+        int count = 0;
+        for(int i = x-1; i<=x+1;i++)
+        {
+            for(int j = y -1; i<=y+1;i++)
+            {
+                if(i == x && j == y)
+                {
+                    continue;
+                }
+                else {
+                    if(inGrid(i,j))
+                    {
+                        neighbors[count] = grid[i][j];
+                    }
+                    count++;
+                }
+            }
+        }
+        return neighbors;
+    }
+
 
 }
