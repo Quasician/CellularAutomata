@@ -28,9 +28,14 @@ public abstract class Simulation {
 
     public abstract void updateGrid();
 
+    public String[][] getGrid()
+    {
+        return grid;
+    }
+
     public boolean inGrid(int rows, int cols)
     {
-        if(rows>=0 && simRows< rows && cols>=0 && cols<simCols)
+        if(rows>=0 && rows <simRows && cols>=0 && cols<simCols)
         {
             return true;
         }
@@ -65,7 +70,7 @@ public abstract class Simulation {
         int count = 0;
         for(int i = x-1; i<=x+1;i++)
         {
-            for(int j = y -1; i<=y+1;i++)
+            for(int j = y-1; j<=y+1;j++)
             {
                 if(i == x && j == y)
                 {
@@ -75,6 +80,9 @@ public abstract class Simulation {
                     if(inGrid(i,j))
                     {
                         neighbors[count] = grid[i][j];
+                        //System.out.println(neighbors[count]);
+                    } else {
+                        neighbors[count] = "outOfBounds";
                     }
                     count++;
                 }

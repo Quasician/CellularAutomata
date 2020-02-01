@@ -2,19 +2,54 @@ package cellsociety;
 
 public class SegregationSim extends Simulation{
 
-    private SegCell[][] grid;
     public SegregationSim(int row, int col, int width, int height)
     {
         super(row, col, width,height);
     }
 
     public void createGrid(int numRows, int numCols) {
-        grid = new SegCell[numRows][numCols];
-        for(int i = 0; i < numRows; i++) {
-            for(int j = 0; j < numCols; j++) {
-                grid[i][j] = new SegCell(i, j, grid);
+        grid = new String[numRows][numCols];
+    }
+
+    public void updateGrid() {
+        String[][] gridCopy = new String[simRows][simCols];
+        for(int i = 0; i<simRows;i++)
+        {
+            for(int j = 0; j<simCols;j++)
+            {
+                gridCopy[i][j] = grid[i][j];
+            }
+        }
+        for(int i = 0; i<simRows;i++)
+        {
+            for(int j = 0; j<simCols;j++)
+            {
+                updateCell(i,j,gridCopy);
             }
         }
     }
+
+    public void updateCell(int x, int y, String[][]gridCopy) {
+        String[] neighbors = get8Neighbors(x,y);
+        int sum = 0;
+        for(int i = 0; i<neighbors.length;i++)
+        {
+            if(neighbors[i].equals("alive"))
+            {
+                sum++;
+            }
+        }
+        if(gridCopy[x][y].equals("alive") && (sum == 2 || sum ==3))
+        {
+            grid[x][y] = "alive";
+        }
+        else if(gridCopy[x][y].equals("dead") && sum ==3)
+        {
+            grid[x][y] = "alive";
+        }else {
+            grid[x][y] = "dead";
+        }
+    }
+
 
 }
