@@ -2,9 +2,9 @@ package cellsociety;
 
 import java.util.ArrayList;
 
-public class FireSim extends Simulation{
+public class GOLSim extends Simulation{
 
-    public FireSim(int row, int col, int width, int height)
+    public GOLSim(int row, int col, int width, int height)
     {
         super(row, col, width,height);
     }
@@ -13,11 +13,11 @@ public class FireSim extends Simulation{
         grid = new ArrayList<>();
         for(int i = 0; i < numRows; i++) {
             for(int j = 0; j < numCols; j++) {
-                grid.get(i).add(new FireCell(i, j, numRows, numCols,State.Empty));
+                grid.get(i).add(new GOLCell(i, j, numRows, numCols,State.Dead));
             }
         }
 
-        //updating fireCell neighbors
+        //updating GOLCell neighbors
         for(int i = 0; i < numRows; i++) {
             for(int j = 0; j < numCols; j++) {
                 grid.get(i).get(j).get4Neighbors(grid);

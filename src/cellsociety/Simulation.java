@@ -1,12 +1,15 @@
 package cellsociety;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Simulation {
 
-    private int simRow, simCol;
-    private int simWidth, simHeight;
+    protected int simRow, simCol;
+    protected int simWidth, simHeight;
+
+    protected ArrayList<ArrayList<Cell>> grid;
 
     public Simulation(int row, int col, int width, int height){
         this.simRow = row;
@@ -23,7 +26,6 @@ public abstract class Simulation {
 
 
     public void updateCell(int x, int y){
-
     }
 
     public void createGrid(int numRows, int numCols) {};
