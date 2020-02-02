@@ -20,14 +20,13 @@ public class GOLSim extends Simulation{
         {
             for(int j = 0; j<simCols;j++)
             {
-                grid[i][j] = "dead";
+                ArrayList<String> list = new ArrayList<>();
+                list.add("alive");
+                list.add("dead");
+                String choice = list.get((int)Math.round(Math.random()));
+                grid[i][j] = choice;
             }
         }
-        grid[25][25] = "alive";
-        grid[26][25] = "alive";
-        grid[27][25] = "alive";
-        grid[25][26] = "alive";
-        grid[26][24] = "alive";
     }
 
 
@@ -75,7 +74,7 @@ public class GOLSim extends Simulation{
     public void setUpHashMap()
     {
         colorMap = new HashMap<>();
-        colorMap.putIfAbsent("alive", Color.GREEN);
-        colorMap.putIfAbsent("dead", Color.RED);
+        colorMap.putIfAbsent("alive", Color.BLACK);
+        colorMap.putIfAbsent("dead", Color.WHITE);
     }
 }
