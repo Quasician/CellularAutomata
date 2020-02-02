@@ -7,12 +7,11 @@ import java.util.HashMap;
 
 public class PredPraySim extends Simulation {
 
-    private int breedThreshFish = 2;
+    private int breedThreshFish = 1;
     private int breedThreshShark = 2;
     private int defaultSharkEnergy = 1;
-    private ArrayList<Integer> x_empty_cells;
-    private ArrayList<Integer> y_empty_cells;
-    private Organism[][] gridOrganism;
+    private int defaultFishEnergy = 2;
+    private Organism[][] organismGrid;
 
     public PredPraySim(int rows, int cols, int width, int height)
     {
@@ -22,92 +21,89 @@ public class PredPraySim extends Simulation {
     }
 
     public void createGrid(int numRows, int numCols) {
-        gridOrganism = new Organism[numRows][numCols];
+        grid = new String[numRows][numCols];
+        organismGrid = new Organism[numRows][numCols];
         for(int i = 0; i<simRows;i++) {
             for(int j = 0; j<simCols;j++) {
                 ArrayList<String> list = new ArrayList<>();
                 list.add("fish");
-                list.add("empty");
+                list.add("kelp");
                 list.add("shark");
                 String choice = list.get((int)Math.round(2 * Math.random()));
                 if (choice.equals("fish")) {
-                    gridOrganism[i][j] = new Fish(choice,0, breedThreshFish);
+                    organismGrid[i][j] = new Fish(i,j,choice,0, breedThreshFish, defaultFishEnergy);
+                    grid[i][j] = "fish";
                 }
                 else if (choice.equals("shark")) {
-                    gridOrganism[i][j] = new Shark(choice, 0, defaultSharkEnergy, breedThreshShark);
+                    organismGrid[i][j] = new Shark(i,j,choice, 0, defaultSharkEnergy, breedThreshShark);
+                    grid[i][j] = "shark";
                 }
                 else {
-                    gridOrganism[i][j] = new Fish(choice, 0, 0);
+                    organismGrid[i][j] = new Kelp(choice);
+                    grid[i][j] = "kelp";
                 }
             }
         }
     }
+
+
     public void updateGrid() {
-        Organism[][] gridCopy = new Organism[simRows][simCols];
-        for(int i = 0; i<simRows;i++) {
-            for(int j = 0; j<simCols;j++) {
-                gridCopy[i][j] = gridOrganism[i][j];
-            }
-        }
-        x_empty_cells = new ArrayList<>();
-        y_empty_cells = new ArrayList<>();
-        generateEmptyCells(toString(gridCopy));
-        for(int i = 0; i<simRows;i++) {
-            for(int j = 0; j<simCols;j++) {
-                updateCell2(i,j,gridCopy);
-            }
-        }
-    }
-
-    @Override
-    public void updateCell(int x, int y, String[][] gridCopy) {
-
-    }
-
-    public void updateCell2(int x, int y, Organism[][] gridCopy) {
-        String[] neighbors = get4Neighbors(x,y, toString(gridCopy));
-        int empty = 0; int fish = 0; int shark = 0;
-        for(int i = 0; i<neighbors.length;i++) {
-            if(neighbors[i].equals("empty")) {
-                empty++;
-            }
-            if(neighbors[i].equals("fish")) {
-                fish++;
-            }
-            if(neighbors[i].equals("shark")) {
-                shark++;
-            }
-        }
-        if(gridCopy[x][y].equals("fish") && shark > 0) {
-            gridOrganism[x][y] = new Fish("empty", 0, 0);
-        }
-
-    }
-
-    public void generateEmptyCells(String[][] gridCopy) {
+        String[][] gridCopy = new String[simRows][simCols];
+        Organism[][] organismGridCopy = new Organism[simRows][simCols];
         for (int i = 0; i < simRows; i++) {
             for (int j = 0; j < simCols; j++) {
-                if (gridCopy[i][j].equals("empty")) {
-                    x_empty_cells.add(i);
-                    y_empty_cells.add(j);
-                }
+                organismGridCopy[i][j] = organismGrid[i][j];
+                gridCopy[i][j] = grid[i][j];
+            }
+        }
+//        x_empty_cells = new ArrayList<>();
+//        y_empty_cells = new ArrayList<>();
+//        generateEmptyCells(toString(organismGridCopy));
+        for (int i = 0; i < simRows; i++) {
+            for (int j = 0; j < simCols; j++) {
+                moveOrganism(i, j, gridCopy, organismGridCopy);
+                updateCell(i, j, grid);
+            }
+        }
+        updateStringArray();
+    }
+
+    public void updateCell(int x, int y, String[][] grid) {
+        organismGrid[x][y].increaseLives();
+        if(organismGrid[x][y].getName().equals("shark"))
+        {
+            System.out.println(organismGrid[x][y].getEnergy());
+            organismGrid[x][y].decreaseEnergy();
+            System.out.print(" DECREASED to organismGrid[x][y].getEnergy()\n");
+            if(organismGrid[x][y].getEnergy()<=0)
+            {
+                //grid[x][y] = "kelp";
+                organismGrid[x][y] = new Kelp("kelp");
             }
         }
     }
+
+    public void moveOrganism(int x, int y, String[][] gridCopy, Organism[][] organismGridCopy) {
+        organismGrid[x][y].move(x,y,organismGrid,organismGridCopy);
+    }
+
 
     public void setUpHashMap() {
         colorMap = new HashMap<>();
         colorMap.putIfAbsent("fish", Color.BLUE);
         colorMap.putIfAbsent("shark", Color.GRAY);
-        colorMap.putIfAbsent("empty", Color.BLACK);
+        colorMap.putIfAbsent("kelp", Color.BLACK);
     }
-    private String[][] toString(Organism[][] grid) {
-        String[][] result = new String[simRows][simCols];
+
+    private void updateStringArray() {
         for (int i = 0; i < simRows; i++) {
             for (int j = 0; j < simCols; j++) {
-                result[i][j] = grid[i][j].getName();
+                grid[i][j] = organismGrid[i][j].getName();
+                if(grid[i][j].equals("shark"))
+                {
+                    //System.out.println(organismGrid[i][j].getEnergy());
+                }
             }
         }
-        return result;
     }
 }
