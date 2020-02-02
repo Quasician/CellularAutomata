@@ -7,7 +7,7 @@ import java.util.HashMap;
 
 public class FireSim extends Simulation{
 
-    private double probCatch = 0.15;
+    private double probCatch = .6;
 
     public FireSim(int rows, int cols, int width, int height)
     {
