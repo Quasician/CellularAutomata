@@ -8,7 +8,10 @@ import java.util.HashMap;
 
 public class SegSim extends Simulation{
 
-    private double probSatisfy = 0.75;
+    private double probSatisfy = .75;
+    private ArrayList<Integer> x_empty_cells;
+    private ArrayList<Integer> y_empty_cells;
+
 
     public SegSim(int rows, int cols, int width, int height)
     {
@@ -25,8 +28,8 @@ public class SegSim extends Simulation{
             {
                 ArrayList<String> list = new ArrayList<>();
                 list.add("x");
-                list.add("o");
                 list.add("empty");
+                list.add("o");
                 String choice = list.get((int)Math.round(2 * Math.random()));
                 grid[i][j] = choice;
             }
@@ -42,6 +45,9 @@ public class SegSim extends Simulation{
                 gridCopy[i][j] = grid[i][j];
             }
         }
+        x_empty_cells = new ArrayList<>();
+        y_empty_cells = new ArrayList<>();
+        generateEmptyCells(gridCopy);
         for(int i = 0; i<simRows;i++)
         {
             for(int j = 0; j<simCols;j++)
@@ -71,7 +77,6 @@ public class SegSim extends Simulation{
                 }
             }
         }
-        System.out.println("Red: " + countRed + "   Blue: " + countBlue + "   White: " + countWhite);
     }
 
     public void updateCell(int x, int y, String[][]gridCopy) {
@@ -96,30 +101,34 @@ public class SegSim extends Simulation{
             return;
         }
         satisfaction = ((double) sameCount) / total;
-        if (satisfaction < probSatisfy) {
-            ArrayList<Integer> temp = randEmpty(gridCopy);
+        if (satisfaction < probSatisfy && x_empty_cells.size() > 0) {
+            ArrayList<Integer> temp = chooseAnEmptyCell(gridCopy);
             grid[temp.get(0)][temp.get(1)] = gridCopy[x][y];
             grid[x][y] = "empty";
         }
 
     }
-    public ArrayList<Integer> randEmpty(String[][] gridCopy) {
-        ArrayList<Integer> x = new ArrayList<>();
-        ArrayList<Integer> y = new ArrayList<>();
-        ArrayList<Integer> result = new ArrayList<>();
+    public void generateEmptyCells(String[][] gridCopy) {
         for (int i = 0; i < simRows; i++) {
             for (int j = 0; j < simCols; j++) {
                 if (gridCopy[i][j].equals("empty")) {
-                    x.add(i);
-                    y.add(j);
+                    x_empty_cells.add(i);
+                    y_empty_cells.add(j);
                 }
             }
         }
-        int index = (int) (x.size() * Math.random());
-        result.add(x.get(index));
-        result.add(y.get(index));
+    }
+
+    public ArrayList<Integer> chooseAnEmptyCell(String[][] gridCopy) {
+        ArrayList<Integer> result = new ArrayList<>();
+        int index = (int) (x_empty_cells.size() * Math.random());
+        result.add(x_empty_cells.get(index));
+        result.add(y_empty_cells.get(index));
+        x_empty_cells.remove(index);
+        y_empty_cells.remove(index);
         return result;
     }
+
     public void setUpHashMap()
     {
         colorMap = new HashMap<>();
