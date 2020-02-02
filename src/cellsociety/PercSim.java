@@ -5,9 +5,9 @@ import javafx.scene.paint.Color;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class GOLSim extends Simulation{
+public class PercSim extends Simulation{
 
-    public GOLSim(int rows, int cols, int width, int height)
+    public PercSim(int rows, int cols, int width, int height)
     {
         super(rows, cols, width,height);
         createGrid(rows,cols);
@@ -20,14 +20,14 @@ public class GOLSim extends Simulation{
         {
             for(int j = 0; j<simCols;j++)
             {
-                grid[i][j] = "dead";
+                ArrayList<String> list = new ArrayList<>();
+                list.add("empty");
+                list.add("blocked");
+                String choice = list.get((int)Math.round(Math.random()));
+                grid[i][j] = choice;
             }
         }
-        grid[25][25] = "alive";
-        grid[26][25] = "alive";
-        grid[27][25] = "alive";
-        grid[25][26] = "alive";
-        grid[26][24] = "alive";
+        grid[25][25] = "full";
     }
 
 
@@ -54,28 +54,22 @@ public class GOLSim extends Simulation{
         int sum = 0;
         for(int i = 0; i<neighbors.length;i++)
         {
-            if(neighbors[i].equals("alive"))
+            if(neighbors[i].equals("full"))
             {
                 sum++;
             }
         }
 
-        if(gridCopy[x][y].equals("alive") && (sum == 2 || sum == 3))
+        if(gridCopy[x][y].equals("empty") && sum > 0)
         {
-            grid[x][y] = "alive";
-        }
-        else if(gridCopy[x][y].equals("dead") && sum == 3)
-        {
-            grid[x][y] = "alive";
-        }else {
-            grid[x][y] = "dead";
+            grid[x][y] = "full";
         }
     }
-
     public void setUpHashMap()
     {
         colorMap = new HashMap<>();
-        colorMap.putIfAbsent("alive", Color.GREEN);
-        colorMap.putIfAbsent("dead", Color.RED);
+        colorMap.putIfAbsent("full", Color.BLUE);
+        colorMap.putIfAbsent("empty", Color.WHITE);
+        colorMap.putIfAbsent("blocked", Color.BLACK);
     }
 }

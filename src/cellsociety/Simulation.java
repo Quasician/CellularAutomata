@@ -1,10 +1,15 @@
 package cellsociety;
 
 
+import javafx.scene.paint.Color;
+
+import java.util.HashMap;
+
 public abstract class Simulation {
 
     protected int simRows, simCols;
     protected int simWidth, simHeight;
+    protected HashMap<String, Color> colorMap;
 
     protected String[][] grid;
 
@@ -27,6 +32,10 @@ public abstract class Simulation {
     public abstract void createGrid(int numRows, int numCols);
 
     public abstract void updateGrid();
+
+    public abstract void setUpHashMap();
+
+    public HashMap<String, Color> getColorMap() {return colorMap;}
 
     public String[][] getGrid()
     {

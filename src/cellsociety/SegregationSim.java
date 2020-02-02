@@ -1,10 +1,15 @@
 package cellsociety;
 
+import javafx.scene.paint.Color;
+
+import java.util.HashMap;
+
 public class SegregationSim extends Simulation{
 
     public SegregationSim(int row, int col, int width, int height)
     {
         super(row, col, width,height);
+        setUpHashMap();
     }
 
     public void createGrid(int numRows, int numCols) {
@@ -49,6 +54,14 @@ public class SegregationSim extends Simulation{
         }else {
             grid[x][y] = "dead";
         }
+    }
+
+    public void setUpHashMap()
+    {
+        colorMap = new HashMap<>();
+        colorMap.putIfAbsent("alive", Color.GREEN);
+        colorMap.putIfAbsent("dead", Color.RED);
+        colorMap.putIfAbsent("blocked", Color.BLACK);
     }
 
 

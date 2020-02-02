@@ -19,13 +19,13 @@ public class Visualizer {
     private Rectangle[][] recList;
     private HashMap<String, Color> colorMap;
 
-    public Visualizer(int row, int col, int windowWidth, int windowHeight, Group root) {
+    public Visualizer(int row, int col, int windowWidth, int windowHeight, Group root, HashMap<String, Color> colorMap) {
         this.visCol = col;
         this.visRow = row;
         this.root = root;
+        this.colorMap = colorMap;
         width = windowWidth;
         height = windowHeight;
-        setUpHashMap();
     }
 
     public void initialize(String[][] grid) {
@@ -61,13 +61,6 @@ public class Visualizer {
             }
         }
         //System.out.println("END YEET!");
-    }
-
-    public void setUpHashMap()
-    {
-        colorMap = new HashMap<>();
-        colorMap.putIfAbsent("alive", Color.GREEN);
-        colorMap.putIfAbsent("dead", Color.RED);
     }
 
 

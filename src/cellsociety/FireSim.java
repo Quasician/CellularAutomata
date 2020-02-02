@@ -1,12 +1,16 @@
 package cellsociety;
 
+import javafx.scene.paint.Color;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class FireSim extends Simulation{
 
     public FireSim(int row, int col, int width, int height)
     {
         super(row, col, width,height);
+        setUpHashMap();
     }
 
     public void createGrid(int numRows, int numCols) {
@@ -50,6 +54,13 @@ public class FireSim extends Simulation{
         }else {
             grid[x][y] = "dead";
         }
+    }
+    public void setUpHashMap()
+    {
+        colorMap = new HashMap<>();
+        colorMap.putIfAbsent("alive", Color.GREEN);
+        colorMap.putIfAbsent("dead", Color.RED);
+        colorMap.putIfAbsent("blocked", Color.BLACK);
     }
 
 }
