@@ -40,7 +40,7 @@ public class Shark extends Organism {
             return false;
         }
         Organism chosenFish = fishList.get((int)(Math.random() * fishList.size()));
-        birth(chosenFish,grid);
+        birth(chosenFish,grid, x,y);
         return true;
     }
 
@@ -58,7 +58,7 @@ public class Shark extends Organism {
             return;
         }
         Organism chosenKelp = kelpList.get((int)(Math.random() * kelpList.size()));
-        birth(chosenKelp,grid);
+        birth(chosenKelp,grid,x,y);
     }
 
     public void setEnergy(int input) {this.energy = input;}

@@ -31,8 +31,8 @@ public class Main extends Application{
 //        GOLSim sim = new GOLSim(100,100, WIDTH, HEIGHT);
 //        PercSim sim = new PercSim(100,100, WIDTH, HEIGHT);
 //        FireSim sim = new FireSim(100,100, WIDTH, HEIGHT);
-        SegSim sim = new SegSim(30,30, WIDTH, HEIGHT);
-// PredPraySim sim = new PredPraySim(50, 50, WIDTH, HEIGHT);
+//        SegSim sim = new SegSim(30,30, WIDTH, HEIGHT);
+ PredPraySim sim = new PredPraySim(50, 50, WIDTH, HEIGHT);
         Visualizer vis = new Visualizer(sim.getGrid().length,sim.getGrid()[0].length,currentWidth, currentHeight, root, sim.getColorMap());
 
         HBox bottomButtons = new HBox();

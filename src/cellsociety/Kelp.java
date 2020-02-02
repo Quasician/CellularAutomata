@@ -1,8 +1,10 @@
 package cellsociety;
 
 public class Kelp extends Organism {
-    public Kelp(String name) {
+    public Kelp(String name, int x, int y) {
         super(name);
+        this.x = x;
+        this.y = y;
     }
 
     public void increaseLives() {
