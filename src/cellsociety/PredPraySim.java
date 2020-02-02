@@ -7,7 +7,9 @@ import java.util.HashMap;
 
 public class PredPraySim extends Simulation {
 
-    private double probSatisfy = .75;
+    private int breedThreshFish = 2;
+    private int breedThreshShark = 2;
+    private int defaultSharkEnergy = 1;
     private ArrayList<Integer> x_empty_cells;
     private ArrayList<Integer> y_empty_cells;
 
@@ -26,11 +28,19 @@ public class PredPraySim extends Simulation {
             for(int j = 0; j<simCols;j++)
             {
                 ArrayList<String> list = new ArrayList<>();
-                list.add("x");
+                list.add("fish");
                 list.add("empty");
-                list.add("o");
+                list.add("shark");
                 String choice = list.get((int)Math.round(2 * Math.random()));
                 grid[i][j] = choice;
+                lifeGrid[i][j] = 0;
+                if (choice.equals("shark")) {
+                    energyGrid[i][j] = defaultSharkEnergy;
+                }
+                else {
+                    energyGrid[i][j] = 0;
+                }
+
             }
         }
         printCount();
