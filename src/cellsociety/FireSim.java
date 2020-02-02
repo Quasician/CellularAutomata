@@ -7,14 +7,28 @@ import java.util.HashMap;
 
 public class FireSim extends Simulation{
 
-    public FireSim(int row, int col, int width, int height)
+    private double probCatch = 0.15;
+
+    public FireSim(int rows, int cols, int width, int height)
     {
-        super(row, col, width,height);
+        super(rows, cols, width,height);
+        createGrid(rows,cols);
         setUpHashMap();
     }
 
     public void createGrid(int numRows, int numCols) {
-
+        grid = new String[numRows][numCols];
+        for(int i = 0; i<simRows;i++)
+        {
+            for(int j = 0; j<simCols;j++)
+            {
+                ArrayList<String> list = new ArrayList<>();
+                list.add("tree");
+                list.add("burning");
+                String choice = list.get((int)Math.round(Math.random()));
+                grid[i][j] = choice;
+            }
+        }
     }
     public void updateGrid() {
         String[][] gridCopy = new String[simRows][simCols];
@@ -35,32 +49,31 @@ public class FireSim extends Simulation{
     }
 
     public void updateCell(int x, int y, String[][]gridCopy) {
-        String[] neighbors = get8Neighbors(x,y, gridCopy);
+        String[] neighbors = get4Neighbors(x,y, gridCopy);
         int sum = 0;
         for(int i = 0; i<neighbors.length;i++)
         {
-            if(neighbors[i].equals("alive"))
+            if(neighbors[i].equals("burning"))
             {
                 sum++;
             }
         }
-        if(gridCopy[x][y].equals("alive") && (sum == 2 || sum ==3))
-        {
-            grid[x][y] = "alive";
+        if (gridCopy[x][y].equals("burning")) {
+            grid[x][y] = "empty";
         }
-        else if(gridCopy[x][y].equals("dead") && sum ==3)
-        {
-            grid[x][y] = "alive";
-        }else {
-            grid[x][y] = "dead";
+        if (gridCopy[x][y].equals("tree") && sum > 0) {
+           if(Math.random() < probCatch) {
+               grid[x][y] = "burning";
+           }
         }
+
     }
     public void setUpHashMap()
     {
         colorMap = new HashMap<>();
-        colorMap.putIfAbsent("alive", Color.GREEN);
-        colorMap.putIfAbsent("dead", Color.RED);
-        colorMap.putIfAbsent("blocked", Color.BLACK);
+        colorMap.putIfAbsent("empty", Color.YELLOW);
+        colorMap.putIfAbsent("tree", Color.GREEN);
+        colorMap.putIfAbsent("burning", Color.RED);
     }
 
 }

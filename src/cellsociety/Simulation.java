@@ -51,24 +51,31 @@ public abstract class Simulation {
         return false;
     }
 
-    public String[] get4Neighbors(int x, int y)
+    public String[] get4Neighbors(int x, int y, String[][] gridCopy)
     {
         String[] neighbors = new String[4];
-        if(x >= 1)
+        int count = 0;
+        for(int i = x-1; i<=x+1;i++)
         {
-            neighbors[0]=grid[x-1][y];
-        }
-        if(x <= grid.length-2)
-        {
-            neighbors[1]=grid[x-1][y];
-        }
-        if(y >= 1)
-        {
-            neighbors[2]=grid[x][y-1];
-        }
-        if(y <= grid[0].length-2)
-        {
-            neighbors[2]=grid[x][y+1];
+            for(int j = y-1; j<=y+1;j++)
+            {
+                int temp1 = i - x + 1;
+                int temp2 = j - y + 1;
+                if((i - x + 1 + j - y + 1) % 2 == 0)
+                {
+                    continue;
+                }
+                else {
+                    if(inGrid(i,j))
+                    {
+                        neighbors[count] = gridCopy[i][j];
+
+                    } else {
+                        neighbors[count] = "outOfBounds";
+                    }
+                    count++;
+                }
+            }
         }
         return neighbors;
     }
@@ -89,12 +96,7 @@ public abstract class Simulation {
                     if(inGrid(i,j))
                     {
                         neighbors[count] = gridCopy[i][j];
-                        //System.out.println(neighbors[count]);
-//                        if(x==26 && y ==26)
-//                        {
-//                            System.out.println(i + " " + j + neighbors[count]);
-//
-//                        }
+
                     } else {
                         neighbors[count] = "outOfBounds";
                     }

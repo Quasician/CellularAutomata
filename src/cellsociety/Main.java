@@ -22,9 +22,10 @@ public class Main extends Application{
         primaryStage.setTitle("temp title");
         primaryStage.setScene(new Scene(root, WIDTH, HEIGHT));
         primaryStage.show();
-        double seconds = .1;
+        double seconds = 1;
 //        GOLSim sim = new GOLSim(50,50, WIDTH, HEIGHT);
-        PercSim sim = new PercSim(50,50, WIDTH, HEIGHT);
+//        PercSim sim = new PercSim(50,50, WIDTH, HEIGHT);
+        FireSim sim = new FireSim(50,50, WIDTH, HEIGHT);
         Visualizer vis = new Visualizer(sim.getGrid().length,sim.getGrid()[0].length,currentWidth, currentHeight, root, sim.getColorMap());
         //System.out.println("X: "+ currentGrid.length);
         //System.out.println("Y: "+ currentGrid[0].length);
