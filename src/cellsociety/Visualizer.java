@@ -3,6 +3,9 @@ package cellsociety;
 import javafx.scene.Group;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -15,23 +18,26 @@ public class Visualizer {
 
     private int visRow, visCol;
     private int width, height;
-    private Group root = new Group();
+    private BorderPane root;
     private Rectangle[][] recList;
     private HashMap<String, Color> colorMap;
 
-    public Visualizer(int row, int col, int windowWidth, int windowHeight, Group root, HashMap<String, Color> colorMap) {
+    public Visualizer(int row, int col, int windowWidth, int windowHeight, BorderPane root, HashMap<String, Color> colorMap) {
         this.visCol = col;
         this.visRow = row;
         this.root = root;
         this.colorMap = colorMap;
         width = windowWidth;
-        height = windowHeight;
+        height = windowHeight-100;
     }
 
     public void initialize(String[][] grid) {
         recList = new Rectangle[visRow][visCol];
         double cellWidth = width/(double)visRow;
         double cellHeight= height/(double)visCol;
+
+
+
         double x = 0;
         double y = 0;
         for(int i = 0;i<visRow;i++)
