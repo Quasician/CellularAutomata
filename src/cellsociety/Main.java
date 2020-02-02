@@ -19,15 +19,15 @@ public class Main extends Application{
     public void start(Stage primaryStage) throws Exception {
 
         Group root = new Group();
-        primaryStage.setTitle("temp title");
+        primaryStage.setTitle("Simulation");
         primaryStage.setScene(new Scene(root, WIDTH, HEIGHT));
         primaryStage.show();
         double seconds = .1;
-//        GOLSim sim = new GOLSim(50,50, WIDTH, HEIGHT);
-//        PercSim sim = new PercSim(50,50, WIDTH, HEIGHT);
-//        FireSim sim = new FireSim(50,50, WIDTH, HEIGHT);
-//        SegSim sim = new SegSim(50,50, WIDTH, HEIGHT);
-        PredPraySim sim = new PredPraySim(50, 50, WIDTH, HEIGHT);
+        GOLSim sim = new GOLSim(100,100, WIDTH, HEIGHT);
+//        PercSim sim = new PercSim(100,100, WIDTH, HEIGHT);
+//        FireSim sim = new FireSim(100,100, WIDTH, HEIGHT);
+//        SegSim sim = new SegSim(100,100, WIDTH, HEIGHT);
+//        PredPraySim sim = new PredPraySim(50, 50, WIDTH, HEIGHT);
         Visualizer vis = new Visualizer(sim.getGrid().length,sim.getGrid()[0].length,currentWidth, currentHeight, root, sim.getColorMap());
         //System.out.println("X: "+ currentGrid.length);
         //System.out.println("Y: "+ currentGrid[0].length);
