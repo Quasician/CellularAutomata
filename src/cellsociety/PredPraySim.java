@@ -12,7 +12,7 @@ public class PredPraySim extends Simulation {
     private int defaultSharkEnergy = 1;
     private ArrayList<Integer> x_empty_cells;
     private ArrayList<Integer> y_empty_cells;
-
+    private Organism[][] gridOrganism;
 
     public PredPraySim(int rows, int cols, int width, int height)
     {
@@ -22,7 +22,7 @@ public class PredPraySim extends Simulation {
     }
 
     public void createGrid(int numRows, int numCols) {
-        grid = new String[numRows][numCols];
+        gridOrganism = new Organism[numRows][numCols];
         for(int i = 0; i<simRows;i++)
         {
             for(int j = 0; j<simCols;j++)
@@ -33,13 +33,6 @@ public class PredPraySim extends Simulation {
                 list.add("shark");
                 String choice = list.get((int)Math.round(2 * Math.random()));
                 grid[i][j] = choice;
-                lifeGrid[i][j] = 0;
-                if (choice.equals("shark")) {
-                    energyGrid[i][j] = defaultSharkEnergy;
-                }
-                else {
-                    energyGrid[i][j] = 0;
-                }
 
             }
         }
@@ -90,31 +83,6 @@ public class PredPraySim extends Simulation {
 
     public void updateCell(int x, int y, String[][]gridCopy) {
         String[] neighbors = get8Neighbors(x,y, gridCopy);
-        double satisfaction;
-        int sameCount = 0;
-        int total = 0;
-        if (gridCopy[x][y] == "empty") {
-            return;
-        }
-        for(int i = 0; i<neighbors.length;i++)
-        {
-            if(neighbors[i].equals(gridCopy[x][y]))
-            {
-                sameCount++;
-            }
-            if(!neighbors[i].equals("empty")) {
-                total++;
-            }
-        }
-        if (total == 0) {
-            return;
-        }
-        satisfaction = ((double) sameCount) / total;
-        if (satisfaction < probSatisfy && x_empty_cells.size() > 0) {
-            ArrayList<Integer> temp = chooseAnEmptyCell(gridCopy);
-            grid[temp.get(0)][temp.get(1)] = gridCopy[x][y];
-            grid[x][y] = "empty";
-        }
 
     }
     public void generateEmptyCells(String[][] gridCopy) {
