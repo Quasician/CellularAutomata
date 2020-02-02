@@ -23,68 +23,58 @@ public class PredPraySim extends Simulation {
 
     public void createGrid(int numRows, int numCols) {
         gridOrganism = new Organism[numRows][numCols];
-        for(int i = 0; i<simRows;i++)
-        {
-            for(int j = 0; j<simCols;j++)
-            {
+        for(int i = 0; i<simRows;i++) {
+            for(int j = 0; j<simCols;j++) {
                 ArrayList<String> list = new ArrayList<>();
                 list.add("fish");
                 list.add("empty");
                 list.add("shark");
                 String choice = list.get((int)Math.round(2 * Math.random()));
-                grid[i][j] = choice;
-
+                if (choice.equals("fish")) {
+                    gridOrganism[i][j] = new Fish(choice,0, breedThreshFish);
+                }
+                else if (choice.equals("shark")) {
+                    gridOrganism[i][j] = new Shark(choice, 0, defaultSharkEnergy, breedThreshShark);
+                }
+                else {
+                    gridOrganism[i][j].setName("empty");
+                }
             }
         }
-        printCount();
     }
     public void updateGrid() {
-        String[][] gridCopy = new String[simRows][simCols];
-        for(int i = 0; i<simRows;i++)
-        {
-            for(int j = 0; j<simCols;j++)
-            {
-                gridCopy[i][j] = grid[i][j];
+        Organism[][] gridCopy = new Organism[simRows][simCols];
+        for(int i = 0; i<simRows;i++) {
+            for(int j = 0; j<simCols;j++) {
+                gridCopy[i][j] = gridOrganism[i][j];
             }
         }
         x_empty_cells = new ArrayList<>();
         y_empty_cells = new ArrayList<>();
-        generateEmptyCells(gridCopy);
-        for(int i = 0; i<simRows;i++)
-        {
-            for(int j = 0; j<simCols;j++)
-            {
-                updateCell(i,j,gridCopy);
-            }
-        }
-        printCount();
-    }
-
-    public void printCount() {
-        int countRed = 0;
-        int countBlue = 0;
-        int countWhite = 0;
-        for(int i = 0; i<simRows;i++)
-        {
-            for(int j = 0; j<simCols;j++)
-            {
-                if(grid[i][j] == "x") {
-                    countRed++;
-                }
-                if(grid[i][j] == "o") {
-                    countBlue++;
-                }
-                if(grid[i][j] == "empty") {
-                    countWhite++;
-                }
+        generateEmptyCells(toString(gridCopy));
+        for(int i = 0; i<simRows;i++) {
+            for(int j = 0; j<simCols;j++) {
+                updateCell2(i,j,gridCopy);
             }
         }
     }
 
-    public void updateCell(int x, int y, String[][]gridCopy) {
-        String[] neighbors = get8Neighbors(x,y, gridCopy);
+    @Override
+    public void updateCell(int x, int y, String[][] gridCopy) {
 
     }
+
+    public void updateCell2(int x, int y, Organism[][] gridCopy) {
+        String[] neighbors = get4Neighbors(x,y, toString(gridCopy));
+        int sum = 0;
+        for(int i = 0; i<neighbors.length;i++) {
+            if(neighbors[i].equals("empty")) {
+                sum++;
+            }
+        }
+        
+    }
+
     public void generateEmptyCells(String[][] gridCopy) {
         for (int i = 0; i < simRows; i++) {
             for (int j = 0; j < simCols; j++) {
@@ -96,21 +86,19 @@ public class PredPraySim extends Simulation {
         }
     }
 
-    public ArrayList<Integer> chooseAnEmptyCell(String[][] gridCopy) {
-        ArrayList<Integer> result = new ArrayList<>();
-        int index = (int) (x_empty_cells.size() * Math.random());
-        result.add(x_empty_cells.get(index));
-        result.add(y_empty_cells.get(index));
-        x_empty_cells.remove(index);
-        y_empty_cells.remove(index);
-        return result;
-    }
-
-    public void setUpHashMap()
-    {
+    public void setUpHashMap() {
         colorMap = new HashMap<>();
         colorMap.putIfAbsent("fish", Color.BLUE);
         colorMap.putIfAbsent("shark", Color.GRAY);
         colorMap.putIfAbsent("empty", Color.BLACK);
+    }
+    private String[][] toString(Organism[][] grid) {
+        String[][] result = new String[simRows][simCols];
+        for (int i = 0; i < simRows; i++) {
+            for (int j = 0; j < simCols; j++) {
+                result[i][j] = grid[i][j].getName();
+            }
+        }
+        return result;
     }
 }
