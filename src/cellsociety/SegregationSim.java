@@ -30,7 +30,7 @@ public class SegregationSim extends Simulation{
     }
 
     public void updateCell(int x, int y, String[][]gridCopy) {
-        String[] neighbors = get8Neighbors(x,y);
+        String[] neighbors = get8Neighbors(x,y, gridCopy);
         int sum = 0;
         for(int i = 0; i<neighbors.length;i++)
         {

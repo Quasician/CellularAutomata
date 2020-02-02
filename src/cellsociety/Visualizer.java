@@ -51,7 +51,7 @@ public class Visualizer {
 
     public void colorGrid(String[][] grid)
     {
-        System.out.println("YEET!");
+        //System.out.println("YEET!");
         for(int i = 0;i<visRow;i++)
         {
             for(int j = 0;j<visCol;j++)
@@ -60,7 +60,7 @@ public class Visualizer {
                 recList[i][j].setFill(colorMap.get(grid[i][j]));
             }
         }
-        System.out.println("END YEET!");
+        //System.out.println("END YEET!");
     }
 
     public void setUpHashMap()

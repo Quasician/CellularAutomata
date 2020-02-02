@@ -64,7 +64,7 @@ public abstract class Simulation {
         return neighbors;
     }
 
-    public String[] get8Neighbors(int x, int y)
+    public String[] get8Neighbors(int x, int y, String[][] gridCopy)
     {
         String[] neighbors = new String[8];
         int count = 0;
@@ -79,8 +79,13 @@ public abstract class Simulation {
                 else {
                     if(inGrid(i,j))
                     {
-                        neighbors[count] = grid[i][j];
+                        neighbors[count] = gridCopy[i][j];
                         //System.out.println(neighbors[count]);
+//                        if(x==26 && y ==26)
+//                        {
+//                            System.out.println(i + " " + j + neighbors[count]);
+//
+//                        }
                     } else {
                         neighbors[count] = "outOfBounds";
                     }

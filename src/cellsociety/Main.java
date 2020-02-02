@@ -22,8 +22,8 @@ public class Main extends Application{
         primaryStage.setTitle("temp title");
         primaryStage.setScene(new Scene(root, WIDTH, HEIGHT));
         primaryStage.show();
-        int seconds = 1;
-        GOLSim sim = new GOLSim(200,200, WIDTH, HEIGHT);
+        double seconds = .1;
+        GOLSim sim = new GOLSim(50,50, WIDTH, HEIGHT);
         Visualizer vis = new Visualizer(sim.getGrid().length,sim.getGrid()[0].length,currentWidth, currentHeight, root);
         //System.out.println("X: "+ currentGrid.length);
         //System.out.println("Y: "+ currentGrid[0].length);
@@ -32,9 +32,9 @@ public class Main extends Application{
                 new KeyFrame(Duration.seconds(seconds), e -> {
                     // code to execute here...
                     sim.updateGrid();
-                    System.out.println("ROUND");
+                    //System.out.println("ROUND");
                     vis.colorGrid(sim.getGrid());
-                    System.out.println("END ROUND");
+                    //System.out.println("END ROUND");
                 })
         );
         timeline.setCycleCount(Animation.INDEFINITE);
