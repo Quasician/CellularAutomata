@@ -131,8 +131,8 @@ public class PredPraySim extends Simulation {
     public void setUpHashMap()
     {
         colorMap = new HashMap<>();
-        colorMap.putIfAbsent("empty", Color.WHITE);
-        colorMap.putIfAbsent("x", Color.RED);
-        colorMap.putIfAbsent("o", Color.BLUE);
+        colorMap.putIfAbsent("fish", Color.BLUE);
+        colorMap.putIfAbsent("shark", Color.GRAY);
+        colorMap.putIfAbsent("empty", Color.BLACK);
     }
 }

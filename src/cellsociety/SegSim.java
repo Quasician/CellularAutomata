@@ -34,7 +34,6 @@ public class SegSim extends Simulation{
                 grid[i][j] = choice;
             }
         }
-        printCount();
     }
     public void updateGrid() {
         String[][] gridCopy = new String[simRows][simCols];
@@ -55,29 +54,8 @@ public class SegSim extends Simulation{
                 updateCell(i,j,gridCopy);
             }
         }
-        printCount();
     }
 
-    public void printCount() {
-        int countRed = 0;
-        int countBlue = 0;
-        int countWhite = 0;
-        for(int i = 0; i<simRows;i++)
-        {
-            for(int j = 0; j<simCols;j++)
-            {
-                if(grid[i][j] == "x") {
-                    countRed++;
-                }
-                if(grid[i][j] == "o") {
-                    countBlue++;
-                }
-                if(grid[i][j] == "empty") {
-                    countWhite++;
-                }
-            }
-        }
-    }
 
     public void updateCell(int x, int y, String[][]gridCopy) {
         String[] neighbors = get8Neighbors(x,y, gridCopy);
