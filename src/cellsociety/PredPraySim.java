@@ -37,7 +37,7 @@ public class PredPraySim extends Simulation {
                     gridOrganism[i][j] = new Shark(choice, 0, defaultSharkEnergy, breedThreshShark);
                 }
                 else {
-                    gridOrganism[i][j].setName("empty");
+                    gridOrganism[i][j] = new Fish(choice, 0, 0);
                 }
             }
         }
@@ -66,13 +66,22 @@ public class PredPraySim extends Simulation {
 
     public void updateCell2(int x, int y, Organism[][] gridCopy) {
         String[] neighbors = get4Neighbors(x,y, toString(gridCopy));
-        int sum = 0;
+        int empty = 0; int fish = 0; int shark = 0;
         for(int i = 0; i<neighbors.length;i++) {
             if(neighbors[i].equals("empty")) {
-                sum++;
+                empty++;
+            }
+            if(neighbors[i].equals("fish")) {
+                fish++;
+            }
+            if(neighbors[i].equals("shark")) {
+                shark++;
             }
         }
-        
+        if(gridCopy[x][y].equals("fish") && shark > 0) {
+            gridOrganism[x][y] = new Fish("empty", 0, 0);
+        }
+
     }
 
     public void generateEmptyCells(String[][] gridCopy) {
