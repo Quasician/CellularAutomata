@@ -18,19 +18,19 @@ public class Shark extends Organism {
         energy--;
     }
 
-    public void move(int x, int y, Organism[][] grid, Organism[][] gridCopy) {
+    public void move(int x, int y, Organism[][] grid, Organism[][] gridCopy, ArrayList<Organism> emptyCells) {
         neighbors = get4Neighbors(x,y,gridCopy);
-        if(!moveToEatFish(x,y,grid))
+        if(!moveToEatFish(x,y,grid, emptyCells))
         {
-            moveToKelpCell(x,y,grid);
+            moveToKelpCell(x,y,grid, emptyCells);
         }
     }
 
-    public boolean moveToEatFish(int x, int y, Organism[][] grid) {
+    public boolean moveToEatFish(int x, int y, Organism[][] grid, ArrayList<Organism> emptyCells) {
         ArrayList<Organism> fishList = new ArrayList<Organism>();
         for(Organism i : neighbors)
         {
-            if(i.getName().equals("fish"))
+            if(i.getName().equals("fish") && emptyCells.contains(i))
             {
                 fishList.add(i);
             }
@@ -40,15 +40,16 @@ public class Shark extends Organism {
             return false;
         }
         Organism chosenFish = fishList.get((int)(Math.random() * fishList.size()));
+        emptyCells.remove(chosenFish);
         birth(chosenFish,grid, x,y);
         return true;
     }
 
-    public void moveToKelpCell(int x, int y, Organism[][] grid) {
+    public void moveToKelpCell(int x, int y, Organism[][] grid, ArrayList<Organism> emptyCells) {
         ArrayList<Organism> kelpList = new ArrayList<Organism>();
         for(Organism i : neighbors)
         {
-            if(i.getName().equals("kelp"))
+            if(i.getName().equals("kelp") && emptyCells.contains(i))
             {
                 kelpList.add(i);
             }
@@ -58,6 +59,7 @@ public class Shark extends Organism {
             return;
         }
         Organism chosenKelp = kelpList.get((int)(Math.random() * kelpList.size()));
+        emptyCells.remove(chosenKelp);
         birth(chosenKelp,grid,x,y);
     }
 

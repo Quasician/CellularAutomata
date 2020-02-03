@@ -1,5 +1,6 @@
 package cellsociety;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Fish extends Organism {
@@ -8,7 +9,7 @@ public class Fish extends Organism {
     }
 
     public void increaseLives() {
-        System.out.println("YEET");
+        //System.out.println("YEET");
         lives++;
     }
 
@@ -18,13 +19,13 @@ public class Fish extends Organism {
     }
 
 
-    public void move(int x, int y, Organism[][] grid, Organism[][] gridCopy)
+    public void move(int x, int y, Organism[][] grid, Organism[][] gridCopy, ArrayList<Organism> emptyCells)
     {
         neighbors = get4Neighbors(x,y,gridCopy);
         ArrayList<Organism> kelpList = new ArrayList<Organism>();
         for(Organism i : neighbors)
         {
-            if(i.getName().equals("kelp"))
+            if(i.getName().equals("kelp") && emptyCells.contains(i))
             {
                 kelpList.add(i);
             }
@@ -34,6 +35,7 @@ public class Fish extends Organism {
             return;
         }
         Organism chosenKelp = kelpList.get((int)(Math.random() * kelpList.size()));
+        emptyCells.remove(chosenKelp);
         birth(chosenKelp,grid, x,y);
     }
 

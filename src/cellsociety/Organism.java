@@ -1,5 +1,7 @@
 package cellsociety;
 
+import java.util.ArrayList;
+
 public abstract class Organism {
 
     protected String name;
@@ -32,7 +34,7 @@ public abstract class Organism {
     public int getEnergy() {return energy;}
     public int getBreedThresh() {return breedThresh;}
 
-    public abstract void move(int x, int y, Organism[][] grid, Organism[][] gridCopy);
+    public abstract void move(int x, int y, Organism[][] grid, Organism[][] gridCopy, ArrayList<Organism> emptyCells);
 
     public Organism[] get4Neighbors(int x, int y, Organism[][] gridCopy) {
         Organism[] neighbors = new Organism[4];

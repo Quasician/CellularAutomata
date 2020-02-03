@@ -1,5 +1,8 @@
 package cellsociety;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 public class Kelp extends Organism {
     public Kelp(String name, int x, int y) {
         super(name);
@@ -17,7 +20,7 @@ public class Kelp extends Organism {
     }
 
     @Override
-    public void move(int x, int y, Organism[][] grid, Organism[][] gridCopy) {
+    public void move(int x, int y, Organism[][] grid, Organism[][] gridCopy, ArrayList<Organism> emptyCells) {
         return;
     }
 }

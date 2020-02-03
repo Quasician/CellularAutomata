@@ -20,6 +20,8 @@ public class Main extends Application{
     int currentWidth = WIDTH;
     int currentHeight = HEIGHT;
     Timeline currentTimeline;
+    Simulation currentSim;
+    Visualizer currentViz;
     @Override
     public void start(Stage primaryStage) throws Exception {
 
@@ -33,8 +35,11 @@ public class Main extends Application{
         //FireSim sim = new FireSim(100,100, WIDTH, HEIGHT);
 //        SegSim sim = new SegSim(30,30, WIDTH, HEIGHT);
  //PredPraySim sim = new PredPraySim(50, 50, WIDTH, HEIGHT);
-        Visualizer vis = new Visualizer(sim.getGrid().length,sim.getGrid()[0].length,currentWidth, currentHeight, root, sim.getColorMap());
 
+
+        Visualizer vis = new Visualizer(sim.getGrid().length,sim.getGrid()[0].length,currentWidth, currentHeight, root, sim.getColorMap());
+        currentSim = sim;
+        currentViz = vis;
         HBox bottomButtons = new HBox();
 
         Button seg= new Button("Segregation");
@@ -42,7 +47,9 @@ public class Main extends Application{
         seg.setOnAction(e ->{
             //sim = null;
             SegSim temp = new SegSim(100,100, WIDTH, HEIGHT);
+            currentSim = temp;
             Visualizer vis1 = new Visualizer(temp.getGrid().length,temp.getGrid()[0].length,currentWidth, currentHeight, root, temp.getColorMap());
+            currentViz = vis1;
             vis1.initialize(temp.getGrid());
             currentTimeline = new Timeline(
                     new KeyFrame(Duration.seconds(seconds), j -> {
@@ -73,8 +80,8 @@ public class Main extends Application{
         Button step= new Button("Step");
         step.setOnAction(e ->{
             currentTimeline.setRate(0);
-            sim.updateGrid();
-            vis.colorGrid(sim.getGrid());
+            currentSim.updateGrid();
+            currentViz.colorGrid(currentSim.getGrid());
 
         });
 
