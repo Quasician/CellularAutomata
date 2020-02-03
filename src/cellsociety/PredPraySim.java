@@ -2,8 +2,8 @@ package cellsociety;
 
 import javafx.scene.paint.Color;
 
-import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 public class PredPraySim extends Simulation {
@@ -80,18 +80,12 @@ public class PredPraySim extends Simulation {
 
         for (int i = 0; i < simRows; i++) {
             for (int j = 0; j < simCols; j++) {
-                organismGridCopy = moveShark(organismGridCopy, i, j);
+                organismGridCopy = updateShark(organismGridCopy, i, j);
+                organismGridCopy = updateFish(organismGridCopy, i, j);
                 organismGridCopy[i][j].decreaseEnergy();
-                organismGridCopy = moveFish(organismGridCopy, i, j);
                 organismGridCopy[i][j].increaseLives();
             }
         }
-//        for (int i = 0; i < simRows; i++) {
-//            for (int j = 0; j < simCols; j++) {
-//                organismGridCopy = moveFish(organismGridCopy, i, j);
-//                organismGridCopy[i][j].increaseLives();
-//            }
-//        }
         for (int i = 0; i < simRows; i++) {
             for (int j = 0; j < simCols; j++) {
                 organismGrid[i][j] = organismGridCopy[i][j];
@@ -144,11 +138,11 @@ public class PredPraySim extends Simulation {
         colorMap.putIfAbsent("kelp", Color.BLACK);
     }
 
-    public Organism[][] moveShark(Organism[][] gridOrgCopy, int i, int j) {
+    public Organism[][] updateShark(Organism[][] gridOrgCopy, int i, int j) {
         if (gridOrgCopy[i][j].getName().equals("shark")) {
-            System.out.println("Shark Energy: " + gridOrgCopy[i][j].getEnergy());
             if(gridOrgCopy[i][j].getEnergy() <= 0) {
                 gridOrgCopy[i][j] = new Kelp("kelp", i, j);
+                emptyCells.add(gridOrgCopy[i][j]);
                 return gridOrgCopy;
             }
             Organism[] neighborsOrg = gridOrgCopy[i][j].get4Neighbors(i, j, gridOrgCopy);
@@ -170,10 +164,12 @@ public class PredPraySim extends Simulation {
                 if(gridOrgCopy[i][j].getLives() > breedThreshShark) {
                     gridOrgCopy[target.x][target.y] = new Shark(i, j, "shark", 0, gridOrgCopy[i][j].getEnergy(), breedThreshShark);
                     gridOrgCopy[i][j] = new Shark(i, j, "shark", 0, defaultSharkEnergy, breedThreshShark);
+                    movedSharkCells.add(gridOrgCopy[i][j]);
                 }
                 else {
                     gridOrgCopy[target.x][target.y] = gridOrgCopy[i][j];
                     gridOrgCopy[i][j] = new Kelp("kelp", i, j);
+                    emptyCells.add(gridOrgCopy[i][j]);
                 }
             }
             else if(kelp.size() > 0 && (!movedSharkCells.contains(gridOrgCopy[i][j]))) {
@@ -183,17 +179,19 @@ public class PredPraySim extends Simulation {
                 if(gridOrgCopy[i][j].getLives() >= breedThreshShark) {
                     gridOrgCopy[target.x][target.y] = new Shark(i, j, "shark", 0, gridOrgCopy[i][j].getEnergy(), breedThreshShark);
                     gridOrgCopy[i][j] = new Shark(i, j, "shark", 0, defaultSharkEnergy, breedThreshShark);
+                    movedSharkCells.add(gridOrgCopy[i][j]);
                 }
                 else {
                     gridOrgCopy[target.x][target.y] = gridOrgCopy[i][j];
                     gridOrgCopy[i][j] = new Kelp("kelp", i, j);
+                    emptyCells.add(gridOrgCopy[i][j]);
                 }
             }
         }
         return gridOrgCopy;
     }
 
-    public Organism[][] moveFish(Organism[][] gridOrgCopy, int i, int j) {
+    public Organism[][] updateFish(Organism[][] gridOrgCopy, int i, int j) {
         if (gridOrgCopy[i][j].getName().equals("fish")) {
             Organism[] neighborsOrg = gridOrgCopy[i][j].get4Neighbors(i, j, gridOrgCopy);
             ArrayList<Organism> kelp = new ArrayList<>();
@@ -209,10 +207,12 @@ public class PredPraySim extends Simulation {
                 if(gridOrgCopy[i][j].getLives() >= breedThreshFish) {
                     gridOrgCopy[target.x][target.y] = new Fish(i, j, "fish", 0, defaultFishEnergy, breedThreshFish);
                     gridOrgCopy[i][j] = new Fish(i, j, "fish", 0, defaultFishEnergy, breedThreshFish);
+                    emptyCells.add(gridOrgCopy[i][j]);
                 }
                 else {
                     gridOrgCopy[target.x][target.y] = gridOrgCopy[i][j];
                     gridOrgCopy[i][j] = new Kelp("kelp", i, j);
+                    emptyCells.add(gridOrgCopy[i][j]);
                 }
             }
         }
