@@ -29,13 +29,31 @@ public class Main extends Application{
         primaryStage.show();
         double seconds = 1;
 //        GOLSim sim = new GOLSim(100,100, WIDTH, HEIGHT);
-//        PercSim sim = new PercSim(100,100, WIDTH, HEIGHT);
-//        FireSim sim = new FireSim(100,100, WIDTH, HEIGHT);
+        PercSim sim = new PercSim(100,100, WIDTH, HEIGHT);
+        //FireSim sim = new FireSim(100,100, WIDTH, HEIGHT);
 //        SegSim sim = new SegSim(30,30, WIDTH, HEIGHT);
- PredPraySim sim = new PredPraySim(50, 50, WIDTH, HEIGHT);
+ //PredPraySim sim = new PredPraySim(50, 50, WIDTH, HEIGHT);
         Visualizer vis = new Visualizer(sim.getGrid().length,sim.getGrid()[0].length,currentWidth, currentHeight, root, sim.getColorMap());
 
         HBox bottomButtons = new HBox();
+
+        Button seg= new Button("Segregation");
+
+        seg.setOnAction(e ->{
+            //sim = null;
+            SegSim temp = new SegSim(100,100, WIDTH, HEIGHT);
+            Visualizer vis1 = new Visualizer(temp.getGrid().length,temp.getGrid()[0].length,currentWidth, currentHeight, root, temp.getColorMap());
+            vis1.initialize(temp.getGrid());
+            currentTimeline = new Timeline(
+                    new KeyFrame(Duration.seconds(seconds), j -> {
+                        temp.updateGrid();
+                        vis1.colorGrid(temp.getGrid());
+                    })
+            );
+            currentTimeline.setCycleCount(Animation.INDEFINITE);
+            currentTimeline.play();
+
+        });
 
         Button fast= new Button("Fast");
         fast.setOnAction(e ->{
@@ -61,7 +79,7 @@ public class Main extends Application{
         });
 
         root.setBottom(bottomButtons);
-        bottomButtons.getChildren().addAll(slow,normal,fast,step);
+        bottomButtons.getChildren().addAll(slow,normal,fast,step,seg);
         bottomButtons.setAlignment(Pos.BOTTOM_CENTER);
 
 
