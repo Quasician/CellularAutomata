@@ -69,16 +69,16 @@ public class Shark extends Organism {
     {
         if(getLives()>=getBreedThresh())
         {
+            grid[chosen.x][chosen.y]= new Shark(chosen.x,chosen.y,"shark",0, getEnergy(), getBreedThresh());
             setLife(0);
+            setEnergy(defaultSharkEnergy);
             System.out.println("reset for birth");
-        }
-        else
-        {
-            System.out.println("NOT ENOUGH LIVES FOR RESET");
-            grid[x][y]= new Kelp("kelp", x, y);
+            return;
         }
 
-        grid[chosen.x][chosen.y]= new Shark(x,y,"shark",getLives(), getEnergy(), getBreedThresh());
+        System.out.println("NOT ENOUGH LIVES FOR RESET");
+        grid[chosen.x][chosen.y]= new Shark(chosen.x,chosen.y,"shark",getLives(), getEnergy(), getBreedThresh());
+        grid[x][y]= new Kelp("kelp", x, y);
 
     }
 
@@ -86,17 +86,16 @@ public class Shark extends Organism {
     {
         if(getLives()>=getBreedThresh())
         {
+            grid[chosen.x][chosen.y]= new Shark(chosen.x,chosen.y,"shark",0, getEnergy()+defaultFishEnergy, getBreedThresh());
             setLife(0);
+            setEnergy(defaultSharkEnergy);
             System.out.println("reset for birth");
-        }
-        else
-        {
-            System.out.println("NOT ENOUGH LIVES FOR RESET");
-            grid[x][y]= new Kelp("kelp", x, y);
+            return;
         }
 
-        grid[chosen.x][chosen.y]= new Shark(x,y,"shark",getLives(), getEnergy()+defaultFishEnergy, getBreedThresh());
-
+        System.out.println("NOT ENOUGH LIVES FOR RESET");
+        grid[chosen.x][chosen.y]= new Shark(chosen.x,chosen.y,"shark",getLives(), getEnergy()+defaultFishEnergy, getBreedThresh());
+        grid[x][y]= new Kelp("kelp", x, y);
     }
 
 }
