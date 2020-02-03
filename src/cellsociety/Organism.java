@@ -4,7 +4,8 @@ import java.util.ArrayList;
 
 public abstract class Organism {
 
-    protected String name;
+    protected String currentState;
+    protected String nextState;
     protected int lives;
     protected int breedThresh;
     protected int energy;
@@ -19,7 +20,7 @@ public abstract class Organism {
     protected int defaultFishEnergy = 2;
 
     public Organism(int x, int y, String name, int lives, int breedThresh, int energy) {
-        this.name = name;
+        this.currentState = name;
         this.lives = lives;
         this.breedThresh = breedThresh;
         this.energy = energy;
@@ -28,11 +29,19 @@ public abstract class Organism {
     }
 
     public Organism(String name) {
-        this.name = name;
+        this.currentState = name;
     }
 
-    public String getName() {return name;}
-
+    public String getCurrentState() {return currentState;}
+    public String getNextState() {return nextState;}
+    public void setCurrentState(String input)
+    {
+        currentState = input;
+    }
+    public void setNextState(String input)
+    {
+       nextState = input;
+    }
     public void increaseLives() {lives++;}
 
     public void decreaseEnergy() {energy--;}
@@ -78,7 +87,7 @@ public abstract class Organism {
         return neighbors;
     }
 
-    public void setName(String input) {this.name = input;}
+    public void setName(String input) {this.currentState = input;}
     public int getLives() {return lives;}
     public void setLife(int input) {this.lives = input;}
 
