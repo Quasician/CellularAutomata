@@ -8,14 +8,6 @@ public class Shark extends Organism {
         super(x, y,name, life, breedThresh, energy);
     }
 
-    public void increaseLives() {
-        lives++;
-    }
-
-    public void decreaseEnergy()
-    {
-        energy--;
-    }
 
     public void move(int x, int y, Organism[][] grid, Organism[][] gridCopy, ArrayList<Organism> emptyCells) {
         neighbors = get4Neighbors(x,y,gridCopy);
@@ -27,15 +19,12 @@ public class Shark extends Organism {
 
     public boolean moveToEatFish(int x, int y, Organism[][] grid, ArrayList<Organism> emptyCells) {
         ArrayList<Organism> fishList = new ArrayList<Organism>();
-        for(Organism i : neighbors)
-        {
-            if(i.getName().equals("fish") && emptyCells.contains(i))
-            {
+        for(Organism i : neighbors) {
+            if(i.getName().equals("fish") && emptyCells.contains(i)) {
                 fishList.add(i);
             }
         }
-        if(fishList.size()<=0)
-        {
+        if(fishList.size()<=0) {
             return false;
         }
         Organism chosenFish = fishList.get((int)(Math.random() * fishList.size()));
@@ -46,15 +35,12 @@ public class Shark extends Organism {
 
     public void moveToKelpCell(int x, int y, Organism[][] grid, ArrayList<Organism> emptyCells) {
         ArrayList<Organism> kelpList = new ArrayList<Organism>();
-        for(Organism i : neighbors)
-        {
-            if(i.getName().equals("kelp") && emptyCells.contains(i))
-            {
+        for(Organism i : neighbors) {
+            if(i.getName().equals("kelp") && emptyCells.contains(i)) {
                 kelpList.add(i);
             }
         }
-        if(kelpList.size()<=0)
-        {
+        if(kelpList.size()<=0) {
             return;
         }
         Organism chosenKelp = kelpList.get((int)(Math.random() * kelpList.size()));
@@ -65,10 +51,8 @@ public class Shark extends Organism {
     public void setEnergy(int input) {this.energy = input;}
     public void checkStarve() {}
 
-    public void birthWithKelp(Organism chosen, Organism[][] grid, int x, int y)
-    {
-        if(getLives()>=getBreedThresh())
-        {
+    public void birthWithKelp(Organism chosen, Organism[][] grid, int x, int y) {
+        if(getLives()>=getBreedThresh()) {
             grid[chosen.x][chosen.y]= new Shark(chosen.x,chosen.y,"shark",0, getEnergy(), getBreedThresh());
             setLife(0);
             setEnergy(defaultSharkEnergy);
@@ -82,10 +66,8 @@ public class Shark extends Organism {
 
     }
 
-    public void birthWithFish(Organism chosen, Organism[][] grid, int x, int y)
-    {
-        if(getLives()>=getBreedThresh())
-        {
+    public void birthWithFish(Organism chosen, Organism[][] grid, int x, int y) {
+        if(getLives()>=getBreedThresh()) {
             grid[chosen.x][chosen.y]= new Shark(chosen.x,chosen.y,"shark",0, getEnergy()+defaultFishEnergy, getBreedThresh());
             setLife(0);
             setEnergy(defaultSharkEnergy);

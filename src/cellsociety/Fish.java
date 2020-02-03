@@ -10,16 +10,6 @@ public class Fish extends Organism {
         super(x,y,name, life, breedThresh, energy);
     }
 
-    public void increaseLives() {
-        //System.out.println("YEET");
-        lives++;
-    }
-
-    public void decreaseEnergy()
-    {
-        return;
-    }
-
 
     public void move(int x, int y, Organism[][] grid, Organism[][] gridCopy, ArrayList<Organism> emptyCells)
     {

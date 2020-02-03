@@ -2,6 +2,7 @@ package cellsociety;
 
 import javafx.scene.paint.Color;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -9,10 +10,12 @@ public class PredPraySim extends Simulation {
 
     private int breedThreshFish = 3;
     private int breedThreshShark = 3;
-    private int defaultSharkEnergy = 3;
-    private int defaultFishEnergy = 2;
+    private int defaultSharkEnergy = 10;
+    private int defaultFishEnergy = 1;
     private Organism[][] organismGrid;
     private ArrayList<Organism> emptyCells;
+    private ArrayList<Organism> movedFishCells;
+    private ArrayList<Organism> movedSharkCells;
 
     public PredPraySim(int rows, int cols, int width, int height)
     {
@@ -27,10 +30,15 @@ public class PredPraySim extends Simulation {
         for(int i = 0; i<simRows;i++) {
             for(int j = 0; j<simCols;j++) {
                 ArrayList<String> list = new ArrayList<>();
-                list.add("kelp");
                 list.add("fish");
                 list.add("shark");
-                String choice = list.get((int)Math.round(2 * Math.random()));
+                list.add("shark");
+                list.add("kelp");
+                list.add("kelp");
+                list.add("kelp");
+                list.add("kelp");
+                list.add("kelp");
+                String choice = list.get((int)(8 * Math.random()));
                 if (choice.equals("fish")) {
                     organismGrid[i][j] = new Fish(i,j,choice,0, breedThreshFish, defaultFishEnergy);
                     grid[i][j] = "fish";
@@ -43,15 +51,8 @@ public class PredPraySim extends Simulation {
                     organismGrid[i][j] = new Kelp(choice, i,j);
                     grid[i][j] = "kelp";
                 }
-//                organismGrid[i][j] = new Kelp("kelp", i,j);
-//                grid[i][j] = "kelp";
             }
         }
-//        organismGrid[0][0] = new Fish(0,0,"fish",0, breedThreshFish, defaultFishEnergy);
-//        grid[0][0] = "fish";
-//
-//        organismGrid[5][5] = new Shark(5,5,"shark",0, breedThreshShark, defaultSharkEnergy);
-//        grid[5][5] = "shark";
     }
 
 
@@ -65,8 +66,10 @@ public class PredPraySim extends Simulation {
             }
         }
         emptyCells = new ArrayList<>();
-        generateEmptyCells(organismGridCopy);
-        //System.out.println("SIZE OF EMPTY CELL LIST: " + emptyCells.size());
+        emptyCells = generateEmptyCells(organismGridCopy);
+        movedFishCells = new ArrayList<>();
+        movedSharkCells = new ArrayList<>();
+
 //        for (int i = 0; i < simRows; i++) {
 //            for (int j = 0; j < simCols; j++) {
 //                moveOrganism(i, j, organismGridCopy);
@@ -74,55 +77,52 @@ public class PredPraySim extends Simulation {
 //                updateStringArray(i, j);
 //            }
 //        }
+
         for (int i = 0; i < simRows; i++) {
             for (int j = 0; j < simCols; j++) {
                 organismGridCopy = moveShark(organismGridCopy, i, j);
-            }
-        }
-        for (int i = 0; i < simRows; i++) {
-            for (int j = 0; j < simCols; j++) {
+                organismGridCopy[i][j].decreaseEnergy();
                 organismGridCopy = moveFish(organismGridCopy, i, j);
+                organismGridCopy[i][j].increaseLives();
             }
         }
+//        for (int i = 0; i < simRows; i++) {
+//            for (int j = 0; j < simCols; j++) {
+//                organismGridCopy = moveFish(organismGridCopy, i, j);
+//                organismGridCopy[i][j].increaseLives();
+//            }
+//        }
         for (int i = 0; i < simRows; i++) {
             for (int j = 0; j < simCols; j++) {
                 organismGrid[i][j] = organismGridCopy[i][j];
-            }
-        }
-        for (int i = 0; i < simRows; i++) {
-            for (int j = 0; j < simCols; j++) {
-                updateCell(i, j, grid);
                 updateStringArray(i, j);
             }
         }
-
-        System.out.println("finished round");
     }
 
-    public void generateEmptyCells(Organism[][] gridCopy) {
+    public ArrayList<Organism> generateEmptyCells(Organism[][] gridCopy) {
+        ArrayList<Organism> result = new ArrayList<>();
         for (int i = 0; i < simRows; i++) {
             for (int j = 0; j < simCols; j++) {
-                if (gridCopy[i][j].getName().equals("kelp")||gridCopy[i][j].getName().equals("fish")) {
-                   emptyCells.add(gridCopy[i][j]);
+                if (gridCopy[i][j].getName().equals("kelp") || gridCopy[i][j].getName().equals("fish")) {
+                   result.add(gridCopy[i][j]);
                 }
             }
         }
+        return result;
     }
 
 
     public void updateCell(int x, int y, String[][] grid) {
         organismGrid[x][y].increaseLives();
-        if(organismGrid[x][y].getName().equals("fish"))
-        {
+        if(organismGrid[x][y].getName().equals("fish")) {
             System.out.println("FISH at X: "+ x + "  Y: "+ y + "  Lives: "+organismGrid[x][y].getLives());
         }
-        if(organismGrid[x][y].getName().equals("shark"))
-        {
+        if(organismGrid[x][y].getName().equals("shark")) {
             System.out.print(organismGrid[x][y].getEnergy());
             organismGrid[x][y].decreaseEnergy();
             System.out.print(" DECREASED to : " +organismGrid[x][y].getEnergy()+"\n");
-            if(organismGrid[x][y].getEnergy()<=0)
-            {
+            if(organismGrid[x][y].getEnergy()<=0) {
                 //grid[x][y] = "kelp";
                 organismGrid[x][y] = new Kelp("kelp",x,y);
             }
@@ -130,7 +130,7 @@ public class PredPraySim extends Simulation {
     }
 
     public void moveOrganism(int x, int y, Organism[][] organismGridCopy) {
-        //organismGridCopy[x][y].move(x,y,organismGrid,organismGridCopy, emptyCells);
+        organismGridCopy[x][y].move(x,y,organismGrid,organismGridCopy, emptyCells);
     }
 
     private void updateStringArray(int i, int j) {
@@ -145,32 +145,26 @@ public class PredPraySim extends Simulation {
     }
 
     public Organism[][] moveShark(Organism[][] gridOrgCopy, int i, int j) {
-        Organism[] neighborsOrg = gridOrgCopy[i][j].get4Neighbors(i, j, gridOrgCopy);
         if (gridOrgCopy[i][j].getName().equals("shark")) {
-            ArrayList<Organism> fish = new ArrayList<Organism>();
-            ArrayList<Organism> fish2 = new ArrayList<Organism>();
-            ArrayList<Organism> kelp = new ArrayList<Organism>();
-            ArrayList<Organism> kelp2 = new ArrayList<Organism>();
+            System.out.println("Shark Energy: " + gridOrgCopy[i][j].getEnergy());
+            if(gridOrgCopy[i][j].getEnergy() <= 0) {
+                gridOrgCopy[i][j] = new Kelp("kelp", i, j);
+                return gridOrgCopy;
+            }
+            Organism[] neighborsOrg = gridOrgCopy[i][j].get4Neighbors(i, j, gridOrgCopy);
+            ArrayList<Organism> fish = new ArrayList<>();
+            ArrayList<Organism> kelp = new ArrayList<>();
             for(Organism n : neighborsOrg) {
-                if(n.getName().equals("fish")) {
+                if(n.getName().equals("fish") && emptyCells.contains(n)) {
                     fish.add(n);
                 }
-                if(n.getName().equals("kelp")) {
+                if(n.getName().equals("kelp") && emptyCells.contains(n)) {
                     kelp.add(n);
                 }
             }
-            for (Organism n : fish) {
-                if(emptyCells.contains(n)) {
-                    fish2.add(n);
-                }
-            }
-            for (Organism n : kelp) {
-                if(emptyCells.contains(n)) {
-                    kelp2.add(n);
-                }
-            }
-            if(fish2.size() > 0) {
-                Organism target = fish2.get((int)(Math.random() * fish2.size()));
+            if(fish.size() > 0 && (!movedSharkCells.contains(gridOrgCopy[i][j]))) {
+                movedSharkCells.add(gridOrgCopy[i][j]);
+                Organism target = fish.get((int)(Math.random() * fish.size()));
                 emptyCells.remove(target);
                 gridOrgCopy[i][j].setEnergy(gridOrgCopy[i][j].getEnergy() + 2);
                 if(gridOrgCopy[i][j].getLives() > breedThreshShark) {
@@ -182,8 +176,9 @@ public class PredPraySim extends Simulation {
                     gridOrgCopy[i][j] = new Kelp("kelp", i, j);
                 }
             }
-            if(kelp2.size() > 0) {
-                Organism target = kelp2.get((int)(Math.random() * kelp2.size()));
+            else if(kelp.size() > 0 && (!movedSharkCells.contains(gridOrgCopy[i][j]))) {
+                movedSharkCells.add(gridOrgCopy[i][j]);
+                Organism target = kelp.get((int)(Math.random() * kelp.size()));
                 emptyCells.remove(target);
                 if(gridOrgCopy[i][j].getLives() >= breedThreshShark) {
                     gridOrgCopy[target.x][target.y] = new Shark(i, j, "shark", 0, gridOrgCopy[i][j].getEnergy(), breedThreshShark);
@@ -199,24 +194,18 @@ public class PredPraySim extends Simulation {
     }
 
     public Organism[][] moveFish(Organism[][] gridOrgCopy, int i, int j) {
-        Organism[] neighborsOrg = gridOrgCopy[i][j].get4Neighbors(i, j, gridOrgCopy);
         if (gridOrgCopy[i][j].getName().equals("fish")) {
-            ArrayList<Organism> kelp = new ArrayList<Organism>();
-            ArrayList<Organism> kelp2 = new ArrayList<Organism>();
+            Organism[] neighborsOrg = gridOrgCopy[i][j].get4Neighbors(i, j, gridOrgCopy);
+            ArrayList<Organism> kelp = new ArrayList<>();
             for(Organism n : neighborsOrg) {
-                if(n.getName().equals("kelp")) {
+                if(n.getName().equals("kelp") && emptyCells.contains(n)) {
                     kelp.add(n);
                 }
             }
-            for (Organism n : kelp) {
-                if(emptyCells.contains(n)) {
-                    kelp2.add(n);
-                }
-            }
-            if(kelp2.size() > 0) {
-                Organism target = kelp2.get((int)(Math.random() * kelp2.size()));
+            if(kelp.size() > 0 && (!movedFishCells.contains(gridOrgCopy[i][j]))) {
+                movedFishCells.add(gridOrgCopy[i][j]);
+                Organism target = kelp.get((int)(Math.random() * kelp.size()));
                 emptyCells.remove(target);
-
                 if(gridOrgCopy[i][j].getLives() >= breedThreshFish) {
                     gridOrgCopy[target.x][target.y] = new Fish(i, j, "fish", 0, defaultFishEnergy, breedThreshFish);
                     gridOrgCopy[i][j] = new Fish(i, j, "fish", 0, defaultFishEnergy, breedThreshFish);

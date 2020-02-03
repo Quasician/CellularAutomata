@@ -33,9 +33,9 @@ public abstract class Organism {
 
     public String getName() {return name;}
 
-    public abstract void increaseLives();
+    public void increaseLives() {lives++;}
 
-    public abstract void decreaseEnergy();
+    public void decreaseEnergy() {energy--;}
 
 
     public int getEnergy() {return energy;}
@@ -44,25 +44,39 @@ public abstract class Organism {
 
     public abstract void move(int x, int y, Organism[][] grid, Organism[][] gridCopy, ArrayList<Organism> emptyCells);
 
+    public Organism top(Organism[][] gridCopy, int x, int y) { return gridCopy[(x+gridCopy.length)%gridCopy.length][(y+1+gridCopy[0].length)%gridCopy[0].length];}
+    public Organism bottom(Organism[][] gridCopy, int x, int y) { return gridCopy[(x+gridCopy.length)%gridCopy.length][(y-1+gridCopy[0].length)%gridCopy[0].length];}
+    public Organism left(Organism[][] gridCopy, int x, int y) { return gridCopy[(x-1+gridCopy.length)%gridCopy.length][(y+gridCopy[0].length)%gridCopy[0].length];}
+    public Organism right(Organism[][] gridCopy, int x, int y) { return gridCopy[(x+1+gridCopy.length)%gridCopy.length][(y+gridCopy[0].length)%gridCopy[0].length];}
+
     public Organism[] get4Neighbors(int x, int y, Organism[][] gridCopy) {
         Organism[] neighbors = new Organism[4];
-        int count = 0;
-        for(int i = x-1; i<=x+1;i++)
-        {
-            for(int j = y-1; j<=y+1;j++)
-            {
-                if((i - x + 1 + j - y + 1) % 2 == 0)
-                {
-                    continue;
-                }
-                else {
-                    neighbors[count] = gridCopy[(i+gridCopy.length)%gridCopy.length][(j+gridCopy[0].length)%gridCopy[0].length];
-                    count++;
-                }
-            }
-        }
+        neighbors[0] = top(gridCopy, x, y);
+        neighbors[1] = bottom(gridCopy, x, y);
+        neighbors[2] = left(gridCopy, x, y);
+        neighbors[3] = right(gridCopy, x, y);
         return neighbors;
     }
+
+//    public Organism[] get4Neighbors(int x, int y, Organism[][] gridCopy) {
+//        Organism[] neighbors = new Organism[4];
+//        int count = 0;
+//        for(int i = x-1; i<=x+1;i++)
+//        {
+//            for(int j = y-1; j<=y+1;j++)
+//            {
+//                if((i - x + 1 + j - y + 1) % 2 == 0)
+//                {
+//                    continue;
+//                }
+//                else {
+//                    neighbors[count] = gridCopy[(i+gridCopy.length)%gridCopy.length][(j+gridCopy[0].length)%gridCopy[0].length];
+//                    count++;
+//                }
+//            }
+//        }
+//        return neighbors;
+//    }
 
     public void setName(String input) {this.name = input;}
     public int getLives() {return lives;}
