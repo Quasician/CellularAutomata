@@ -27,8 +27,8 @@ public class PredPraySim extends Simulation {
         for(int i = 0; i<simRows;i++) {
             for(int j = 0; j<simCols;j++) {
                 ArrayList<String> list = new ArrayList<>();
-                list.add("fish");
                 list.add("kelp");
+                list.add("fish");
                 list.add("shark");
                 String choice = list.get((int)Math.round(2 * Math.random()));
                 if (choice.equals("fish")) {
@@ -170,25 +170,27 @@ public class PredPraySim extends Simulation {
                 }
             }
             if(fish2.size() > 0) {
-                Organism target = fish2.get(0);
+                Organism target = fish2.get((int)(Math.random() * fish2.size()));
                 emptyCells.remove(target);
                 gridOrgCopy[i][j].setEnergy(gridOrgCopy[i][j].getEnergy() + 2);
-                gridOrgCopy[target.x][target.y] = gridOrgCopy[i][j];
                 if(gridOrgCopy[i][j].getLives() > breedThreshShark) {
+                    gridOrgCopy[target.x][target.y] = new Shark(i, j, "shark", 0, gridOrgCopy[i][j].getEnergy(), breedThreshShark);
                     gridOrgCopy[i][j] = new Shark(i, j, "shark", 0, defaultSharkEnergy, breedThreshShark);
                 }
                 else {
+                    gridOrgCopy[target.x][target.y] = gridOrgCopy[i][j];
                     gridOrgCopy[i][j] = new Kelp("kelp", i, j);
                 }
             }
             if(kelp2.size() > 0) {
-                Organism target = kelp2.get(0);
+                Organism target = kelp2.get((int)(Math.random() * kelp2.size()));
                 emptyCells.remove(target);
-                gridOrgCopy[target.x][target.y] = gridOrgCopy[i][j];
-                if(gridOrgCopy[i][j].getLives() > breedThreshShark) {
+                if(gridOrgCopy[i][j].getLives() >= breedThreshShark) {
+                    gridOrgCopy[target.x][target.y] = new Shark(i, j, "shark", 0, gridOrgCopy[i][j].getEnergy(), breedThreshShark);
                     gridOrgCopy[i][j] = new Shark(i, j, "shark", 0, defaultSharkEnergy, breedThreshShark);
                 }
                 else {
+                    gridOrgCopy[target.x][target.y] = gridOrgCopy[i][j];
                     gridOrgCopy[i][j] = new Kelp("kelp", i, j);
                 }
             }
@@ -212,13 +214,15 @@ public class PredPraySim extends Simulation {
                 }
             }
             if(kelp2.size() > 0) {
-                Organism target = kelp2.get(0);
+                Organism target = kelp2.get((int)(Math.random() * kelp2.size()));
                 emptyCells.remove(target);
-                gridOrgCopy[target.x][target.y] = gridOrgCopy[i][j];
-                if(gridOrgCopy[i][j].getLives() > breedThreshFish) {
+
+                if(gridOrgCopy[i][j].getLives() >= breedThreshFish) {
+                    gridOrgCopy[target.x][target.y] = new Fish(i, j, "fish", 0, defaultFishEnergy, breedThreshFish);
                     gridOrgCopy[i][j] = new Fish(i, j, "fish", 0, defaultFishEnergy, breedThreshFish);
                 }
                 else {
+                    gridOrgCopy[target.x][target.y] = gridOrgCopy[i][j];
                     gridOrgCopy[i][j] = new Kelp("kelp", i, j);
                 }
             }
