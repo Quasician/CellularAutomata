@@ -1,6 +1,7 @@
 package cellsociety;
 
 import java.io.File;
+import java.util.ArrayList;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
@@ -12,10 +13,12 @@ import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import java.util.*;
 
 public class xml_creator {
 
     public static final String xmlFilePath = "Resources\\game_of_life.xml";
+
 
     public static void main(String argv[]) {
 
@@ -23,6 +26,10 @@ public class xml_creator {
 
             String grid = "9";
             int gridnum = 9;
+
+            ArrayList<String> options = new ArrayList<String>();
+            options.add("alive");
+            options.add("dead");
 
             DocumentBuilderFactory documentFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder documentBuilder = documentFactory.newDocumentBuilder();
@@ -45,7 +52,7 @@ public class xml_creator {
 
             for (int i = 0; i<gridnum; i++){
                 Element tempcell = document.createElement("c" + String.valueOf(i+1));
-                tempcell.appendChild(document.createTextNode("James"));
+                tempcell.appendChild(document.createTextNode(options.get((int)Math.round(Math.random()))));
                 cell_config.appendChild(tempcell);
             }
 

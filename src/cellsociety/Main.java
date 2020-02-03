@@ -65,7 +65,6 @@ public class Main extends Application{
         bottomButtons.setAlignment(Pos.BOTTOM_CENTER);
 
 
-
         vis.initialize(sim.getGrid());
         currentTimeline = new Timeline(
                 new KeyFrame(Duration.seconds(seconds), e -> {
