@@ -26,32 +26,32 @@ public class PredPraySim extends Simulation {
         organismGrid = new Organism[numRows][numCols];
         for(int i = 0; i<simRows;i++) {
             for(int j = 0; j<simCols;j++) {
-//                ArrayList<String> list = new ArrayList<>();
-//                list.add("fish");
-//                list.add("kelp");
-//                list.add("shark");
-//                String choice = list.get((int)Math.round(2 * Math.random()));
-//                if (choice.equals("fish")) {
-//                    organismGrid[i][j] = new Fish(i,j,choice,0, breedThreshFish, defaultFishEnergy);
-//                    grid[i][j] = "fish";
-//                }
-//                else if (choice.equals("shark")) {
-//                    organismGrid[i][j] = new Shark(i,j,choice, 0, defaultSharkEnergy, breedThreshShark);
-//                    grid[i][j] = "shark";
-//                }
-//                else {
-//                    organismGrid[i][j] = new Kelp(choice, i,j);
-//                    grid[i][j] = "kelp";
-//                }
-                organismGrid[i][j] = new Kelp("kelp", i,j);
-                grid[i][j] = "kelp";
+                ArrayList<String> list = new ArrayList<>();
+                list.add("fish");
+                list.add("kelp");
+                list.add("shark");
+                String choice = list.get((int)Math.round(2 * Math.random()));
+                if (choice.equals("fish")) {
+                    organismGrid[i][j] = new Fish(i,j,choice,0, breedThreshFish, defaultFishEnergy);
+                    grid[i][j] = "fish";
+                }
+                else if (choice.equals("shark")) {
+                    organismGrid[i][j] = new Shark(i,j,choice, 0, defaultSharkEnergy, breedThreshShark);
+                    grid[i][j] = "shark";
+                }
+                else {
+                    organismGrid[i][j] = new Kelp(choice, i,j);
+                    grid[i][j] = "kelp";
+                }
+//                organismGrid[i][j] = new Kelp("kelp", i,j);
+//                grid[i][j] = "kelp";
             }
         }
-        organismGrid[0][0] = new Fish(0,0,"fish",0, breedThreshFish, defaultFishEnergy);
-        grid[0][0] = "fish";
-
-        organismGrid[5][5] = new Shark(5,5,"shark",0, breedThreshShark, defaultSharkEnergy);
-        grid[5][5] = "shark";
+//        organismGrid[0][0] = new Fish(0,0,"fish",0, breedThreshFish, defaultFishEnergy);
+//        grid[0][0] = "fish";
+//
+//        organismGrid[5][5] = new Shark(5,5,"shark",0, breedThreshShark, defaultSharkEnergy);
+//        grid[5][5] = "shark";
     }
 
 

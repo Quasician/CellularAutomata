@@ -37,7 +37,7 @@ public abstract class Organism {
 
     public abstract void decreaseEnergy();
 
-    public void setEnergy(int input) {energy = input;}
+
     public int getEnergy() {return energy;}
     public void setEnergy(int input) {energy = input;}
     public int getBreedThresh() {return breedThresh;}
