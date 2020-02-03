@@ -71,9 +71,9 @@ public class PredPraySim extends Simulation {
             for (int j = 0; j < simCols; j++) {
                 moveOrganism(i, j, organismGridCopy);
                 updateCell(i, j, grid);
+                updateStringArray(i, j);
             }
         }
-        updateStringArray();
         System.out.println("finished round");
     }
 
@@ -111,6 +111,9 @@ public class PredPraySim extends Simulation {
         organismGridCopy[x][y].move(x,y,organismGrid,organismGridCopy, emptyCells);
     }
 
+    private void updateStringArray(int i, int j) {
+        grid[i][j] = organismGrid[i][j].getName();
+    }
 
     public void setUpHashMap() {
         colorMap = new HashMap<>();
@@ -119,15 +122,4 @@ public class PredPraySim extends Simulation {
         colorMap.putIfAbsent("kelp", Color.BLACK);
     }
 
-    private void updateStringArray() {
-        for (int i = 0; i < simRows; i++) {
-            for (int j = 0; j < simCols; j++) {
-                grid[i][j] = organismGrid[i][j].getName();
-                if(grid[i][j].equals("fish"))
-                {
-                    //System.out.println(organismGrid[i][j].getLives());
-                }
-            }
-        }
-    }
 }
