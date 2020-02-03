@@ -69,6 +69,11 @@ public abstract class Organism {
             System.out.println("NOT ENOUGH LIVES FOR RESET");
             grid[x][y]= new Kelp("kelp", x, y);
         }
-        grid[chosen.x][chosen.y]= this;
+        if(getName().equals("fish"))
+        {
+            grid[chosen.x][chosen.y]= new Fish(x,y,"fish",getLives(), getEnergy(), getBreedThresh());
+            return;
+        }
+        grid[chosen.x][chosen.y]= new Shark(x,y,"shark",getLives(), getEnergy(), getBreedThresh());
     }
 }

@@ -8,6 +8,7 @@ public class Fish extends Organism {
     }
 
     public void increaseLives() {
+        System.out.println("YEET");
         lives++;
     }
 
