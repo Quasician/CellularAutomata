@@ -12,6 +12,12 @@ public abstract class Organism {
     protected int y;
     protected Organism[] neighbors;
 
+
+    protected int breedThreshFish = 3;
+    protected int breedThreshShark = 1;
+    protected int defaultSharkEnergy = 3;
+    protected int defaultFishEnergy = 2;
+
     public Organism(int x, int y, String name, int lives, int breedThresh, int energy) {
         this.name = name;
         this.lives = lives;
@@ -59,23 +65,5 @@ public abstract class Organism {
     public void setName(String input) {this.name = input;}
     public int getLives() {return lives;}
     public void setLife(int input) {this.lives = input;}
-    public void birth(Organism chosen, Organism[][] grid, int x, int y)
-    {
-        if(getLives()>=getBreedThresh())
-        {
-            setLife(0);
-            System.out.println("reset for birth");
-        }
-        else
-        {
-            System.out.println("NOT ENOUGH LIVES FOR RESET");
-            grid[x][y]= new Kelp("kelp", x, y);
-        }
-        if(getName().equals("fish"))
-        {
-            grid[chosen.x][chosen.y]= new Fish(x,y,"fish",getLives(), getEnergy(), getBreedThresh());
-            return;
-        }
-        grid[chosen.x][chosen.y]= new Shark(x,y,"shark",getLives(), getEnergy(), getBreedThresh());
-    }
+
 }

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 public class Shark extends Organism {
 
-
     public Shark(int x, int y, String name, int life, int energy, int breedThresh) {
         super(x, y,name, life, breedThresh, energy);
     }
@@ -41,7 +40,7 @@ public class Shark extends Organism {
         }
         Organism chosenFish = fishList.get((int)(Math.random() * fishList.size()));
         emptyCells.remove(chosenFish);
-        birth(chosenFish,grid, x,y);
+        birthWithFish(chosenFish,grid, x,y);
         return true;
     }
 
@@ -60,12 +59,44 @@ public class Shark extends Organism {
         }
         Organism chosenKelp = kelpList.get((int)(Math.random() * kelpList.size()));
         emptyCells.remove(chosenKelp);
-        birth(chosenKelp,grid,x,y);
+        birthWithKelp(chosenKelp,grid,x,y);
     }
 
     public void setEnergy(int input) {this.energy = input;}
     public void checkStarve() {}
 
+    public void birthWithKelp(Organism chosen, Organism[][] grid, int x, int y)
+    {
+        if(getLives()>=getBreedThresh())
+        {
+            setLife(0);
+            System.out.println("reset for birth");
+        }
+        else
+        {
+            System.out.println("NOT ENOUGH LIVES FOR RESET");
+            grid[x][y]= new Kelp("kelp", x, y);
+        }
 
+        grid[chosen.x][chosen.y]= new Shark(x,y,"shark",getLives(), getEnergy(), getBreedThresh());
+
+    }
+
+    public void birthWithFish(Organism chosen, Organism[][] grid, int x, int y)
+    {
+        if(getLives()>=getBreedThresh())
+        {
+            setLife(0);
+            System.out.println("reset for birth");
+        }
+        else
+        {
+            System.out.println("NOT ENOUGH LIVES FOR RESET");
+            grid[x][y]= new Kelp("kelp", x, y);
+        }
+
+        grid[chosen.x][chosen.y]= new Shark(x,y,"shark",getLives(), getEnergy()+defaultFishEnergy, getBreedThresh());
+
+    }
 
 }

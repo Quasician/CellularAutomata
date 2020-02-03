@@ -4,6 +4,8 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class Fish extends Organism {
+
+
     public Fish(int x, int y, String name, int life, int energy, int breedThresh) {
         super(x,y,name, life, breedThresh, energy);
     }
@@ -39,4 +41,21 @@ public class Fish extends Organism {
         birth(chosenKelp,grid, x,y);
     }
 
+    public void birth(Organism chosen, Organism[][] grid, int x, int y)
+    {
+        if(getLives()>=getBreedThresh())
+        {
+            setLife(0);
+            System.out.println("reset for birth");
+        }
+        else
+        {
+            System.out.println("NOT ENOUGH LIVES FOR RESET");
+            grid[x][y]= new Kelp("kelp", x, y);
+        }
+
+        grid[chosen.x][chosen.y]= new Fish(x,y,"fish",getLives(), getEnergy(), getBreedThresh());
+        return;
+
+    }
 }

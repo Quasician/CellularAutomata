@@ -84,8 +84,8 @@ public class SegSim extends Simulation{
             grid[temp.get(0)][temp.get(1)] = gridCopy[x][y];
             grid[x][y] = "empty";
         }
-
     }
+
     public void generateEmptyCells(String[][] gridCopy) {
         for (int i = 0; i < simRows; i++) {
             for (int j = 0; j < simCols; j++) {
