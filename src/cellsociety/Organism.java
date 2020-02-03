@@ -55,18 +55,20 @@ public abstract class Organism {
     }
 
     public void setName(String input) {this.name = input;}
-    public int getLife() {return lives;}
+    public int getLives() {return lives;}
     public void setLife(int input) {this.lives = input;}
-    public void birth(Organism chosen, Organism[][] grid)
+    public void birth(Organism chosen, Organism[][] grid, int x, int y)
     {
-        if(getLife()>=getBreedThresh())
+        if(getLives()>=getBreedThresh())
         {
             setLife(0);
+            System.out.println("reset for birth");
         }
         else
         {
-            grid[x][y]= new Kelp("kelp");
+            System.out.println("NOT ENOUGH LIVES FOR RESET");
+            grid[x][y]= new Kelp("kelp", x, y);
         }
-        grid[chosen.x][chosen.y]= new Fish(chosen.x,chosen.y, getName(), getLife(),getBreedThresh(), getEnergy());
+        grid[chosen.x][chosen.y]= this;
     }
 }

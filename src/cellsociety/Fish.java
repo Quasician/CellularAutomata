@@ -33,7 +33,7 @@ public class Fish extends Organism {
             return;
         }
         Organism chosenKelp = kelpList.get((int)(Math.random() * kelpList.size()));
-        birth(chosenKelp,grid);
+        birth(chosenKelp,grid, x,y);
     }
 
 }

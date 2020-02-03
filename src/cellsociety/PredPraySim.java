@@ -7,7 +7,7 @@ import java.util.HashMap;
 
 public class PredPraySim extends Simulation {
 
-    private int breedThreshFish = 1;
+    private int breedThreshFish = 3;
     private int breedThreshShark = 2;
     private int defaultSharkEnergy = 1;
     private int defaultFishEnergy = 2;
@@ -25,25 +25,29 @@ public class PredPraySim extends Simulation {
         organismGrid = new Organism[numRows][numCols];
         for(int i = 0; i<simRows;i++) {
             for(int j = 0; j<simCols;j++) {
-                ArrayList<String> list = new ArrayList<>();
-                list.add("fish");
-                list.add("kelp");
-                list.add("shark");
-                String choice = list.get((int)Math.round(2 * Math.random()));
-                if (choice.equals("fish")) {
-                    organismGrid[i][j] = new Fish(i,j,choice,0, breedThreshFish, defaultFishEnergy);
-                    grid[i][j] = "fish";
-                }
-                else if (choice.equals("shark")) {
-                    organismGrid[i][j] = new Shark(i,j,choice, 0, defaultSharkEnergy, breedThreshShark);
-                    grid[i][j] = "shark";
-                }
-                else {
-                    organismGrid[i][j] = new Kelp(choice);
-                    grid[i][j] = "kelp";
-                }
+//                ArrayList<String> list = new ArrayList<>();
+//                list.add("fish");
+//                list.add("kelp");
+//                list.add("shark");
+//                String choice = list.get((int)Math.round(2 * Math.random()));
+//                if (choice.equals("fish")) {
+//                    organismGrid[i][j] = new Fish(i,j,choice,0, breedThreshFish, defaultFishEnergy);
+//                    grid[i][j] = "fish";
+//                }
+//                else if (choice.equals("shark")) {
+//                    organismGrid[i][j] = new Shark(i,j,choice, 0, defaultSharkEnergy, breedThreshShark);
+//                    grid[i][j] = "shark";
+//                }
+//                else {
+//                    organismGrid[i][j] = new Kelp(choice, i,j);
+//                    grid[i][j] = "kelp";
+//                }
+                organismGrid[i][j] = new Kelp("kelp", i,j);
+                grid[i][j] = "kelp";
             }
         }
+        organismGrid[simRows/2][simCols/2] = new Fish(simRows/2,simCols/2,"fish",0, breedThreshFish, defaultFishEnergy);
+        grid[simRows/2][simCols/2] = "fish";
     }
 
 
@@ -78,7 +82,7 @@ public class PredPraySim extends Simulation {
             if(organismGrid[x][y].getEnergy()<=0)
             {
                 //grid[x][y] = "kelp";
-                organismGrid[x][y] = new Kelp("kelp");
+                organismGrid[x][y] = new Kelp("kelp",x,y);
             }
         }
     }
@@ -99,9 +103,9 @@ public class PredPraySim extends Simulation {
         for (int i = 0; i < simRows; i++) {
             for (int j = 0; j < simCols; j++) {
                 grid[i][j] = organismGrid[i][j].getName();
-                if(grid[i][j].equals("shark"))
+                if(grid[i][j].equals("fish"))
                 {
-                    //System.out.println(organismGrid[i][j].getEnergy());
+                    System.out.println(organismGrid[i][j].getLives());
                 }
             }
         }
