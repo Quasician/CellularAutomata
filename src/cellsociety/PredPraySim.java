@@ -62,7 +62,7 @@ public class PredPraySim extends Simulation {
 
 
     public void updateGrid() {
-        updateStringArray();
+
 
         sharksThatNeedToMove = new ArrayList<>();
         fishThatNeedToMove = new ArrayList<>();
@@ -82,6 +82,7 @@ public class PredPraySim extends Simulation {
 
         moveAllSharks();
         moveAllFish();
+        updateStringArray();
     }
 
 
