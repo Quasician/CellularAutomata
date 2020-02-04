@@ -19,11 +19,11 @@ public class PredPreySim extends Simulation {
     private ArrayList<Organism> fishThatNeedToMove;
     private ArrayList<Organism> sharksThatNeedToMove;
 
-    public PredPreySim(int rows, int cols, int width, int height, HashMap<String,Double> params)
+    public PredPreySim(double rows, double cols, int width, int height, HashMap<String,Double> params)
     {
-        super(rows, cols, width,height,params);
+        super((int)rows, (int)cols, width,height,params);
         initParams();
-        createGrid(rows,cols);
+        createGrid((int)rows,(int)cols);
         setUpHashMap();
     }
 

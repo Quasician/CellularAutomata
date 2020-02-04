@@ -7,16 +7,21 @@ import java.util.HashMap;
 
 public class PercSim extends Simulation{
 
-    public PercSim(int rows, int cols, int width, int height, HashMap<String,Double> params)
+    private double percentEmpty;
+    private double percentBlocked;
+
+    public PercSim(double rows, double cols, int width, int height, HashMap<String,Double> params)
     {
-        super(rows, cols, width,height, params);
-        createGrid(rows,cols);
+        super((int)rows, (int)cols, width,height, params);
+        initParams();
+        createGrid((int)rows,(int)cols);
         setUpHashMap();
     }
 
     @Override
     public void initParams() {
-
+        percentEmpty = params.get("percentEmpty");
+        percentBlocked = params.get("percentBlocked");
     }
 
     public void createGrid(int numRows, int numCols) {
@@ -25,11 +30,13 @@ public class PercSim extends Simulation{
         {
             for(int j = 0; j<simCols;j++)
             {
-                ArrayList<String> list = new ArrayList<>();
-                list.add("empty");
-                list.add("blocked");
-                String choice = list.get((int)Math.round(Math.random()));
-                grid[i][j] = choice;
+                double choice = Math.random();
+                if (choice<=percentEmpty) {
+                    grid[i][j] = "empty";
+                }
+                else{
+                    grid[i][j] = "blocked";
+                }
             }
         }
         grid[25][25] = "full";
