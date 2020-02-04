@@ -14,6 +14,8 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.awt.event.ActionEvent;
+import java.beans.EventHandler;
 import java.util.HashMap;
 
 public class Main extends Application{
@@ -28,7 +30,8 @@ public class Main extends Application{
     Visualizer currentViz;
     double seconds = 1;
     BorderPane root = new BorderPane();
-
+    HBox bottomButtons = new HBox();
+    VBox rightButtons = new VBox();
 
 
     @Override
@@ -37,74 +40,18 @@ public class Main extends Application{
         primaryStage.setTitle("Simulation");
         primaryStage.setScene(new Scene(root, WIDTH + 100, HEIGHT));
         primaryStage.show();
-        double seconds = 1;
 
-//        GOLSim sim = new GOLSim(100,100, WIDTH, HEIGHT);
- //       PercSim sim = new PercSim(100,100, WIDTH, HEIGHT);
-        //FireSim sim = new FireSim(100,100, WIDTH, HEIGHT);
-//        SegSim sim = new SegSim(30,30, WIDTH, HEIGHT);
         PredPreySim sim = new PredPreySim(50, 50, WIDTH, HEIGHT, currentParams);
 
         Visualizer vis = new Visualizer(sim.getGrid().length,sim.getGrid()[0].length,currentWidth, currentHeight, root, sim.getColorMap());
         currentSim = sim;
         currentViz = vis;
-        HBox bottomButtons = new HBox();
-        HBox bottomButtons2 = new HBox(30);
-        VBox rightButtons = new VBox();
-        HBox bigbox = new HBox();
 
-        Button seg= new Button("Segregation");
-        seg.setOnAction(e ->{
-            //sim = null;
-            SegSim temp = new SegSim(100,100, WIDTH, HEIGHT, currentParams);
-            currentSim = temp;
-            sim_helper(temp);
-        });
+        simbutton_setup();
 
-        Button gol= new Button("Game of Life");
-        gol.setOnAction(e ->{
-            //sim = null;
-            GOLSim temp = new GOLSim(100,100, WIDTH, HEIGHT, currentParams);
-            currentSim = temp;
-            sim_helper(temp);
-        });
-
-        Button perc= new Button("Percolation");
-        perc.setOnAction(e ->{
-            //sim = null;
-            PercSim temp = new PercSim(100,100, WIDTH, HEIGHT, currentParams);
-            currentSim = temp;
-            sim_helper(temp);
-        });
-
-        Button fire= new Button("Fire");
-        fire.setOnAction(e ->{
-            //sim = null;
-            Simulation temp = new FireSim(100,100, WIDTH, HEIGHT, currentParams);
-            sim_helper(temp);
-        });
-
-        Button pred= new Button("Pred Prey");
-        pred.setOnAction(e ->{
-            //sim = null;
-            PredPreySim temp = new PredPreySim(100,100, WIDTH, HEIGHT ,currentParams);
-            sim_helper(temp);
-        });
-
-        Button fast= new Button("Fast");
-        fast.setOnAction(e ->{
-            currentTimeline.setRate(seconds*10);
-        });
-
-        Button slow= new Button("Slow");
-        slow.setOnAction(e ->{
-            currentTimeline.setRate(seconds*0.5);
-        });
-
-        Button normal= new Button("Normal");
-        normal.setOnAction(e ->{
-            currentTimeline.setRate(seconds);
-        });
+        Button fast = makeSpeedButton("Fast", seconds*10);
+        Button normal = makeSpeedButton("Normal", seconds);
+        Button slow = makeSpeedButton("Slow", seconds*0.5);
 
         Button step= new Button("Step");
         step.setOnAction(e ->{
@@ -117,7 +64,6 @@ public class Main extends Application{
         root.setBottom(bottomButtons);
         root.setRight(rightButtons);
         bottomButtons.getChildren().addAll(slow,normal,fast,step);
-        rightButtons.getChildren().addAll(pred,fire,perc,seg,gol);
 
         vis.initialize(sim.getGrid());
         currentTimeline = new Timeline(
@@ -144,6 +90,58 @@ public class Main extends Application{
         currentTimeline.setCycleCount(Animation.INDEFINITE);
         currentTimeline.play();
     }
+
+    private Button makeSpeedButton(String name, Double speed) {
+        Button button = new Button(name);
+        button.setOnAction(e -> currentTimeline.setRate(speed));
+        return button;
+    }
+
+    private void simbutton_setup(){
+        Button seg= new Button("Segregation");
+        rightButtons.getChildren().add(seg);
+        seg.setOnAction(e ->{
+            //sim = null;
+            SegSim temp = new SegSim(100,100, WIDTH, HEIGHT, currentParams);
+            currentSim = temp;
+            sim_helper(temp);
+        });
+
+        Button gol= new Button("Game of Life");
+        rightButtons.getChildren().add(gol);
+        gol.setOnAction(e ->{
+            //sim = null;
+            GOLSim temp = new GOLSim(100,100, WIDTH, HEIGHT, currentParams);
+            currentSim = temp;
+            sim_helper(temp);
+        });
+
+        Button perc= new Button("Percolation");
+        rightButtons.getChildren().add(perc);
+        perc.setOnAction(e ->{
+            //sim = null;
+            PercSim temp = new PercSim(100,100, WIDTH, HEIGHT, currentParams);
+            currentSim = temp;
+            sim_helper(temp);
+        });
+
+        Button fire= new Button("Fire");
+        rightButtons.getChildren().add(fire);
+        fire.setOnAction(e ->{
+            //sim = null;
+            Simulation temp = new FireSim(100,100, WIDTH, HEIGHT, currentParams);
+            sim_helper(temp);
+        });
+
+        Button pred= new Button("Pred Prey");
+        rightButtons.getChildren().add(pred);
+        pred.setOnAction(e ->{
+            //sim = null;
+            PredPreySim temp = new PredPreySim(100,100, WIDTH, HEIGHT ,currentParams);
+            sim_helper(temp);
+        });
+    }
+
 
     public static void main (String[] args) {
         launch(args);
