@@ -10,8 +10,8 @@ public class PredPraySim extends Simulation {
 
     private int breedThreshFish = 3;
     private int breedThreshShark = 3;
-    private int defaultSharkEnergy = 6;
-    private int defaultFishEnergy = 1;
+    private int defaultSharkEnergy = 4;
+    private int defaultFishEnergy = 2;
     private Organism[][] organismGrid;
     private ArrayList<Organism> emptyCells;
     private ArrayList<Organism> fishThatNeedToMove;
@@ -31,33 +31,33 @@ public class PredPraySim extends Simulation {
             for(int j = 0; j<simCols;j++) {
                 double choice = Math.random();
                 //System.out.println(choice);
-//                if (choice<=.792) {
-//                    organismGrid[i][j] = new Organism(i,j,"fish",0, defaultFishEnergy);
-//                    organismGrid[i][j].setNextState(new Organism(i,j,"fish",0,defaultFishEnergy));
-//                    grid[i][j] = "fish";
-//                }
-//                else if (choice>=.80) {
-//                    organismGrid[i][j] = new Organism(i,j,"kelp",0,0);
-//                    organismGrid[i][j].setNextState(new Organism(i,j,"kelp",0,0));
-//                    grid[i][j] = "kelp";
-//                }
-//                else {
-//                    organismGrid[i][j] = new Organism(i,j,"shark", 0, defaultSharkEnergy);
-//                    organismGrid[i][j].setNextState(new Organism(i,j,"shark", 0, defaultSharkEnergy));
-//                    grid[i][j] = "shark";
-//                }
-                organismGrid[i][j] = new Organism(i,j,"kelp", 0, 0);
-                organismGrid[i][j].setNextState(new Organism(i,j,"kelp", 0, 0));
-                grid[i][j] = "kelp";
+                if (choice<=.792) {
+                    organismGrid[i][j] = new Organism(i,j,"fish",0, defaultFishEnergy);
+                    organismGrid[i][j].setNextState(new Organism(i,j,"fish",0,defaultFishEnergy));
+                    grid[i][j] = "fish";
+                }
+                else if (choice>=.80) {
+                    organismGrid[i][j] = new Organism(i,j,"kelp",0,0);
+                    organismGrid[i][j].setNextState(new Organism(i,j,"kelp",0,0));
+                    grid[i][j] = "kelp";
+                }
+                else {
+                    organismGrid[i][j] = new Organism(i,j,"shark", 0, defaultSharkEnergy);
+                    organismGrid[i][j].setNextState(new Organism(i,j,"shark", 0, defaultSharkEnergy));
+                    grid[i][j] = "shark";
+                }
+//                organismGrid[i][j] = new Organism(i,j,"kelp", 0, 0);
+//                organismGrid[i][j].setNextState(new Organism(i,j,"kelp", 0, 0));
+//                grid[i][j] = "kelp";
             }
         }
-        organismGrid[25][25] = new Organism(25,25,"shark", 0, defaultSharkEnergy);
-        organismGrid[25][25].setNextState(new Organism(25,25,"shark", 0, defaultSharkEnergy));
-        grid[25][25] = "shark";
-
-        organismGrid[25][26] = new Organism(25,26,"fish", 0, defaultFishEnergy);
-        organismGrid[25][26].setNextState(new Organism(25,26,"fish", 0, defaultFishEnergy));
-        grid[25][26] = "fish";
+//        organismGrid[25][25] = new Organism(25,25,"shark", 0, defaultSharkEnergy);
+//        organismGrid[25][25].setNextState(new Organism(25,25,"shark", 0, defaultSharkEnergy));
+//        grid[25][25] = "shark";
+//
+//        organismGrid[25][26] = new Organism(25,26,"fish", 0, defaultFishEnergy);
+//        organismGrid[25][26].setNextState(new Organism(25,26,"fish", 0, defaultFishEnergy));
+//        grid[25][26] = "fish";
     }
 
 
@@ -100,10 +100,8 @@ public class PredPraySim extends Simulation {
 //            System.out.println("Energy: "+organismGrid[25][25].getEnergy());
 //            //System.out.println("Next State: "+organismGrid[25][25].getNextState().getName());
 //        }
-        if(organismGrid[x][y].getName().equals("kelp")|| (organismGrid[x][y].getName().equals("shark") && organismGrid[x][y].getEnergy()<=0))
-        {
-            if(organismGrid[x][y].getName().equals("shark"))
-            {
+        if(organismGrid[x][y].getName().equals("kelp")|| (organismGrid[x][y].getName().equals("shark") && organismGrid[x][y].getEnergy()<=0)) {
+            if(organismGrid[x][y].getName().equals("shark")) {
                 System.out.println("Realizing it is 0 "+organismGrid[x][y].getName());
                 sharksThatNeedToMove.remove(organismGrid[x][y]);
             }
@@ -161,10 +159,12 @@ public class PredPraySim extends Simulation {
                 int fishListIndex = (int)(Math.random()*fishList.size());
                 fishThatNeedToMove.remove(fishList.get(fishListIndex));
                 eatFish(current, fishList.get(fishListIndex));
-            } else if (kelpList.size() > 0) {
+            }
+            else if (kelpList.size() > 0) {
                 int kelpListIndex = (int)(Math.random()*kelpList.size());
                 sharkMovesToKelpCell(current, kelpList.get(kelpListIndex));
-            } else {
+            }
+            else {
                 current.setNextState(current);
             }
         }
@@ -191,20 +191,17 @@ public class PredPraySim extends Simulation {
         destination.setNextState(new Organism(destination.x, destination.y, name, source.getLives(), currentEnergy));
     }
 
-    public void checkBreed(Organism source)
-    {
+    public void checkBreed(Organism source) {
 
-        if(source.getName().equals("fish") && source.getLives()>breedThreshFish)
-        {
+        if(source.getName().equals("fish") && source.getLives()>breedThreshFish) {
             source.setNextState(new Organism(source.x, source.y, source.getName(), 0, defaultFishEnergy));
             source.setLife(0);
-        }else if(source.getName().equals("fish") && source.getLives()>breedThreshShark)
-        {
+        }
+        else if(source.getName().equals("shark") && source.getLives()>breedThreshShark && source.getEnergy() > (defaultSharkEnergy / 2)) {
             source.setNextState(new Organism(source.x, source.y, source.getName(), 0, defaultSharkEnergy));
             source.setLife(0);
         }
-         else
-        {
+         else {
             //System.out.println("YEET");
             source.setNextState(new Organism(source.x, source.y, "kelp", 0, 0));
         }
