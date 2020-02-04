@@ -1,6 +1,8 @@
 package cellsociety;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.DocumentBuilder;
@@ -10,29 +12,34 @@ import org.w3c.dom.Node;
 import org.w3c.dom.Element;
 
 public class xml_parser {
-
+    static HashMap<String, ArrayList<String>> sims = new HashMap<>();
+    static ArrayList<String> fireParams = new ArrayList<String>(Arrays.asList("grid_width", "grid_height", "probCatch", "percentBurning"));
+    static ArrayList<String> percParams = new ArrayList<String>(Arrays.asList("grid_width", "grid_height", "percentEmpty", "percentBlocked"));
+    static ArrayList<String> GOLParams = new ArrayList<String>(Arrays.asList("grid_width", "grid_height", "percentAlive"));
+    static ArrayList<String> segParams = new ArrayList<String>(Arrays.asList("grid_width", "grid_height", "probSatisfy", "percentX", "percentO"));
+    static ArrayList<String> predPreyParams = new ArrayList<String>(Arrays.asList("grid_width", "grid_height", "percentFish", "percentSharks", "breedThreshFish", "breedThreshShark", "defaultSharkEnergy", "defaultFishEnergy"));
     public static void main(String[] args)
     {
 
     }
-    public static HashMap<String,Double> readPredPreyFile() {
+    public static HashMap<String,Double> readFile(String file) {
+        sims.putIfAbsent("pred_prey.xml",predPreyParams);
+        sims.putIfAbsent("fire.xml",fireParams);
+        sims.putIfAbsent("percolate.xml",percParams);
+        sims.putIfAbsent("game_of_life.xml",GOLParams);
+        sims.putIfAbsent("segregation.xml",segParams);
         HashMap<String,Double> paramMap = new HashMap<>();
         try {
-            File inputFile = new File("Resources/pred_prey.xml");
+            File inputFile = new File("Resources\\"+file);
+
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(inputFile);
             doc.getDocumentElement().normalize();
-//            System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
-            paramMap.putIfAbsent("gridWidth",Double.parseDouble(doc.getDocumentElement().getElementsByTagName("grid_width").item(0).getTextContent()));
-            paramMap.putIfAbsent("gridHeight",Double.parseDouble(doc.getDocumentElement().getElementsByTagName("grid_height").item(0).getTextContent()));
-            paramMap.putIfAbsent("percentFish",Double.parseDouble(doc.getDocumentElement().getElementsByTagName("percentFish").item(0).getTextContent()));
-            paramMap.putIfAbsent("percentSharks",Double.parseDouble(doc.getDocumentElement().getElementsByTagName("percentSharks").item(0).getTextContent()));
-            paramMap.putIfAbsent("breedThreshFish",Double.parseDouble(doc.getDocumentElement().getElementsByTagName("breedThreshFish").item(0).getTextContent()));
-            paramMap.putIfAbsent("breedThreshShark",Double.parseDouble(doc.getDocumentElement().getElementsByTagName("breedThreshShark").item(0).getTextContent()));
-            paramMap.putIfAbsent("defaultSharkEnergy",Double.parseDouble(doc.getDocumentElement().getElementsByTagName("defaultSharkEnergy").item(0).getTextContent()));
-            paramMap.putIfAbsent("defaultFishEnergy",Double.parseDouble(doc.getDocumentElement().getElementsByTagName("defaultFishEnergy").item(0).getTextContent()));
-
+            for(String s: sims.get(file))
+            {
+                paramMap.putIfAbsent(s,Double.parseDouble(doc.getDocumentElement().getElementsByTagName(s).item(0).getTextContent()));
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

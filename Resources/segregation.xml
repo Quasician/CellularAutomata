@@ -4,7 +4,6 @@
     <grid_width>125</grid_width>
     <grid_height>125</grid_height>
     <probSatisfy>0.75</probSatisfy>
-    <percentEmpty>0.333</percentEmpty>
     <percentX>0.333</percentX>
     <percentO>0.333</percentO>
 </title>

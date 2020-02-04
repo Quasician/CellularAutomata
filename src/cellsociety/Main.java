@@ -39,13 +39,18 @@ public class Main extends Application{
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+
+        currentParams = xml_parser.readFile("pred_prey.xml");
         properties = new GetPropertyValues();
-        currentParams = xml_parser.readPredPreyFile();
-        primaryStage.setTitle(properties.getPropValues("title"));
+        primaryStage.setTitle("Simulation");
         primaryStage.setScene(new Scene(root, WIDTH + 100, HEIGHT));
         primaryStage.show();
+//        GOLSim sim = new GOLSim(100,100, WIDTH, HEIGHT);
+ //       PercSim sim = new PercSim(100,100, WIDTH, HEIGHT);
+        //FireSim sim = new FireSim(100,100, WIDTH, HEIGHT);
+//        SegSim sim = new SegSim(30,30, WIDTH, HEIGHT);
+        PredPreySim sim = new PredPreySim(currentParams.get("grid_height"),currentParams.get("grid_width"), WIDTH, HEIGHT, currentParams);
 
-        PredPreySim sim = new PredPreySim(ROW, COLS, WIDTH, HEIGHT, currentParams);
 
         Visualizer vis = new Visualizer(sim.getGrid().length,sim.getGrid()[0].length,WIDTH, HEIGHT, root, sim.getColorMap());
         currentSim = sim;
@@ -56,6 +61,8 @@ public class Main extends Application{
         Button fast = makeSpeedButton(properties.getPropValues("buttonFast"), seconds*10);
         Button normal = makeSpeedButton(properties.getPropValues("buttonNormal"), seconds);
         Button slow = makeSpeedButton(properties.getPropValues("buttonSlow"), seconds*0.5);
+        Button play = makeSpeedButton(properties.getPropValues("buttonPlay"), seconds);
+        Button pause = makeSpeedButton(properties.getPropValues("buttonPause"), 0.0);
 
         Button step= new Button(properties.getPropValues("buttonStep"));
         step.setOnAction(e ->{
@@ -67,7 +74,7 @@ public class Main extends Application{
 
         root.setBottom(bottomButtons);
         root.setRight(rightButtons);
-        bottomButtons.getChildren().addAll(slow,normal,fast,step);
+        bottomButtons.getChildren().addAll(slow,normal,fast,step, play, pause);
 
         vis.initialize(sim.getGrid());
         currentTimeline = new Timeline(
@@ -107,7 +114,8 @@ public class Main extends Application{
         rightButtons.getChildren().add(seg);
         seg.setOnAction(e ->{
             //sim = null;
-            SegSim temp = new SegSim(ROW,COLS, WIDTH, HEIGHT, currentParams);
+            currentParams = xml_parser.readFile("segregation.xml");
+            SegSim temp = new SegSim(currentParams.get("grid_height"),currentParams.get("grid_width"), WIDTH, HEIGHT, currentParams);
             currentSim = temp;
             sim_helper(temp);
         });
@@ -116,7 +124,9 @@ public class Main extends Application{
         rightButtons.getChildren().add(gol);
         gol.setOnAction(e ->{
             //sim = null;
-            GOLSim temp = new GOLSim(ROW,COLS, WIDTH, HEIGHT, currentParams);
+            currentParams = xml_parser.readFile("game_of_life.xml");
+            GOLSim temp = new GOLSim(currentParams.get("grid_height"),currentParams.get("grid_width"), WIDTH, HEIGHT, currentParams);
+
             currentSim = temp;
             sim_helper(temp);
         });
@@ -125,7 +135,10 @@ public class Main extends Application{
         rightButtons.getChildren().add(perc);
         perc.setOnAction(e ->{
             //sim = null;
-            PercSim temp = new PercSim(ROW,COLS, WIDTH, HEIGHT, currentParams);
+
+            currentParams = xml_parser.readFile("percolate.xml");
+            PercSim temp = new PercSim(currentParams.get("grid_height"),currentParams.get("grid_width"), WIDTH, HEIGHT, currentParams);
+
             currentSim = temp;
             sim_helper(temp);
         });
@@ -134,7 +147,10 @@ public class Main extends Application{
         rightButtons.getChildren().add(fire);
         fire.setOnAction(e ->{
             //sim = null;
-            Simulation temp = new FireSim(ROW,COLS, WIDTH, HEIGHT, currentParams);
+
+            currentParams = xml_parser.readFile("fire.xml");
+            Simulation temp = new FireSim(currentParams.get("grid_height"),currentParams.get("grid_width"), WIDTH, HEIGHT, currentParams);
+
             sim_helper(temp);
         });
 
@@ -142,7 +158,9 @@ public class Main extends Application{
         rightButtons.getChildren().add(pred);
         pred.setOnAction(e ->{
             //sim = null;
-            PredPreySim temp = new PredPreySim(ROW,COLS, WIDTH, HEIGHT ,currentParams);
+
+            currentParams = xml_parser.readFile("pred_prey.xml");
+            PredPreySim temp = new PredPreySim(currentParams.get("grid_height"),currentParams.get("grid_width"), WIDTH, HEIGHT ,currentParams);
             sim_helper(temp);
         });
     }
