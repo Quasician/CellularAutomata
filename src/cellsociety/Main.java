@@ -1,5 +1,6 @@
 package cellsociety;
 
+import configuration.GetPropertyValues;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -16,14 +17,15 @@ import javafx.util.Duration;
 
 import java.awt.event.ActionEvent;
 import java.beans.EventHandler;
+import java.io.IOException;
 import java.util.HashMap;
 
 public class Main extends Application{
 
     private final static int WIDTH = 500;
     private final static int HEIGHT = 500;
-    int currentWidth = WIDTH;
-    int currentHeight = HEIGHT;
+    private final static int ROW = 125;
+    private final static int COLS = 125;
     Timeline currentTimeline;
     HashMap<String,Double> currentParams;
     Simulation currentSim;
@@ -32,12 +34,14 @@ public class Main extends Application{
     BorderPane root = new BorderPane();
     HBox bottomButtons = new HBox();
     VBox rightButtons = new VBox();
+    GetPropertyValues properties;
 
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        currentParams = xml_parser.readFile("pred_prey.xml");
 
+        currentParams = xml_parser.readFile("pred_prey.xml");
+        properties = new GetPropertyValues();
         primaryStage.setTitle("Simulation");
         primaryStage.setScene(new Scene(root, WIDTH + 100, HEIGHT));
         primaryStage.show();
@@ -47,17 +51,18 @@ public class Main extends Application{
 //        SegSim sim = new SegSim(30,30, WIDTH, HEIGHT);
         PredPreySim sim = new PredPreySim(currentParams.get("grid_height"),currentParams.get("grid_width"), WIDTH, HEIGHT, currentParams);
 
-        Visualizer vis = new Visualizer(sim.getGrid().length,sim.getGrid()[0].length,currentWidth, currentHeight, root, sim.getColorMap());
+
+        Visualizer vis = new Visualizer(sim.getGrid().length,sim.getGrid()[0].length,WIDTH, HEIGHT, root, sim.getColorMap());
         currentSim = sim;
         currentViz = vis;
 
         simbutton_setup();
 
-        Button fast = makeSpeedButton("Fast", seconds*10);
-        Button normal = makeSpeedButton("Normal", seconds);
-        Button slow = makeSpeedButton("Slow", seconds*0.5);
+        Button fast = makeSpeedButton(properties.getPropValues("buttonFast"), seconds*10);
+        Button normal = makeSpeedButton(properties.getPropValues("buttonNormal"), seconds);
+        Button slow = makeSpeedButton(properties.getPropValues("buttonSlow"), seconds*0.5);
 
-        Button step= new Button("Step");
+        Button step= new Button(properties.getPropValues("buttonStep"));
         step.setOnAction(e ->{
             currentTimeline.setRate(0);
             currentSim.updateGrid();
@@ -82,7 +87,7 @@ public class Main extends Application{
 
     public void sim_helper(Simulation temp){
         currentSim = temp;
-        Visualizer vis1 = new Visualizer(temp.getGrid().length,temp.getGrid()[0].length,currentWidth, currentHeight, root, temp.getColorMap());
+        Visualizer vis1 = new Visualizer(temp.getGrid().length,temp.getGrid()[0].length,WIDTH, HEIGHT, root, temp.getColorMap());
         currentViz = vis1;
         vis1.initialize(temp.getGrid());
         currentTimeline = new Timeline(
@@ -101,8 +106,9 @@ public class Main extends Application{
         return button;
     }
 
-    private void simbutton_setup(){
-        Button seg= new Button("Segregation");
+    private void simbutton_setup() throws IOException {
+        properties = new GetPropertyValues();
+        Button seg= new Button(properties.getPropValues("buttonSeg"));
         rightButtons.getChildren().add(seg);
         seg.setOnAction(e ->{
             //sim = null;
@@ -112,43 +118,47 @@ public class Main extends Application{
             sim_helper(temp);
         });
 
-        Button gol= new Button("Game of Life");
+        Button gol= new Button(properties.getPropValues("buttonGol"));
         rightButtons.getChildren().add(gol);
         gol.setOnAction(e ->{
             //sim = null;
             currentParams = xml_parser.readFile("game_of_life.xml");
             GOLSim temp = new GOLSim(currentParams.get("grid_height"),currentParams.get("grid_width"), WIDTH, HEIGHT, currentParams);
+
             currentSim = temp;
             sim_helper(temp);
         });
 
-        Button perc= new Button("Percolation");
+        Button perc= new Button(properties.getPropValues("buttonPerc"));
         rightButtons.getChildren().add(perc);
         perc.setOnAction(e ->{
             //sim = null;
+
             currentParams = xml_parser.readFile("percolate.xml");
             PercSim temp = new PercSim(currentParams.get("grid_height"),currentParams.get("grid_width"), WIDTH, HEIGHT, currentParams);
+
             currentSim = temp;
             sim_helper(temp);
         });
 
-        Button fire= new Button("Fire");
+        Button fire= new Button(properties.getPropValues("buttonFire"));
         rightButtons.getChildren().add(fire);
         fire.setOnAction(e ->{
             //sim = null;
 
             currentParams = xml_parser.readFile("fire.xml");
             Simulation temp = new FireSim(currentParams.get("grid_height"),currentParams.get("grid_width"), WIDTH, HEIGHT, currentParams);
+
             sim_helper(temp);
         });
 
-        Button pred= new Button("Pred Prey");
+        Button pred= new Button(properties.getPropValues("buttonPP"));
         rightButtons.getChildren().add(pred);
         pred.setOnAction(e ->{
             //sim = null;
+
             currentParams = xml_parser.readFile("pred_prey.xml");
             PredPreySim temp = new PredPreySim(currentParams.get("grid_height"),currentParams.get("grid_width"), WIDTH, HEIGHT ,currentParams);
-
             sim_helper(temp);
         });
     }
