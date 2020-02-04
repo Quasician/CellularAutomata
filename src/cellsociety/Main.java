@@ -26,14 +26,19 @@ public class Main extends Application{
     HashMap<String,Double> currentParams;
     Simulation currentSim;
     Visualizer currentViz;
+    double seconds = 1;
+    BorderPane root = new BorderPane();
+
+
+
     @Override
     public void start(Stage primaryStage) throws Exception {
         currentParams = xml_parser.readPredPreyFile();
-        BorderPane root = new BorderPane();
         primaryStage.setTitle("Simulation");
         primaryStage.setScene(new Scene(root, WIDTH + 100, HEIGHT));
         primaryStage.show();
         double seconds = 1;
+
 //        GOLSim sim = new GOLSim(100,100, WIDTH, HEIGHT);
  //       PercSim sim = new PercSim(100,100, WIDTH, HEIGHT);
         //FireSim sim = new FireSim(100,100, WIDTH, HEIGHT);
@@ -48,106 +53,42 @@ public class Main extends Application{
         VBox rightButtons = new VBox();
         HBox bigbox = new HBox();
 
-
-
         Button seg= new Button("Segregation");
-
         seg.setOnAction(e ->{
             //sim = null;
             SegSim temp = new SegSim(100,100, WIDTH, HEIGHT, currentParams);
             currentSim = temp;
-            Visualizer vis1 = new Visualizer(temp.getGrid().length,temp.getGrid()[0].length,currentWidth, currentHeight, root, temp.getColorMap());
-            currentViz = vis1;
-            vis1.initialize(temp.getGrid());
-            currentTimeline = new Timeline(
-                    new KeyFrame(Duration.seconds(seconds), j -> {
-                        temp.updateGrid();
-                        vis1.colorGrid(temp.getGrid());
-                    })
-            );
-            currentTimeline.setCycleCount(Animation.INDEFINITE);
-            currentTimeline.play();
-
+            sim_helper(temp);
         });
 
         Button gol= new Button("Game of Life");
-
         gol.setOnAction(e ->{
             //sim = null;
             GOLSim temp = new GOLSim(100,100, WIDTH, HEIGHT, currentParams);
             currentSim = temp;
-            Visualizer vis1 = new Visualizer(temp.getGrid().length,temp.getGrid()[0].length,currentWidth, currentHeight, root, temp.getColorMap());
-            currentViz = vis1;
-            vis1.initialize(temp.getGrid());
-            currentTimeline = new Timeline(
-                    new KeyFrame(Duration.seconds(seconds), j -> {
-                        temp.updateGrid();
-                        vis1.colorGrid(temp.getGrid());
-                    })
-            );
-            currentTimeline.setCycleCount(Animation.INDEFINITE);
-            currentTimeline.play();
-
+            sim_helper(temp);
         });
 
         Button perc= new Button("Percolation");
-
         perc.setOnAction(e ->{
             //sim = null;
             PercSim temp = new PercSim(100,100, WIDTH, HEIGHT, currentParams);
             currentSim = temp;
-            Visualizer vis1 = new Visualizer(temp.getGrid().length,temp.getGrid()[0].length,currentWidth, currentHeight, root, temp.getColorMap());
-            currentViz = vis1;
-            vis1.initialize(temp.getGrid());
-            currentTimeline = new Timeline(
-                    new KeyFrame(Duration.seconds(seconds), j -> {
-                        temp.updateGrid();
-                        vis1.colorGrid(temp.getGrid());
-                    })
-            );
-            currentTimeline.setCycleCount(Animation.INDEFINITE);
-            currentTimeline.play();
-
+            sim_helper(temp);
         });
 
         Button fire= new Button("Fire");
-
         fire.setOnAction(e ->{
             //sim = null;
             Simulation temp = new FireSim(100,100, WIDTH, HEIGHT, currentParams);
-            currentSim = temp;
-            Visualizer vis1 = new Visualizer(temp.getGrid().length,temp.getGrid()[0].length,currentWidth, currentHeight, root, temp.getColorMap());
-            currentViz = vis1;
-            vis1.initialize(temp.getGrid());
-            currentTimeline = new Timeline(
-                    new KeyFrame(Duration.seconds(seconds), j -> {
-                        temp.updateGrid();
-                        vis1.colorGrid(temp.getGrid());
-                    })
-            );
-            currentTimeline.setCycleCount(Animation.INDEFINITE);
-            currentTimeline.play();
-
+            sim_helper(temp);
         });
 
         Button pred= new Button("Pred Prey");
-
         pred.setOnAction(e ->{
             //sim = null;
             PredPreySim temp = new PredPreySim(100,100, WIDTH, HEIGHT ,currentParams);
-            currentSim = temp;
-            Visualizer vis1 = new Visualizer(temp.getGrid().length,temp.getGrid()[0].length,currentWidth, currentHeight, root, temp.getColorMap());
-            currentViz = vis1;
-            vis1.initialize(temp.getGrid());
-            currentTimeline = new Timeline(
-                    new KeyFrame(Duration.seconds(seconds), j -> {
-                        temp.updateGrid();
-                        vis1.colorGrid(temp.getGrid());
-                    })
-            );
-            currentTimeline.setCycleCount(Animation.INDEFINITE);
-            currentTimeline.play();
-
+            sim_helper(temp);
         });
 
         Button fast= new Button("Fast");
@@ -175,19 +116,29 @@ public class Main extends Application{
 
         root.setBottom(bottomButtons);
         root.setRight(rightButtons);
-//        bottomButtons2.setLayoutX(300);
-//        bottomButtons2.setLayoutY(450);
         bottomButtons.getChildren().addAll(slow,normal,fast,step);
         rightButtons.getChildren().addAll(pred,fire,perc,seg,gol);
-        //bigbox.getChildren().addAll(bottomButtons,bottomButtons2);
-        //bigbox.setAlignment(Pos.BOTTOM_CENTER);
-
 
         vis.initialize(sim.getGrid());
         currentTimeline = new Timeline(
                 new KeyFrame(Duration.seconds(seconds), e -> {
                     sim.updateGrid();
                     vis.colorGrid(sim.getGrid());
+                })
+        );
+        currentTimeline.setCycleCount(Animation.INDEFINITE);
+        currentTimeline.play();
+    }
+
+    public void sim_helper(Simulation temp){
+        currentSim = temp;
+        Visualizer vis1 = new Visualizer(temp.getGrid().length,temp.getGrid()[0].length,currentWidth, currentHeight, root, temp.getColorMap());
+        currentViz = vis1;
+        vis1.initialize(temp.getGrid());
+        currentTimeline = new Timeline(
+                new KeyFrame(Duration.seconds(seconds), j -> {
+                    temp.updateGrid();
+                    vis1.colorGrid(temp.getGrid());
                 })
         );
         currentTimeline.setCycleCount(Animation.INDEFINITE);
