@@ -18,7 +18,7 @@ public class xml_parser {
     public static HashMap<String,Double> readPredPreyFile() {
         HashMap<String,Double> paramMap = new HashMap<>();
         try {
-            File inputFile = new File("Resources\\pred_prey.xml");
+            File inputFile = new File("Resources/pred_prey.xml");
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(inputFile);
