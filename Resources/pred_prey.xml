@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<title>PredPrey xml file
+<title>Predator Prey xml file
     <author>Vineet Alaparthi</author>
-    <grid_width>50</grid_width>
-    <grid_height>50</grid_height>
+    <grid_width>125</grid_width>
+    <grid_height>125</grid_height>
     <breedThreshFish>3</breedThreshFish>
     <breedThreshShark>3</breedThreshShark>
     <defaultSharkEnergy>4</defaultSharkEnergy>
     <defaultFishEnergy>2</defaultFishEnergy>
-    <percentFish>.3</percentFish>
-    <percentSharks>.008</percentSharks>
+    <percentFish>0.3</percentFish>
+    <percentSharks>0.008</percentSharks>
 </title>
