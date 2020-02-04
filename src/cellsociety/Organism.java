@@ -2,10 +2,10 @@ package cellsociety;
 
 import java.util.ArrayList;
 
-public abstract class Organism {
+public class Organism {
 
-    protected String currentState;
-    protected String nextState;
+    protected String name;
+    protected Organism nextState;
     protected int lives;
     protected int breedThresh;
     protected int energy;
@@ -13,35 +13,26 @@ public abstract class Organism {
     protected int y;
     protected Organism[] neighbors;
 
-
-    protected int breedThreshFish = 3;
-    protected int breedThreshShark = 1;
-    protected int defaultSharkEnergy = 3;
-    protected int defaultFishEnergy = 2;
-
-    public Organism(int x, int y, String name, int lives, int breedThresh, int energy) {
-        this.currentState = name;
+    public Organism(int x, int y, String name, int lives, int energy) {
+        this.name = name;
         this.lives = lives;
-        this.breedThresh = breedThresh;
         this.energy = energy;
         this.x = x;
         this.y = y;
     }
 
     public Organism(String name) {
-        this.currentState = name;
+        this.name = name;
     }
 
-    public String getCurrentState() {return currentState;}
-    public String getNextState() {return nextState;}
-    public void setCurrentState(String input)
-    {
-        currentState = input;
-    }
-    public void setNextState(String input)
+    public String getName() {return name;}
+    public Organism getNextState() {return nextState;}
+
+    public void setNextState(Organism input)
     {
        nextState = input;
     }
+
     public void increaseLives() {lives++;}
 
     public void decreaseEnergy() {energy--;}
@@ -51,7 +42,7 @@ public abstract class Organism {
     public void setEnergy(int input) {energy = input;}
     public int getBreedThresh() {return breedThresh;}
 
-    public abstract void move(int x, int y, Organism[][] grid, Organism[][] gridCopy, ArrayList<Organism> emptyCells);
+    //public void move(int x, int y, Organism[][] grid, Organism[][] gridCopy, ArrayList<Organism> emptyCells);
 
 //    public Organism top(Organism[][] gridCopy, int x, int y) { return gridCopy[(x+gridCopy.length)%gridCopy.length][(y+1+gridCopy[0].length)%gridCopy[0].length];}
 //    public Organism bottom(Organism[][] gridCopy, int x, int y) { return gridCopy[(x+gridCopy.length)%gridCopy.length][(y-1+gridCopy[0].length)%gridCopy[0].length];}
@@ -67,7 +58,7 @@ public abstract class Organism {
 //        return neighbors;
 //    }
 
-    public Organism[] get4Neighbors(int x, int y, Organism[][] gridCopy) {
+    private Organism[] get4Neighbors(int x, int y, Organism[][] gridCopy) {
         Organism[] neighbors = new Organism[4];
         int count = 0;
         for(int i = x-1; i<=x+1;i++)
@@ -87,7 +78,35 @@ public abstract class Organism {
         return neighbors;
     }
 
-    public void setName(String input) {this.currentState = input;}
+    public ArrayList<Organism> getFish(int x, int y, Organism[][] gridCopy)
+    {
+        Organism[] neighbors = get4Neighbors(x,y,gridCopy);
+        ArrayList<Organism> fishList = new ArrayList<Organism>();
+        for(Organism i: neighbors)
+        {
+            if(i.getName().equals("fish"))
+            {
+                fishList.add(i);
+            }
+        }
+        return fishList;
+    }
+
+    public ArrayList<Organism> getKelpAndFutureEmpty(int x, int y, Organism[][] gridCopy)
+    {
+        Organism[] neighbors = get4Neighbors(x,y,gridCopy);
+        ArrayList<Organism> kelpAndFutureEmptyList = new ArrayList<Organism>();
+        for(Organism i: neighbors)
+        {
+            if(i.getName().equals("kelp") && (i.getNextState() == null || i.getNextState().getName().equals("kelp")))
+            {
+                kelpAndFutureEmptyList.add(i);
+            }
+        }
+        return kelpAndFutureEmptyList;
+    }
+
+    public void setName(String input) {this.name = input;}
     public int getLives() {return lives;}
     public void setLife(int input) {this.lives = input;}
 
