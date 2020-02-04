@@ -31,6 +31,7 @@ public class xml_parser {
         HashMap<String,Double> paramMap = new HashMap<>();
         try {
             File inputFile = new File("Resources\\"+file);
+
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(inputFile);

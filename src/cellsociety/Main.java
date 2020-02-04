@@ -14,6 +14,8 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.awt.event.ActionEvent;
+import java.beans.EventHandler;
 import java.util.HashMap;
 
 public class Main extends Application{
@@ -26,14 +28,19 @@ public class Main extends Application{
     HashMap<String,Double> currentParams;
     Simulation currentSim;
     Visualizer currentViz;
+    double seconds = 1;
+    BorderPane root = new BorderPane();
+    HBox bottomButtons = new HBox();
+    VBox rightButtons = new VBox();
+
+
     @Override
     public void start(Stage primaryStage) throws Exception {
         currentParams = xml_parser.readFile("pred_prey.xml");
-        BorderPane root = new BorderPane();
+
         primaryStage.setTitle("Simulation");
         primaryStage.setScene(new Scene(root, WIDTH + 100, HEIGHT));
         primaryStage.show();
-        double seconds = 1;
 //        GOLSim sim = new GOLSim(100,100, WIDTH, HEIGHT);
  //       PercSim sim = new PercSim(100,100, WIDTH, HEIGHT);
         //FireSim sim = new FireSim(100,100, WIDTH, HEIGHT);
@@ -43,132 +50,12 @@ public class Main extends Application{
         Visualizer vis = new Visualizer(sim.getGrid().length,sim.getGrid()[0].length,currentWidth, currentHeight, root, sim.getColorMap());
         currentSim = sim;
         currentViz = vis;
-        HBox bottomButtons = new HBox();
-        HBox bottomButtons2 = new HBox(30);
-        VBox rightButtons = new VBox();
-        HBox bigbox = new HBox();
 
+        simbutton_setup();
 
-
-        Button seg= new Button("Segregation");
-
-        seg.setOnAction(e ->{
-            //sim = null;
-            currentParams = xml_parser.readFile("segregation.xml");
-            SegSim temp = new SegSim(currentParams.get("grid_height"),currentParams.get("grid_width"), WIDTH, HEIGHT, currentParams);
-            currentSim = temp;
-            Visualizer vis1 = new Visualizer(temp.getGrid().length,temp.getGrid()[0].length,currentWidth, currentHeight, root, temp.getColorMap());
-            currentViz = vis1;
-            vis1.initialize(temp.getGrid());
-            currentTimeline = new Timeline(
-                    new KeyFrame(Duration.seconds(seconds), j -> {
-                        temp.updateGrid();
-                        vis1.colorGrid(temp.getGrid());
-                    })
-            );
-            currentTimeline.setCycleCount(Animation.INDEFINITE);
-            currentTimeline.play();
-
-        });
-
-        Button gol= new Button("Game of Life");
-
-        gol.setOnAction(e ->{
-            //sim = null;
-            currentParams = xml_parser.readFile("game_of_life.xml");
-            GOLSim temp = new GOLSim(currentParams.get("grid_height"),currentParams.get("grid_width"), WIDTH, HEIGHT, currentParams);
-            currentSim = temp;
-            Visualizer vis1 = new Visualizer(temp.getGrid().length,temp.getGrid()[0].length,currentWidth, currentHeight, root, temp.getColorMap());
-            currentViz = vis1;
-            vis1.initialize(temp.getGrid());
-            currentTimeline = new Timeline(
-                    new KeyFrame(Duration.seconds(seconds), j -> {
-                        temp.updateGrid();
-                        vis1.colorGrid(temp.getGrid());
-                    })
-            );
-            currentTimeline.setCycleCount(Animation.INDEFINITE);
-            currentTimeline.play();
-
-        });
-
-        Button perc= new Button("Percolation");
-
-        perc.setOnAction(e ->{
-            //sim = null;
-            currentParams = xml_parser.readFile("percolate.xml");
-            PercSim temp = new PercSim(currentParams.get("grid_height"),currentParams.get("grid_width"), WIDTH, HEIGHT, currentParams);
-            currentSim = temp;
-            Visualizer vis1 = new Visualizer(temp.getGrid().length,temp.getGrid()[0].length,currentWidth, currentHeight, root, temp.getColorMap());
-            currentViz = vis1;
-            vis1.initialize(temp.getGrid());
-            currentTimeline = new Timeline(
-                    new KeyFrame(Duration.seconds(seconds), j -> {
-                        temp.updateGrid();
-                        vis1.colorGrid(temp.getGrid());
-                    })
-            );
-            currentTimeline.setCycleCount(Animation.INDEFINITE);
-            currentTimeline.play();
-
-        });
-
-        Button fire= new Button("Fire");
-
-        fire.setOnAction(e ->{
-            //sim = null;
-            currentParams = xml_parser.readFile("fire.xml");
-            Simulation temp = new FireSim(currentParams.get("grid_height"),currentParams.get("grid_width"), WIDTH, HEIGHT, currentParams);
-            currentSim = temp;
-            Visualizer vis1 = new Visualizer(temp.getGrid().length,temp.getGrid()[0].length,currentWidth, currentHeight, root, temp.getColorMap());
-            currentViz = vis1;
-            vis1.initialize(temp.getGrid());
-            currentTimeline = new Timeline(
-                    new KeyFrame(Duration.seconds(seconds), j -> {
-                        temp.updateGrid();
-                        vis1.colorGrid(temp.getGrid());
-                    })
-            );
-            currentTimeline.setCycleCount(Animation.INDEFINITE);
-            currentTimeline.play();
-
-        });
-
-        Button pred= new Button("Pred Prey");
-
-        pred.setOnAction(e ->{
-            //sim = null;
-            currentParams = xml_parser.readFile("pred_prey.xml");
-            PredPreySim temp = new PredPreySim(currentParams.get("grid_height"),currentParams.get("grid_width"), WIDTH, HEIGHT ,currentParams);
-            currentSim = temp;
-            Visualizer vis1 = new Visualizer(temp.getGrid().length,temp.getGrid()[0].length,currentWidth, currentHeight, root, temp.getColorMap());
-            currentViz = vis1;
-            vis1.initialize(temp.getGrid());
-            currentTimeline = new Timeline(
-                    new KeyFrame(Duration.seconds(seconds), j -> {
-                        temp.updateGrid();
-                        vis1.colorGrid(temp.getGrid());
-                    })
-            );
-            currentTimeline.setCycleCount(Animation.INDEFINITE);
-            currentTimeline.play();
-
-        });
-
-        Button fast= new Button("Fast");
-        fast.setOnAction(e ->{
-            currentTimeline.setRate(seconds*10);
-        });
-
-        Button slow= new Button("Slow");
-        slow.setOnAction(e ->{
-            currentTimeline.setRate(seconds*0.5);
-        });
-
-        Button normal= new Button("Normal");
-        normal.setOnAction(e ->{
-            currentTimeline.setRate(seconds);
-        });
+        Button fast = makeSpeedButton("Fast", seconds*10);
+        Button normal = makeSpeedButton("Normal", seconds);
+        Button slow = makeSpeedButton("Slow", seconds*0.5);
 
         Button step= new Button("Step");
         step.setOnAction(e ->{
@@ -180,13 +67,7 @@ public class Main extends Application{
 
         root.setBottom(bottomButtons);
         root.setRight(rightButtons);
-//        bottomButtons2.setLayoutX(300);
-//        bottomButtons2.setLayoutY(450);
         bottomButtons.getChildren().addAll(slow,normal,fast,step);
-        rightButtons.getChildren().addAll(pred,fire,perc,seg,gol);
-        //bigbox.getChildren().addAll(bottomButtons,bottomButtons2);
-        //bigbox.setAlignment(Pos.BOTTOM_CENTER);
-
 
         vis.initialize(sim.getGrid());
         currentTimeline = new Timeline(
@@ -198,6 +79,80 @@ public class Main extends Application{
         currentTimeline.setCycleCount(Animation.INDEFINITE);
         currentTimeline.play();
     }
+
+    public void sim_helper(Simulation temp){
+        currentSim = temp;
+        Visualizer vis1 = new Visualizer(temp.getGrid().length,temp.getGrid()[0].length,currentWidth, currentHeight, root, temp.getColorMap());
+        currentViz = vis1;
+        vis1.initialize(temp.getGrid());
+        currentTimeline = new Timeline(
+                new KeyFrame(Duration.seconds(seconds), j -> {
+                    temp.updateGrid();
+                    vis1.colorGrid(temp.getGrid());
+                })
+        );
+        currentTimeline.setCycleCount(Animation.INDEFINITE);
+        currentTimeline.play();
+    }
+
+    private Button makeSpeedButton(String name, Double speed) {
+        Button button = new Button(name);
+        button.setOnAction(e -> currentTimeline.setRate(speed));
+        return button;
+    }
+
+    private void simbutton_setup(){
+        Button seg= new Button("Segregation");
+        rightButtons.getChildren().add(seg);
+        seg.setOnAction(e ->{
+            //sim = null;
+            currentParams = xml_parser.readFile("segregation.xml");
+            SegSim temp = new SegSim(currentParams.get("grid_height"),currentParams.get("grid_width"), WIDTH, HEIGHT, currentParams);
+            currentSim = temp;
+            sim_helper(temp);
+        });
+
+        Button gol= new Button("Game of Life");
+        rightButtons.getChildren().add(gol);
+        gol.setOnAction(e ->{
+            //sim = null;
+            currentParams = xml_parser.readFile("game_of_life.xml");
+            GOLSim temp = new GOLSim(currentParams.get("grid_height"),currentParams.get("grid_width"), WIDTH, HEIGHT, currentParams);
+            currentSim = temp;
+            sim_helper(temp);
+        });
+
+        Button perc= new Button("Percolation");
+        rightButtons.getChildren().add(perc);
+        perc.setOnAction(e ->{
+            //sim = null;
+            currentParams = xml_parser.readFile("percolate.xml");
+            PercSim temp = new PercSim(currentParams.get("grid_height"),currentParams.get("grid_width"), WIDTH, HEIGHT, currentParams);
+            currentSim = temp;
+            sim_helper(temp);
+        });
+
+        Button fire= new Button("Fire");
+        rightButtons.getChildren().add(fire);
+        fire.setOnAction(e ->{
+            //sim = null;
+
+            currentParams = xml_parser.readFile("fire.xml");
+            Simulation temp = new FireSim(currentParams.get("grid_height"),currentParams.get("grid_width"), WIDTH, HEIGHT, currentParams);
+            sim_helper(temp);
+        });
+
+        Button pred= new Button("Pred Prey");
+        rightButtons.getChildren().add(pred);
+        pred.setOnAction(e ->{
+            //sim = null;
+            currentParams = xml_parser.readFile("pred_prey.xml");
+            PredPreySim temp = new PredPreySim(currentParams.get("grid_height"),currentParams.get("grid_width"), WIDTH, HEIGHT ,currentParams);
+
+            sim_helper(temp);
+        });
+    }
+
 
     public static void main (String[] args) {
         launch(args);
