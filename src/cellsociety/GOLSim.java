@@ -7,9 +7,9 @@ import java.util.HashMap;
 
 public class GOLSim extends Simulation{
 
-    public GOLSim(int rows, int cols, int width, int height)
+    public GOLSim(int rows, int cols, int width, int height, HashMap<String,Double> params)
     {
-        super(rows, cols, width,height);
+        super(rows, cols, width,height, params);
         createGrid(rows,cols);
         setUpHashMap();
     }
@@ -46,6 +46,11 @@ public class GOLSim extends Simulation{
                 updateCell(i,j,gridCopy);
             }
         }
+    }
+
+    @Override
+    public void initParams() {
+
     }
 
     public void updateCell(int x, int y, String[][]gridCopy) {

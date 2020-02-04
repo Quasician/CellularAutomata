@@ -1,1 +1,8 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><title>Game of Life xml file<author>Vineet Alaparthi</author><grid_size>9</grid_size><cell_config><c1>alive</c1><c2>alive</c2><c3>alive</c3><c4>deadsss</c4><c5>deadsss</c5><c6>deadsss</c6><c7>alive</c7><c8>deadsss</c8><c9>alive</c9></cell_config></title>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<title>Game of Life xml file
+    <author>Vineet Alaparthi</author>
+    <grid_size>9</grid_size>
+    <cell_config>
+        <c1>alive</c1><c2>alive</c2><c3>alive</c3><c4>deadsss</c4><c5>deadsss</c5><c6>deadsss</c6><c7>alive</c7><c8>deadsss</c8><c9>alive</c9>
+    </cell_config>
+</title>

@@ -1,6 +1,7 @@
 package cellsociety;
 
 import java.io.File;
+import java.util.HashMap;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.DocumentBuilder;
 import org.w3c.dom.Document;
@@ -10,37 +11,31 @@ import org.w3c.dom.Element;
 
 public class xml_parser {
 
-    public static void main(String[] args) {
+    public static void main(String[] args)
+    {
 
+    }
+    public static HashMap<String,Double> readPredPreyFile() {
+        HashMap<String,Double> paramMap = new HashMap<>();
         try {
-            File inputFile = new File("Resources\\game_of_life.xml");
+            File inputFile = new File("Resources\\pred_prey.xml");
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(inputFile);
             doc.getDocumentElement().normalize();
-            System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
-            NodeList nList = doc.getElementsByTagName("cell_config");
-            System.out.println("----------------------------");
-            NodeList grid_size = doc.getDocumentElement().getElementsByTagName("grid_size");
-            Element grid_size_ele = (Element) grid_size.item(0);
-            int grid_size_int = Integer.parseInt(grid_size_ele.getTextContent());
+//            System.out.println("Root element :" + doc.getDocumentElement().getNodeName());
+            paramMap.putIfAbsent("gridWidth",Double.parseDouble(doc.getDocumentElement().getElementsByTagName("grid_width").item(0).getTextContent()));
+            paramMap.putIfAbsent("gridHeight",Double.parseDouble(doc.getDocumentElement().getElementsByTagName("grid_height").item(0).getTextContent()));
+            paramMap.putIfAbsent("percentFish",Double.parseDouble(doc.getDocumentElement().getElementsByTagName("percentFish").item(0).getTextContent()));
+            paramMap.putIfAbsent("percentSharks",Double.parseDouble(doc.getDocumentElement().getElementsByTagName("percentSharks").item(0).getTextContent()));
+            paramMap.putIfAbsent("breedThreshFish",Double.parseDouble(doc.getDocumentElement().getElementsByTagName("breedThreshFish").item(0).getTextContent()));
+            paramMap.putIfAbsent("breedThreshShark",Double.parseDouble(doc.getDocumentElement().getElementsByTagName("breedThreshShark").item(0).getTextContent()));
+            paramMap.putIfAbsent("defaultSharkEnergy",Double.parseDouble(doc.getDocumentElement().getElementsByTagName("defaultSharkEnergy").item(0).getTextContent()));
+            paramMap.putIfAbsent("defaultFishEnergy",Double.parseDouble(doc.getDocumentElement().getElementsByTagName("defaultFishEnergy").item(0).getTextContent()));
 
-            for (int temp = 0; temp < nList.getLength(); temp++) {
-                Node nNode = nList.item(temp);
-                System.out.println("\nCurrent Element :" + nNode.getNodeName());
-
-                if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-                    Element eElement = (Element) nNode;
-                    for (int i = 0; i<grid_size_int; i++){
-                        System.out.println(eElement
-                                .getElementsByTagName("c"+String.valueOf(i+1))
-                                .item(0)
-                                .getTextContent());
-                    }
-                }
-            }
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return paramMap;
     }
 }

@@ -6,22 +6,35 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
-public class PredPraySim extends Simulation {
+public class PredPreySim extends Simulation {
 
-    private int breedThreshFish = 3;
-    private int breedThreshShark = 3;
-    private int defaultSharkEnergy = 4;
-    private int defaultFishEnergy = 2;
+    private double breedThreshFish;
+    private double breedThreshShark;
+    private double defaultSharkEnergy;
+    private double defaultFishEnergy;
+    private double percentFish;
+    private double percentSharks;
     private Organism[][] organismGrid;
     private ArrayList<Organism> emptyCells;
     private ArrayList<Organism> fishThatNeedToMove;
     private ArrayList<Organism> sharksThatNeedToMove;
 
-    public PredPraySim(int rows, int cols, int width, int height)
+    public PredPreySim(int rows, int cols, int width, int height, HashMap<String,Double> params)
     {
-        super(rows, cols, width,height);
+        super(rows, cols, width,height,params);
+        initParams();
         createGrid(rows,cols);
         setUpHashMap();
+    }
+
+    public void initParams()
+    {
+        breedThreshFish = params.get("breedThreshFish");
+        breedThreshShark = params.get("breedThreshShark");
+        defaultSharkEnergy = params.get("defaultSharkEnergy");
+        defaultFishEnergy = params.get("defaultFishEnergy");
+        percentFish = params.get("percentFish");
+        percentSharks = params.get("percentSharks");
     }
 
     public void createGrid(int numRows, int numCols) {
@@ -31,12 +44,12 @@ public class PredPraySim extends Simulation {
             for(int j = 0; j<simCols;j++) {
                 double choice = Math.random();
                 //System.out.println(choice);
-                if (choice<=.792) {
+                if (choice<=percentFish) {
                     organismGrid[i][j] = new Organism(i,j,"fish",0, defaultFishEnergy);
                     organismGrid[i][j].setNextState(new Organism(i,j,"fish",0,defaultFishEnergy));
                     grid[i][j] = "fish";
                 }
-                else if (choice>=.80) {
+                else if (choice>=percentFish+percentSharks) {
                     organismGrid[i][j] = new Organism(i,j,"kelp",0,0);
                     organismGrid[i][j].setNextState(new Organism(i,j,"kelp",0,0));
                     grid[i][j] = "kelp";
@@ -162,21 +175,21 @@ public class PredPraySim extends Simulation {
     }
 
     public void eatFish(Organism source, Organism destination) {
-        int currentEnergy = source.getEnergy();
+        double currentEnergy = source.getEnergy();
         String name = source.getName();
         checkBreed(source);
         destination.setNextState(new Organism(destination.x, destination.y, name, source.getLives(), currentEnergy+defaultFishEnergy));
     }
 
     public void sharkMovesToKelpCell(Organism source, Organism destination) {
-        int currentEnergy = source.getEnergy();
+        double currentEnergy = source.getEnergy();
         String name = source.getName();
         checkBreed(source);
         destination.setNextState(new Organism(destination.x, destination.y, name, source.getLives(), currentEnergy));
     }
 
     public void fishMovesToKelpCell(Organism source, Organism destination) {
-        int currentEnergy = source.getEnergy();
+        double currentEnergy = source.getEnergy();
         String name = source.getName();
         checkBreed(source);
         destination.setNextState(new Organism(destination.x, destination.y, name, source.getLives(), currentEnergy));

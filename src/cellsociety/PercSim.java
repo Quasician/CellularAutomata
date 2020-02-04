@@ -7,11 +7,16 @@ import java.util.HashMap;
 
 public class PercSim extends Simulation{
 
-    public PercSim(int rows, int cols, int width, int height)
+    public PercSim(int rows, int cols, int width, int height, HashMap<String,Double> params)
     {
-        super(rows, cols, width,height);
+        super(rows, cols, width,height, params);
         createGrid(rows,cols);
         setUpHashMap();
+    }
+
+    @Override
+    public void initParams() {
+
     }
 
     public void createGrid(int numRows, int numCols) {

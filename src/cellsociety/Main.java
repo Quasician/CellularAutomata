@@ -13,6 +13,8 @@ import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.util.HashMap;
+
 public class Main extends Application{
 
     private final static int WIDTH = 500;
@@ -20,11 +22,12 @@ public class Main extends Application{
     int currentWidth = WIDTH;
     int currentHeight = HEIGHT;
     Timeline currentTimeline;
+    HashMap<String,Double> currentParams;
     Simulation currentSim;
     Visualizer currentViz;
     @Override
     public void start(Stage primaryStage) throws Exception {
-
+        currentParams = xml_parser.readPredPreyFile();
         BorderPane root = new BorderPane();
         primaryStage.setTitle("Simulation");
         primaryStage.setScene(new Scene(root, WIDTH, HEIGHT));
@@ -34,8 +37,7 @@ public class Main extends Application{
  //       PercSim sim = new PercSim(100,100, WIDTH, HEIGHT);
         //FireSim sim = new FireSim(100,100, WIDTH, HEIGHT);
 //        SegSim sim = new SegSim(30,30, WIDTH, HEIGHT);
- PredPraySim sim = new PredPraySim(50, 50, WIDTH, HEIGHT);
-
+        PredPreySim sim = new PredPreySim(50, 50, WIDTH, HEIGHT, currentParams);
 
         Visualizer vis = new Visualizer(sim.getGrid().length,sim.getGrid()[0].length,currentWidth, currentHeight, root, sim.getColorMap());
         currentSim = sim;
@@ -47,7 +49,7 @@ public class Main extends Application{
 
         seg.setOnAction(e ->{
             //sim = null;
-            SegSim temp = new SegSim(100,100, WIDTH, HEIGHT);
+            SegSim temp = new SegSim(100,100, WIDTH, HEIGHT, currentParams);
             currentSim = temp;
             Visualizer vis1 = new Visualizer(temp.getGrid().length,temp.getGrid()[0].length,currentWidth, currentHeight, root, temp.getColorMap());
             currentViz = vis1;

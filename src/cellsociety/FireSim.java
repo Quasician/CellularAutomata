@@ -9,11 +9,16 @@ public class FireSim extends Simulation{
 
     private double probCatch = .6;
 
-    public FireSim(int rows, int cols, int width, int height)
+    public FireSim(int rows, int cols, int width, int height, HashMap<String,Double> params)
     {
-        super(rows, cols, width,height);
+        super(rows, cols, width,height, params);
         createGrid(rows,cols);
         setUpHashMap();
+    }
+
+    @Override
+    public void initParams() {
+
     }
 
     public void createGrid(int numRows, int numCols) {
