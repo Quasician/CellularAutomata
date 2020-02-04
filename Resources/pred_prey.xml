@@ -7,6 +7,6 @@
     <breedThreshShark>3</breedThreshShark>
     <defaultSharkEnergy>4</defaultSharkEnergy>
     <defaultFishEnergy>2</defaultFishEnergy>
-    <percentFish>.3</percentFish>s
+    <percentFish>.3</percentFish>
     <percentSharks>.008</percentSharks>
 </title>
