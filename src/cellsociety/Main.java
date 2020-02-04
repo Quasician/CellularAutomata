@@ -10,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -27,7 +28,7 @@ public class Main extends Application{
 
         BorderPane root = new BorderPane();
         primaryStage.setTitle("Simulation");
-        primaryStage.setScene(new Scene(root, WIDTH, HEIGHT));
+        primaryStage.setScene(new Scene(root, WIDTH + 100, HEIGHT));
         primaryStage.show();
         double seconds = 1;
 //        GOLSim sim = new GOLSim(100,100, WIDTH, HEIGHT);
@@ -41,6 +42,10 @@ public class Main extends Application{
         currentSim = sim;
         currentViz = vis;
         HBox bottomButtons = new HBox();
+        HBox bottomButtons2 = new HBox(30);
+        VBox rightButtons = new VBox();
+        HBox bigbox = new HBox();
+
 
 
         Button seg= new Button("Segregation");
@@ -48,6 +53,86 @@ public class Main extends Application{
         seg.setOnAction(e ->{
             //sim = null;
             SegSim temp = new SegSim(100,100, WIDTH, HEIGHT);
+            currentSim = temp;
+            Visualizer vis1 = new Visualizer(temp.getGrid().length,temp.getGrid()[0].length,currentWidth, currentHeight, root, temp.getColorMap());
+            currentViz = vis1;
+            vis1.initialize(temp.getGrid());
+            currentTimeline = new Timeline(
+                    new KeyFrame(Duration.seconds(seconds), j -> {
+                        temp.updateGrid();
+                        vis1.colorGrid(temp.getGrid());
+                    })
+            );
+            currentTimeline.setCycleCount(Animation.INDEFINITE);
+            currentTimeline.play();
+
+        });
+
+        Button gol= new Button("Game of Life");
+
+        gol.setOnAction(e ->{
+            //sim = null;
+            GOLSim temp = new GOLSim(100,100, WIDTH, HEIGHT);
+            currentSim = temp;
+            Visualizer vis1 = new Visualizer(temp.getGrid().length,temp.getGrid()[0].length,currentWidth, currentHeight, root, temp.getColorMap());
+            currentViz = vis1;
+            vis1.initialize(temp.getGrid());
+            currentTimeline = new Timeline(
+                    new KeyFrame(Duration.seconds(seconds), j -> {
+                        temp.updateGrid();
+                        vis1.colorGrid(temp.getGrid());
+                    })
+            );
+            currentTimeline.setCycleCount(Animation.INDEFINITE);
+            currentTimeline.play();
+
+        });
+
+        Button perc= new Button("Percolation");
+
+        perc.setOnAction(e ->{
+            //sim = null;
+            PercSim temp = new PercSim(100,100, WIDTH, HEIGHT);
+            currentSim = temp;
+            Visualizer vis1 = new Visualizer(temp.getGrid().length,temp.getGrid()[0].length,currentWidth, currentHeight, root, temp.getColorMap());
+            currentViz = vis1;
+            vis1.initialize(temp.getGrid());
+            currentTimeline = new Timeline(
+                    new KeyFrame(Duration.seconds(seconds), j -> {
+                        temp.updateGrid();
+                        vis1.colorGrid(temp.getGrid());
+                    })
+            );
+            currentTimeline.setCycleCount(Animation.INDEFINITE);
+            currentTimeline.play();
+
+        });
+
+        Button fire= new Button("Fire");
+
+        fire.setOnAction(e ->{
+            //sim = null;
+            Simulation temp = new FireSim(100,100, WIDTH, HEIGHT);
+            currentSim = temp;
+            Visualizer vis1 = new Visualizer(temp.getGrid().length,temp.getGrid()[0].length,currentWidth, currentHeight, root, temp.getColorMap());
+            currentViz = vis1;
+            vis1.initialize(temp.getGrid());
+            currentTimeline = new Timeline(
+                    new KeyFrame(Duration.seconds(seconds), j -> {
+                        temp.updateGrid();
+                        vis1.colorGrid(temp.getGrid());
+                    })
+            );
+            currentTimeline.setCycleCount(Animation.INDEFINITE);
+            currentTimeline.play();
+
+        });
+
+        Button pred= new Button("Pred Prey");
+
+        pred.setOnAction(e ->{
+            //sim = null;
+            PredPraySim temp = new PredPraySim(100,100, WIDTH, HEIGHT);
             currentSim = temp;
             Visualizer vis1 = new Visualizer(temp.getGrid().length,temp.getGrid()[0].length,currentWidth, currentHeight, root, temp.getColorMap());
             currentViz = vis1;
@@ -87,8 +172,13 @@ public class Main extends Application{
         });
 
         root.setBottom(bottomButtons);
-        bottomButtons.getChildren().addAll(slow,normal,fast,step,seg);
-        bottomButtons.setAlignment(Pos.BOTTOM_CENTER);
+        root.setRight(rightButtons);
+//        bottomButtons2.setLayoutX(300);
+//        bottomButtons2.setLayoutY(450);
+        bottomButtons.getChildren().addAll(slow,normal,fast,step);
+        rightButtons.getChildren().addAll(pred,fire,perc,seg,gol);
+        //bigbox.getChildren().addAll(bottomButtons,bottomButtons2);
+        //bigbox.setAlignment(Pos.BOTTOM_CENTER);
 
 
         vis.initialize(sim.getGrid());
