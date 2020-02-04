@@ -10,7 +10,7 @@ public class PredPraySim extends Simulation {
 
     private int breedThreshFish = 3;
     private int breedThreshShark = 3;
-    private int defaultSharkEnergy = 1;
+    private int defaultSharkEnergy = 6;
     private int defaultFishEnergy = 1;
     private Organism[][] organismGrid;
     private ArrayList<Organism> emptyCells;
@@ -55,9 +55,9 @@ public class PredPraySim extends Simulation {
         organismGrid[25][25].setNextState(new Organism(25,25,"shark", 0, defaultSharkEnergy));
         grid[25][25] = "shark";
 
-        organismGrid[40][40] = new Organism(40,40,"fish", 0, defaultFishEnergy);
-        organismGrid[40][40].setNextState(new Organism(40,40,"fish", 0, defaultFishEnergy));
-        grid[40][40] = "fish";
+        organismGrid[25][26] = new Organism(25,26,"fish", 0, defaultFishEnergy);
+        organismGrid[25][26].setNextState(new Organism(25,26,"fish", 0, defaultFishEnergy));
+        grid[25][26] = "fish";
     }
 
 
@@ -102,12 +102,12 @@ public class PredPraySim extends Simulation {
 //        }
         if(organismGrid[x][y].getName().equals("kelp")|| (organismGrid[x][y].getName().equals("shark") && organismGrid[x][y].getEnergy()<=0))
         {
-            organismGrid[x][y].setNextState(new Organism(x,y,"kelp",0,0));
             if(organismGrid[x][y].getName().equals("shark"))
             {
                 System.out.println("Realizing it is 0 "+organismGrid[x][y].getName());
-
+                sharksThatNeedToMove.remove(organismGrid[x][y]);
             }
+            organismGrid[x][y].setNextState(new Organism(x,y,"kelp",0,0));
         }
         updateOrganism(organismGrid[x][y]);
     }
@@ -130,11 +130,11 @@ public class PredPraySim extends Simulation {
             for(int j = 0; j<simCols;j++)
             {
                 grid[i][j] = organismGrid[i][j].getName();
-                if(i==25 && j==25)
+                if(organismGrid[i][j].getName().equals("shark"))
                 {
-                    System.out.println("OCurrent State: "+organismGrid[25][25].getName());
-                    System.out.println("OEnergy: "+organismGrid[25][25].getEnergy());
-                    System.out.println("ONext State: "+organismGrid[25][25].getNextState().getName());
+                    System.out.println("OCurrent State: "+organismGrid[i][j].getName());
+                    System.out.println("OEnergy: "+organismGrid[i][j].getEnergy());
+                    System.out.println("ONext State: "+organismGrid[i][j].getNextState().getName());
                 }
             }
         }
@@ -159,6 +159,7 @@ public class PredPraySim extends Simulation {
 
             if (fishList.size() > 0) {
                 int fishListIndex = (int)(Math.random()*fishList.size());
+                fishThatNeedToMove.remove(fishList.get(fishListIndex));
                 eatFish(current, fishList.get(fishListIndex));
             } else if (kelpList.size() > 0) {
                 int kelpListIndex = (int)(Math.random()*kelpList.size());
@@ -171,24 +172,23 @@ public class PredPraySim extends Simulation {
 
     public void eatFish(Organism source, Organism destination) {
         int currentEnergy = source.getEnergy();
+        String name = source.getName();
         checkBreed(source);
-        destination.setNextState(new Organism(destination.x, destination.y, source.getName(), source.getLives(), currentEnergy+defaultFishEnergy));
+        destination.setNextState(new Organism(destination.x, destination.y, name, source.getLives(), currentEnergy+defaultFishEnergy));
     }
 
     public void sharkMovesToKelpCell(Organism source, Organism destination) {
         int currentEnergy = source.getEnergy();
         String name = source.getName();
-        int lives = source.getLives();
         checkBreed(source);
-        destination.setNextState(new Organism(destination.x, destination.y, name, lives, currentEnergy));
+        destination.setNextState(new Organism(destination.x, destination.y, name, source.getLives(), currentEnergy));
     }
 
     public void fishMovesToKelpCell(Organism source, Organism destination) {
         int currentEnergy = source.getEnergy();
         String name = source.getName();
-        int lives = source.getLives();
         checkBreed(source);
-        destination.setNextState(new Organism(destination.x, destination.y, name, lives, currentEnergy));
+        destination.setNextState(new Organism(destination.x, destination.y, name, source.getLives(), currentEnergy));
     }
 
     public void checkBreed(Organism source)
