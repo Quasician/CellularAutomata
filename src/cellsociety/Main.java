@@ -74,7 +74,7 @@ public class Main extends Application{
 
         gol.setOnAction(e ->{
             //sim = null;
-            GOLSim temp = new GOLSim(100,100, WIDTH, HEIGHT);
+            GOLSim temp = new GOLSim(100,100, WIDTH, HEIGHT, currentParams);
             currentSim = temp;
             Visualizer vis1 = new Visualizer(temp.getGrid().length,temp.getGrid()[0].length,currentWidth, currentHeight, root, temp.getColorMap());
             currentViz = vis1;
@@ -94,7 +94,7 @@ public class Main extends Application{
 
         perc.setOnAction(e ->{
             //sim = null;
-            PercSim temp = new PercSim(100,100, WIDTH, HEIGHT);
+            PercSim temp = new PercSim(100,100, WIDTH, HEIGHT, currentParams);
             currentSim = temp;
             Visualizer vis1 = new Visualizer(temp.getGrid().length,temp.getGrid()[0].length,currentWidth, currentHeight, root, temp.getColorMap());
             currentViz = vis1;
@@ -114,7 +114,7 @@ public class Main extends Application{
 
         fire.setOnAction(e ->{
             //sim = null;
-            Simulation temp = new FireSim(100,100, WIDTH, HEIGHT);
+            Simulation temp = new FireSim(100,100, WIDTH, HEIGHT, currentParams);
             currentSim = temp;
             Visualizer vis1 = new Visualizer(temp.getGrid().length,temp.getGrid()[0].length,currentWidth, currentHeight, root, temp.getColorMap());
             currentViz = vis1;
@@ -134,7 +134,7 @@ public class Main extends Application{
 
         pred.setOnAction(e ->{
             //sim = null;
-            PredPraySim temp = new PredPraySim(100,100, WIDTH, HEIGHT);
+            PredPreySim temp = new PredPreySim(100,100, WIDTH, HEIGHT ,currentParams);
             currentSim = temp;
             Visualizer vis1 = new Visualizer(temp.getGrid().length,temp.getGrid()[0].length,currentWidth, currentHeight, root, temp.getColorMap());
             currentViz = vis1;
