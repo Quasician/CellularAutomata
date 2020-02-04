@@ -102,7 +102,6 @@ public class PredPraySim extends Simulation {
 //        }
         if(organismGrid[x][y].getName().equals("kelp")|| (organismGrid[x][y].getName().equals("shark") && organismGrid[x][y].getEnergy()<=0)) {
             if(organismGrid[x][y].getName().equals("shark")) {
-                System.out.println("Realizing it is 0 "+organismGrid[x][y].getName());
                 sharksThatNeedToMove.remove(organismGrid[x][y]);
             }
             organismGrid[x][y].setNextState(new Organism(x,y,"kelp",0,0));
@@ -116,24 +115,15 @@ public class PredPraySim extends Simulation {
 
     private void updateOrganism(Organism org) {
         org.increaseLives();
-        if(org.getName().equals("shark"))
-        {
+        if(org.getName().equals("shark")) {
             org.decreaseEnergy();
         }
     }
 
     private void updateStringArray() {
-        for(int i = 0; i<simRows;i++)
-        {
-            for(int j = 0; j<simCols;j++)
-            {
+        for(int i = 0; i<simRows;i++) {
+            for(int j = 0; j<simCols;j++) {
                 grid[i][j] = organismGrid[i][j].getName();
-                if(organismGrid[i][j].getName().equals("shark"))
-                {
-                    System.out.println("OCurrent State: "+organismGrid[i][j].getName());
-                    System.out.println("OEnergy: "+organismGrid[i][j].getEnergy());
-                    System.out.println("ONext State: "+organismGrid[i][j].getNextState().getName());
-                }
             }
         }
     }
