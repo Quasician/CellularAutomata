@@ -61,6 +61,8 @@ public class Main extends Application{
         Button fast = makeSpeedButton(properties.getPropValues("buttonFast"), seconds*10);
         Button normal = makeSpeedButton(properties.getPropValues("buttonNormal"), seconds);
         Button slow = makeSpeedButton(properties.getPropValues("buttonSlow"), seconds*0.5);
+        Button play = makeSpeedButton(properties.getPropValues("buttonPlay"), seconds);
+        Button pause = makeSpeedButton(properties.getPropValues("buttonPause"), 0.0);
 
         Button step= new Button(properties.getPropValues("buttonStep"));
         step.setOnAction(e ->{
@@ -72,7 +74,7 @@ public class Main extends Application{
 
         root.setBottom(bottomButtons);
         root.setRight(rightButtons);
-        bottomButtons.getChildren().addAll(slow,normal,fast,step);
+        bottomButtons.getChildren().addAll(slow,normal,fast,step, play, pause);
 
         vis.initialize(sim.getGrid());
         currentTimeline = new Timeline(
