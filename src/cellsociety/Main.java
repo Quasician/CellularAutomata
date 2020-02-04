@@ -24,8 +24,8 @@ public class Main extends Application{
 
     private final static int WIDTH = 500;
     private final static int HEIGHT = 500;
-    int currentWidth = WIDTH;
-    int currentHeight = HEIGHT;
+    private final static int ROW = 125;
+    private final static int COLS = 125;
     Timeline currentTimeline;
     HashMap<String,Double> currentParams;
     Simulation currentSim;
@@ -45,9 +45,9 @@ public class Main extends Application{
         primaryStage.setScene(new Scene(root, WIDTH + 100, HEIGHT));
         primaryStage.show();
 
-        PredPreySim sim = new PredPreySim(50, 50, WIDTH, HEIGHT, currentParams);
+        PredPreySim sim = new PredPreySim(ROW, COLS, WIDTH, HEIGHT, currentParams);
 
-        Visualizer vis = new Visualizer(sim.getGrid().length,sim.getGrid()[0].length,currentWidth, currentHeight, root, sim.getColorMap());
+        Visualizer vis = new Visualizer(sim.getGrid().length,sim.getGrid()[0].length,WIDTH, HEIGHT, root, sim.getColorMap());
         currentSim = sim;
         currentViz = vis;
 
@@ -82,7 +82,7 @@ public class Main extends Application{
 
     public void sim_helper(Simulation temp){
         currentSim = temp;
-        Visualizer vis1 = new Visualizer(temp.getGrid().length,temp.getGrid()[0].length,currentWidth, currentHeight, root, temp.getColorMap());
+        Visualizer vis1 = new Visualizer(temp.getGrid().length,temp.getGrid()[0].length,WIDTH, HEIGHT, root, temp.getColorMap());
         currentViz = vis1;
         vis1.initialize(temp.getGrid());
         currentTimeline = new Timeline(
@@ -107,7 +107,7 @@ public class Main extends Application{
         rightButtons.getChildren().add(seg);
         seg.setOnAction(e ->{
             //sim = null;
-            SegSim temp = new SegSim(100,100, WIDTH, HEIGHT, currentParams);
+            SegSim temp = new SegSim(ROW,COLS, WIDTH, HEIGHT, currentParams);
             currentSim = temp;
             sim_helper(temp);
         });
@@ -116,7 +116,7 @@ public class Main extends Application{
         rightButtons.getChildren().add(gol);
         gol.setOnAction(e ->{
             //sim = null;
-            GOLSim temp = new GOLSim(100,100, WIDTH, HEIGHT, currentParams);
+            GOLSim temp = new GOLSim(ROW,COLS, WIDTH, HEIGHT, currentParams);
             currentSim = temp;
             sim_helper(temp);
         });
@@ -125,7 +125,7 @@ public class Main extends Application{
         rightButtons.getChildren().add(perc);
         perc.setOnAction(e ->{
             //sim = null;
-            PercSim temp = new PercSim(100,100, WIDTH, HEIGHT, currentParams);
+            PercSim temp = new PercSim(ROW,COLS, WIDTH, HEIGHT, currentParams);
             currentSim = temp;
             sim_helper(temp);
         });
@@ -134,7 +134,7 @@ public class Main extends Application{
         rightButtons.getChildren().add(fire);
         fire.setOnAction(e ->{
             //sim = null;
-            Simulation temp = new FireSim(100,100, WIDTH, HEIGHT, currentParams);
+            Simulation temp = new FireSim(ROW,COLS, WIDTH, HEIGHT, currentParams);
             sim_helper(temp);
         });
 
@@ -142,7 +142,7 @@ public class Main extends Application{
         rightButtons.getChildren().add(pred);
         pred.setOnAction(e ->{
             //sim = null;
-            PredPreySim temp = new PredPreySim(100,100, WIDTH, HEIGHT ,currentParams);
+            PredPreySim temp = new PredPreySim(ROW,COLS, WIDTH, HEIGHT ,currentParams);
             sim_helper(temp);
         });
     }
