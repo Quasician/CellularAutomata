@@ -10,7 +10,7 @@ public class PredPraySim extends Simulation {
 
     private int breedThreshFish = 3;
     private int breedThreshShark = 3;
-    private int defaultSharkEnergy = 3;
+    private int defaultSharkEnergy = 1;
     private int defaultFishEnergy = 1;
     private Organism[][] organismGrid;
     private ArrayList<Organism> emptyCells;
@@ -54,6 +54,10 @@ public class PredPraySim extends Simulation {
         organismGrid[25][25] = new Organism(25,25,"shark", 0, defaultSharkEnergy);
         organismGrid[25][25].setNextState(new Organism(25,25,"shark", 0, defaultSharkEnergy));
         grid[25][25] = "shark";
+
+        organismGrid[40][40] = new Organism(40,40,"fish", 0, defaultFishEnergy);
+        organismGrid[40][40].setNextState(new Organism(40,40,"fish", 0, defaultFishEnergy));
+        grid[40][40] = "fish";
     }
 
 
@@ -90,20 +94,19 @@ public class PredPraySim extends Simulation {
             //System.out.print(organismGrid[x][y].getEnergy());
             sharksThatNeedToMove.add(organismGrid[x][y]);
         }
-        if(x==25 && y==25)
-        {
-            System.out.println("Current State: "+organismGrid[25][25].getName());
-            System.out.println("Energy: "+organismGrid[25][25].getEnergy());
-            //System.out.println("Next State: "+organismGrid[25][25].getNextState().getName());
-        }
+//        if(x==25 && y==25)
+//        {
+//            System.out.println("Current State: "+organismGrid[25][25].getName());
+//            System.out.println("Energy: "+organismGrid[25][25].getEnergy());
+//            //System.out.println("Next State: "+organismGrid[25][25].getNextState().getName());
+//        }
         if(organismGrid[x][y].getName().equals("kelp")|| (organismGrid[x][y].getName().equals("shark") && organismGrid[x][y].getEnergy()<=0))
         {
             organismGrid[x][y].setNextState(new Organism(x,y,"kelp",0,0));
-            if(x==25 && y==25)
+            if(organismGrid[x][y].getName().equals("shark"))
             {
-                System.out.println("OCurrent State: "+organismGrid[25][25].getName());
-                System.out.println("OEnergy: "+organismGrid[25][25].getEnergy());
-                System.out.println("ONext State: "+organismGrid[25][25].getNextState().getName());
+                System.out.println("Realizing it is 0 "+organismGrid[x][y].getName());
+
             }
         }
         updateOrganism(organismGrid[x][y]);
@@ -127,6 +130,12 @@ public class PredPraySim extends Simulation {
             for(int j = 0; j<simCols;j++)
             {
                 grid[i][j] = organismGrid[i][j].getName();
+                if(i==25 && j==25)
+                {
+                    System.out.println("OCurrent State: "+organismGrid[25][25].getName());
+                    System.out.println("OEnergy: "+organismGrid[25][25].getEnergy());
+                    System.out.println("ONext State: "+organismGrid[25][25].getNextState().getName());
+                }
             }
         }
     }
@@ -163,43 +172,48 @@ public class PredPraySim extends Simulation {
     public void eatFish(Organism source, Organism destination) {
         int currentEnergy = source.getEnergy();
         checkBreed(source);
-        destination.setNextState(new Organism(source.x, source.y, source.getName(), source.getLives(), currentEnergy+defaultFishEnergy));
+        destination.setNextState(new Organism(destination.x, destination.y, source.getName(), source.getLives(), currentEnergy+defaultFishEnergy));
     }
 
     public void sharkMovesToKelpCell(Organism source, Organism destination) {
         int currentEnergy = source.getEnergy();
+        String name = source.getName();
+        int lives = source.getLives();
         checkBreed(source);
-        destination.setNextState(new Organism(source.x, source.y, source.getName(), source.getLives(), currentEnergy));
+        destination.setNextState(new Organism(destination.x, destination.y, name, lives, currentEnergy));
     }
 
     public void fishMovesToKelpCell(Organism source, Organism destination) {
         int currentEnergy = source.getEnergy();
+        String name = source.getName();
+        int lives = source.getLives();
         checkBreed(source);
-        destination.setNextState(new Organism(source.x, source.y, source.getName(), source.getLives(), currentEnergy));
+        destination.setNextState(new Organism(destination.x, destination.y, name, lives, currentEnergy));
     }
 
     public void checkBreed(Organism source)
     {
-        if(source.getLives()>source.getBreedThresh())
+
+        if(source.getName().equals("fish") && source.getLives()>breedThreshFish)
         {
-            if(source.getName().equals("fish"))
-            {
-                source.setNextState(new Organism(source.x, source.y, source.getName(), 0, defaultFishEnergy));
-            }else
-            {
-                source.setNextState(new Organism(source.x, source.y, source.getName(), 0, defaultSharkEnergy));
-            }
+            source.setNextState(new Organism(source.x, source.y, source.getName(), 0, defaultFishEnergy));
             source.setLife(0);
-        } else
+        }else if(source.getName().equals("fish") && source.getLives()>breedThreshShark)
         {
+            source.setNextState(new Organism(source.x, source.y, source.getName(), 0, defaultSharkEnergy));
+            source.setLife(0);
+        }
+         else
+        {
+            //System.out.println("YEET");
             source.setNextState(new Organism(source.x, source.y, "kelp", 0, 0));
         }
     }
 
     private void moveAllFish() {
         while (fishThatNeedToMove.size() > 0) {
-            int sharkListIndex = (int)(Math.random()*fishThatNeedToMove.size());
-            Organism current = fishThatNeedToMove.get(sharkListIndex);
+            int fishListIndex = (int)(Math.random()*fishThatNeedToMove.size());
+            Organism current = fishThatNeedToMove.get(fishListIndex);
             fishThatNeedToMove.remove(current);
 
             ArrayList<Organism> kelpList = current.getKelpAndFutureEmpty(current.x,current.y,organismGrid);

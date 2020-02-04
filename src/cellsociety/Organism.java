@@ -61,6 +61,7 @@ public class Organism {
     private Organism[] get4Neighbors(int x, int y, Organism[][] gridCopy) {
         Organism[] neighbors = new Organism[4];
         int count = 0;
+        //System.out.println("ORIG X: "+ x + " ORIG Y: "+y);
         for(int i = x-1; i<=x+1;i++)
         {
             for(int j = y-1; j<=y+1;j++)
@@ -71,11 +72,14 @@ public class Organism {
                 }
                 else {
                     neighbors[count] = gridCopy[(i+gridCopy.length)%gridCopy.length][(j+gridCopy[0].length)%gridCopy[0].length];
+                    //System.out.println("X: "+ (i+gridCopy.length)%gridCopy.length + " Y: "+(j+gridCopy[0].length)%gridCopy[0].length);
                     count++;
                 }
             }
         }
+        //System.out.println("END OF NEIGHBOR LIST");
         return neighbors;
+
     }
 
     public ArrayList<Organism> getFish(int x, int y, Organism[][] gridCopy)
