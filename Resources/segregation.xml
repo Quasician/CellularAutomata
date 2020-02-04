@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<title>Segregation xml file
+    <author>Rodrigo Araujo</author>
+    <grid_width>125</grid_width>
+    <grid_height>125</grid_height>
+    <probSatisfy>0.75</probSatisfy>
+</title>
