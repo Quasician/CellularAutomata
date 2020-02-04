@@ -24,8 +24,6 @@ public class Main extends Application{
 
     private final static int WIDTH = 500;
     private final static int HEIGHT = 500;
-    private final static int ROW = 125;
-    private final static int COLS = 125;
     Timeline currentTimeline;
     HashMap<String,Double> currentParams;
     Simulation currentSim;
@@ -42,12 +40,12 @@ public class Main extends Application{
 
         currentParams = xml_parser.readFile("pred_prey.xml");
         properties = new GetPropertyValues();
-        primaryStage.setTitle("Simulation");
+        primaryStage.setTitle(properties.getPropValues("title"));
         primaryStage.setScene(new Scene(root, WIDTH + 100, HEIGHT));
         primaryStage.show();
 //        GOLSim sim = new GOLSim(100,100, WIDTH, HEIGHT);
- //       PercSim sim = new PercSim(100,100, WIDTH, HEIGHT);
-        //FireSim sim = new FireSim(100,100, WIDTH, HEIGHT);
+//        PercSim sim = new PercSim(100,100, WIDTH, HEIGHT);
+//        FireSim sim = new FireSim(100,100, WIDTH, HEIGHT);
 //        SegSim sim = new SegSim(30,30, WIDTH, HEIGHT);
         PredPreySim sim = new PredPreySim(currentParams.get("grid_height"),currentParams.get("grid_width"), WIDTH, HEIGHT, currentParams);
 

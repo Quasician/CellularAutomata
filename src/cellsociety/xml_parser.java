@@ -30,7 +30,7 @@ public class xml_parser {
         sims.putIfAbsent("segregation.xml",segParams);
         HashMap<String,Double> paramMap = new HashMap<>();
         try {
-            File inputFile = new File("Resources\\"+file);
+            File inputFile = new File("Resources/"+file);
 
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
