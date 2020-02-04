@@ -10,6 +10,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -27,7 +28,7 @@ public class Main extends Application{
 
         BorderPane root = new BorderPane();
         primaryStage.setTitle("Simulation");
-        primaryStage.setScene(new Scene(root, WIDTH, HEIGHT));
+        primaryStage.setScene(new Scene(root, WIDTH + 100, HEIGHT));
         primaryStage.show();
         double seconds = 1;
 //        GOLSim sim = new GOLSim(100,100, WIDTH, HEIGHT);
@@ -42,6 +43,7 @@ public class Main extends Application{
         currentViz = vis;
         HBox bottomButtons = new HBox();
         HBox bottomButtons2 = new HBox(30);
+        VBox rightButtons = new VBox();
         HBox bigbox = new HBox();
 
 
@@ -170,11 +172,11 @@ public class Main extends Application{
         });
 
         root.setBottom(bottomButtons);
-        root.getChildren().add(bottomButtons2);
-        bottomButtons2.setLayoutX(300);
-        bottomButtons2.setLayoutY(450);
-        bottomButtons.getChildren().addAll(slow,normal,fast,step,seg,gol);
-        bottomButtons2.getChildren().addAll(pred,fire,perc);
+        root.setRight(rightButtons);
+//        bottomButtons2.setLayoutX(300);
+//        bottomButtons2.setLayoutY(450);
+        bottomButtons.getChildren().addAll(slow,normal,fast,step);
+        rightButtons.getChildren().addAll(pred,fire,perc,seg,gol);
         //bigbox.getChildren().addAll(bottomButtons,bottomButtons2);
         //bigbox.setAlignment(Pos.BOTTOM_CENTER);
 
