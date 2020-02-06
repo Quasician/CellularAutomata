@@ -32,6 +32,7 @@ public class Main extends Application{
     private GetPropertyValues properties;
 
 
+
     @Override
     public void start(Stage primaryStage) throws Exception {
 

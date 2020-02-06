@@ -1,6 +1,6 @@
 package cellsociety;
 
-import javafx.scene.paint.Color;
+
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -128,5 +128,6 @@ public class SegSim extends Simulation{
         addToColorMap("empty", "white");
         addToColorMap("x", "red");
         addToColorMap("o", "blue");
+
     }
 }

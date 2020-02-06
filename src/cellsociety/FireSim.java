@@ -1,6 +1,5 @@
 package cellsociety;
 
-import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -84,6 +83,7 @@ public class FireSim extends Simulation{
         addToColorMap("empty", "yellow");
         addToColorMap("tree", "green");
         addToColorMap("burning", "red");
+
     }
 
 }

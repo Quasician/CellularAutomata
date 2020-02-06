@@ -12,6 +12,7 @@ public abstract class Simulation {
     private HashMap<String, String> colorMap;
     private HashMap<String, Double> params;
 
+
     private String[][] grid;
 
     public Simulation(int rows, int cols, int width, int height, HashMap<String, Double> params){
@@ -58,10 +59,9 @@ public abstract class Simulation {
 
     public abstract void setUpHashMap();
 
-    public HashMap<String, String> getColorMap()
-    {
-        return colorMap;
-    }
+
+    public HashMap<String, String> getColorMap() {return colorMap;}
+
 
     public String[][] getGrid()
     {

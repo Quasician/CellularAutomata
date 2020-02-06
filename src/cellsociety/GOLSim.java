@@ -1,6 +1,5 @@
 package cellsociety;
 
-import javafx.scene.paint.Color;
 import java.util.HashMap;
 
 public class GOLSim extends Simulation{
@@ -80,5 +79,6 @@ public class GOLSim extends Simulation{
         createColorMap(new HashMap<>());
         addToColorMap("alive", "black");
         addToColorMap("dead", "white");
+
     }
 }

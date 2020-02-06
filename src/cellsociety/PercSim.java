@@ -83,5 +83,6 @@ public class PercSim extends Simulation{
         addToColorMap("full", "deepskyblue");
         addToColorMap("empty", "white");
         addToColorMap("blocked", "black");
+
     }
 }
