@@ -6,14 +6,14 @@ public class Organism {
 
     protected String name;
     protected Organism nextState;
-    protected int lives;
-    protected int breedThresh;
-    protected int energy;
+    protected double lives;
+    protected double breedThresh;
+    protected double energy;
     protected int x;
     protected int y;
     protected Organism[] neighbors;
 
-    public Organism(int x, int y, String name, int lives, int energy) {
+    public Organism(int x, int y, String name, double lives, double energy) {
         this.name = name;
         this.lives = lives;
         this.energy = energy;
@@ -38,9 +38,9 @@ public class Organism {
     public void decreaseEnergy() {energy--;}
 
 
-    public int getEnergy() {return energy;}
+    public double getEnergy() {return energy;}
     public void setEnergy(int input) {energy = input;}
-    public int getBreedThresh() {return breedThresh;}
+    public double getBreedThresh() {return breedThresh;}
 
     //public void move(int x, int y, Organism[][] grid, Organism[][] gridCopy, ArrayList<Organism> emptyCells);
 
@@ -111,7 +111,7 @@ public class Organism {
     }
 
     public void setName(String input) {this.name = input;}
-    public int getLives() {return lives;}
+    public double getLives() {return lives;}
     public void setLife(int input) {this.lives = input;}
 
 }

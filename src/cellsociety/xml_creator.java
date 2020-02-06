@@ -17,7 +17,7 @@ import java.util.*;
 
 public class xml_creator {
 
-    public static final String xmlFilePath = "Resources\\game_of_life.xml";
+    public static final String xmlFilePath = "Resources/game_of_life.xml";
 
 
     public static void main(String argv[]) {

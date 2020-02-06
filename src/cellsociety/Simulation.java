@@ -10,17 +10,19 @@ public abstract class Simulation {
     protected int simRows, simCols;
     protected int simWidth, simHeight;
     protected HashMap<String, Color> colorMap;
+    protected HashMap<String, Double> params;
 
     protected String[][] grid;
 
-    public Simulation(int rows, int cols, int width, int height){
+    public Simulation(int rows, int cols, int width, int height, HashMap<String, Double> params){
         this.simRows = rows;
         this.simCols = cols;
         this.simWidth = width;
         this.simHeight = height;
-
+        this.params = params;
     }
 
+    public abstract void initParams();
     public int getWidth(){return simWidth;}
     public int getHeight(){return simHeight;}
     public int getColPos(){return simCols;}

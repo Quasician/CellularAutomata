@@ -7,10 +7,13 @@ import java.util.HashMap;
 
 public class GOLSim extends Simulation{
 
-    public GOLSim(int rows, int cols, int width, int height)
+    private double percentAlive;
+
+    public GOLSim(double rows, double cols, int width, int height, HashMap<String,Double> params)
     {
-        super(rows, cols, width,height);
-        createGrid(rows,cols);
+        super((int)rows, (int)cols, width,height, params);
+        initParams();
+        createGrid((int)rows,(int)cols);
         setUpHashMap();
     }
 
@@ -20,11 +23,13 @@ public class GOLSim extends Simulation{
         {
             for(int j = 0; j<simCols;j++)
             {
-                ArrayList<String> list = new ArrayList<>();
-                list.add("alive");
-                list.add("dead");
-                String choice = list.get((int)Math.round(Math.random()));
-                grid[i][j] = choice;
+                double choice = Math.random();
+                if (choice<=percentAlive) {
+                    grid[i][j] = "alive";
+                }
+                else{
+                    grid[i][j] = "dead";
+                }
             }
         }
     }
@@ -46,6 +51,11 @@ public class GOLSim extends Simulation{
                 updateCell(i,j,gridCopy);
             }
         }
+    }
+
+    @Override
+    public void initParams() {
+        percentAlive = params.get("percentAlive");
     }
 
     public void updateCell(int x, int y, String[][]gridCopy) {

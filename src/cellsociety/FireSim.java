@@ -7,13 +7,21 @@ import java.util.HashMap;
 
 public class FireSim extends Simulation{
 
-    private double probCatch = .6;
+    private double probCatch;
+    private double percentBurning;
 
-    public FireSim(int rows, int cols, int width, int height)
+    public FireSim(double rows, double cols, int width, int height, HashMap<String,Double> params)
     {
-        super(rows, cols, width,height);
-        createGrid(rows,cols);
+        super((int)rows, (int)cols, width,height, params);
+        initParams();
+        createGrid((int)rows,(int)cols);
         setUpHashMap();
+    }
+
+    @Override
+    public void initParams() {
+        probCatch = params.get("probCatch");
+        percentBurning = params.get("percentBurning");
     }
 
     public void createGrid(int numRows, int numCols) {
@@ -22,11 +30,13 @@ public class FireSim extends Simulation{
         {
             for(int j = 0; j<simCols;j++)
             {
-                ArrayList<String> list = new ArrayList<>();
-                list.add("tree");
-                list.add("burning");
-                String choice = list.get((int)Math.round(Math.random()));
-                grid[i][j] = choice;
+                double choice = Math.random();
+                if (choice<=percentBurning) {
+                    grid[i][j] = "burning";
+                }
+                else{
+                    grid[i][j] = "tree";
+                }
             }
         }
     }

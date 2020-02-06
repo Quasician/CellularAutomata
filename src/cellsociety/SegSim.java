@@ -8,16 +8,26 @@ import java.util.HashMap;
 
 public class SegSim extends Simulation{
 
-    private double probSatisfy = .75;
+    private double probSatisfy;
+    private double percentX;
+    private double percentO;
     private ArrayList<Integer> x_empty_cells;
     private ArrayList<Integer> y_empty_cells;
 
 
-    public SegSim(int rows, int cols, int width, int height)
+    public SegSim(double rows, double cols, int width, int height, HashMap<String,Double> params)
     {
-        super(rows, cols, width,height);
-        createGrid(rows,cols);
+        super((int)rows, (int)cols, width,height, params);
+        initParams();
+        createGrid((int)rows,(int)cols);
         setUpHashMap();
+    }
+
+    @Override
+    public void initParams() {
+        probSatisfy = params.get("probSatisfy");
+        percentO = params.get("percentO");
+        percentX = params.get("percentX");
     }
 
     public void createGrid(int numRows, int numCols) {
@@ -26,12 +36,17 @@ public class SegSim extends Simulation{
         {
             for(int j = 0; j<simCols;j++)
             {
-                ArrayList<String> list = new ArrayList<>();
-                list.add("x");
-                list.add("empty");
-                list.add("o");
-                String choice = list.get((int)Math.round(2 * Math.random()));
-                grid[i][j] = choice;
+                double choice = Math.random();
+                if (choice<=percentX) {
+                    grid[i][j] = "x";
+                }
+                else if (choice<=percentX+percentO){
+                    grid[i][j] = "o";
+                }
+                else
+                {
+                    grid[i][j] = "empty";
+                }
             }
         }
     }

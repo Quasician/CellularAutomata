@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<title>Game of Life xml file
+<title>Percolate xml file
     <author>Rodrigo Araujo</author>
     <grid_width>125</grid_width>
     <grid_height>125</grid_height>
-    <percentAlive>0.5</percentAlive>
+    <percentEmpty>0.495</percentEmpty>
+    <percentBlocked>0.495</percentBlocked>
 </title>
