@@ -25,7 +25,7 @@ public class Main extends Application{
     HashMap<String,Double> currentParams;
     Simulation currentSim;
     Visualizer currentViz;
-    double seconds = 1;
+    double seconds = 1.1;
     BorderPane root = new BorderPane();
     HBox bottomButtons = new HBox();
     VBox rightButtons = new VBox();
