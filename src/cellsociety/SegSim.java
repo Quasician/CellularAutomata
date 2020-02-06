@@ -25,46 +25,46 @@ public class SegSim extends Simulation{
 
     @Override
     public void initParams() {
-        probSatisfy = params.get("probSatisfy");
-        percentO = params.get("percentO");
-        percentX = params.get("percentX");
+        probSatisfy = getParams().get("probSatisfy");
+        percentO = getParams().get("percentO");
+        percentX = getParams().get("percentX");
     }
 
     public void createGrid(int numRows, int numCols) {
-        grid = new String[numRows][numCols];
-        for(int i = 0; i<simRows;i++)
+        createGrid(new String[numRows][numCols]);
+        for(int i = 0; i<getRows();i++)
         {
-            for(int j = 0; j<simCols;j++)
+            for(int j = 0; j<getCols();j++)
             {
                 double choice = Math.random();
                 if (choice<=percentX) {
-                    grid[i][j] = "x";
+                    setCell(i,j, "x");
                 }
                 else if (choice<=percentX+percentO){
-                    grid[i][j] = "o";
+                    setCell(i,j, "o");
                 }
                 else
                 {
-                    grid[i][j] = "empty";
+                    setCell(i,j, "empty");
                 }
             }
         }
     }
     public void updateGrid() {
-        String[][] gridCopy = new String[simRows][simCols];
-        for(int i = 0; i<simRows;i++)
+        String[][] gridCopy = new String[getRows()][getCols()];
+        for(int i = 0; i<getRows();i++)
         {
-            for(int j = 0; j<simCols;j++)
+            for(int j = 0; j<getCols();j++)
             {
-                gridCopy[i][j] = grid[i][j];
+                gridCopy[i][j] = getCell(i,j);
             }
         }
         x_empty_cells = new ArrayList<>();
         y_empty_cells = new ArrayList<>();
         generateEmptyCells(gridCopy);
-        for(int i = 0; i<simRows;i++)
+        for(int i = 0; i<getRows();i++)
         {
-            for(int j = 0; j<simCols;j++)
+            for(int j = 0; j<getCols();j++)
             {
                 updateCell(i,j,gridCopy);
             }
@@ -96,14 +96,14 @@ public class SegSim extends Simulation{
         satisfaction = ((double) sameCount) / total;
         if (satisfaction < probSatisfy && x_empty_cells.size() > 0) {
             ArrayList<Integer> temp = chooseAnEmptyCell(gridCopy);
-            grid[temp.get(0)][temp.get(1)] = gridCopy[x][y];
-            grid[x][y] = "empty";
+            setCell(temp.get(0),temp.get(1),gridCopy[x][y]);
+            setCell(x,y,"empty");
         }
     }
 
     public void generateEmptyCells(String[][] gridCopy) {
-        for (int i = 0; i < simRows; i++) {
-            for (int j = 0; j < simCols; j++) {
+        for (int i = 0; i < getRows(); i++) {
+            for (int j = 0; j < getCols(); j++) {
                 if (gridCopy[i][j].equals("empty")) {
                     x_empty_cells.add(i);
                     y_empty_cells.add(j);
@@ -124,9 +124,10 @@ public class SegSim extends Simulation{
 
     public void setUpHashMap()
     {
-        colorMap = new HashMap<>();
-        colorMap.putIfAbsent("empty", "white");
-        colorMap.putIfAbsent("x", "red");
-        colorMap.putIfAbsent("o", "blue");
+        createColorMap(new HashMap<>());
+        addToColorMap("empty", "white");
+        addToColorMap("x", "red");
+        addToColorMap("o", "blue");
+
     }
 }

@@ -21,15 +21,16 @@ public class Main extends Application{
 
     private final static int WIDTH = 500;
     private final static int HEIGHT = 500;
-    Timeline currentTimeline;
-    HashMap<String,Double> currentParams;
-    Simulation currentSim;
-    Visualizer currentViz;
-    double seconds = 1.1;
-    BorderPane root = new BorderPane();
-    HBox bottomButtons = new HBox();
-    VBox rightButtons = new VBox();
-    GetPropertyValues properties;
+    private Timeline currentTimeline;
+    private HashMap<String,Double> currentParams;
+    private Simulation currentSim;
+    private Visualizer currentViz;
+    private double seconds = 1;
+    private BorderPane root = new BorderPane();
+    private HBox bottomButtons = new HBox();
+    private VBox rightButtons = new VBox();
+    private GetPropertyValues properties;
+
 
 
     @Override
