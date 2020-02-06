@@ -20,41 +20,41 @@ public class PercSim extends Simulation{
 
     @Override
     public void initParams() {
-        percentEmpty = params.get("percentEmpty");
-        percentBlocked = params.get("percentBlocked");
+        percentEmpty =getParams().get("percentEmpty");
+        percentBlocked = getParams().get("percentBlocked");
     }
 
     public void createGrid(int numRows, int numCols) {
-        grid = new String[numRows][numCols];
-        for(int i = 0; i<simRows;i++)
+        createGrid(new String[numRows][numCols]);
+        for(int i = 0; i<getRows();i++)
         {
-            for(int j = 0; j<simCols;j++)
+            for(int j = 0; j<getCols();j++)
             {
                 double choice = Math.random();
                 if (choice<=percentEmpty) {
-                    grid[i][j] = "empty";
+                    setCell(i,j,"empty");
                 }
                 else{
-                    grid[i][j] = "blocked";
+                    setCell(i,j,"blocked");
                 }
             }
         }
-        grid[25][25] = "full";
+        setCell(25,25,"full");
     }
 
 
     public void updateGrid() {
-        String[][] gridCopy = new String[simRows][simCols];
-        for(int i = 0; i<simRows;i++)
+        String[][] gridCopy = new String[getRows()][getCols()];
+        for(int i = 0; i<getRows();i++)
         {
-            for(int j = 0; j<simCols;j++)
+            for(int j = 0; j<getCols();j++)
             {
-                gridCopy[i][j] = grid[i][j];
+                gridCopy[i][j] = getCell(i,j);
             }
         }
-        for(int i = 0; i<simRows;i++)
+        for(int i = 0; i<getRows();i++)
         {
-            for(int j = 0; j<simCols;j++)
+            for(int j = 0; j<getCols();j++)
             {
                 updateCell(i,j,gridCopy);
             }
@@ -74,14 +74,14 @@ public class PercSim extends Simulation{
 
         if(gridCopy[x][y].equals("empty") && sum > 0)
         {
-            grid[x][y] = "full";
+            setCell(x,y,"full");
         }
     }
     public void setUpHashMap()
     {
-        colorMap = new HashMap<>();
-        colorMap.putIfAbsent("full", Color.DEEPSKYBLUE);
-        colorMap.putIfAbsent("empty", Color.WHITE);
-        colorMap.putIfAbsent("blocked", Color.BLACK);
+        createColorMap(new HashMap<>());
+        addToColorMap("full", "deepskyblue");
+        addToColorMap("empty", "white");
+        addToColorMap("blocked", "black");
     }
 }

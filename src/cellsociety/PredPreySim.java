@@ -29,35 +29,35 @@ public class PredPreySim extends Simulation {
 
     public void initParams()
     {
-        breedThreshFish = params.get("breedThreshFish");
-        breedThreshShark = params.get("breedThreshShark");
-        defaultSharkEnergy = params.get("defaultSharkEnergy");
-        defaultFishEnergy = params.get("defaultFishEnergy");
-        percentFish = params.get("percentFish");
-        percentSharks = params.get("percentSharks");
+        breedThreshFish = getParams().get("breedThreshFish");
+        breedThreshShark = getParams().get("breedThreshShark");
+        defaultSharkEnergy = getParams().get("defaultSharkEnergy");
+        defaultFishEnergy = getParams().get("defaultFishEnergy");
+        percentFish = getParams().get("percentFish");
+        percentSharks = getParams().get("percentSharks");
     }
 
     public void createGrid(int numRows, int numCols) {
-        grid = new String[numRows][numCols];
+        createGrid(new String[numRows][numCols]);
         organismGrid = new Organism[numRows][numCols];
-        for(int i = 0; i<simRows;i++) {
-            for(int j = 0; j<simCols;j++) {
+        for(int i = 0; i<getRows();i++) {
+            for(int j = 0; j<getCols();j++) {
                 double choice = Math.random();
                 //System.out.println(choice);
                 if (choice<=percentFish) {
                     organismGrid[i][j] = new Organism(i,j,"fish",0, defaultFishEnergy);
                     organismGrid[i][j].setNextState(new Organism(i,j,"fish",0,defaultFishEnergy));
-                    grid[i][j] = "fish";
+                    setCell(i,j,"fish");
                 }
                 else if (choice>=percentFish+percentSharks) {
                     organismGrid[i][j] = new Organism(i,j,"kelp",0,0);
                     organismGrid[i][j].setNextState(new Organism(i,j,"kelp",0,0));
-                    grid[i][j] = "kelp";
+                    setCell(i,j,"kelp");
                 }
                 else {
                     organismGrid[i][j] = new Organism(i,j,"shark", 0, defaultSharkEnergy);
                     organismGrid[i][j].setNextState(new Organism(i,j,"shark", 0, defaultSharkEnergy));
-                    grid[i][j] = "shark";
+                    setCell(i,j,"shark");
                 }
 //                organismGrid[i][j] = new Organism(i,j,"kelp", 0, 0);
 //                organismGrid[i][j].setNextState(new Organism(i,j,"kelp", 0, 0));
@@ -80,16 +80,16 @@ public class PredPreySim extends Simulation {
         sharksThatNeedToMove = new ArrayList<>();
         fishThatNeedToMove = new ArrayList<>();
 
-        for (int i = 0; i < simRows; i++) {
-            for (int j = 0; j < simCols; j++) {
+        for (int i = 0; i < getRows(); i++) {
+            for (int j = 0; j < getCols(); j++) {
                 organismGrid[i][j] = organismGrid[i][j].getNextState();
                 organismGrid[i][j].setNextState(null);
             }
         }
 
-        for (int i = 0; i < simRows; i++) {
-            for (int j = 0; j < simCols; j++) {
-                updateCell(i,j, grid);
+        for (int i = 0; i < getRows(); i++) {
+            for (int j = 0; j < getCols(); j++) {
+                updateCell(i,j);
             }
         }
 
@@ -99,7 +99,7 @@ public class PredPreySim extends Simulation {
     }
 
 
-    public void updateCell(int x, int y, String[][] grid) {
+    public void updateCell(int x, int y) {
         if(organismGrid[x][y].getName().equals("fish")) {
             //System.out.println("FISH at X: "+ x + "  Y: "+ y + "  Lives: "+organismGrid[x][y].getLives());
             fishThatNeedToMove.add(organismGrid[x][y]);
@@ -135,18 +135,18 @@ public class PredPreySim extends Simulation {
     }
 
     private void updateStringArray() {
-        for(int i = 0; i<simRows;i++) {
-            for(int j = 0; j<simCols;j++) {
-                grid[i][j] = organismGrid[i][j].getName();
+        for(int i = 0; i<getRows();i++) {
+            for(int j = 0; j<getCols();j++) {
+                setCell(i,j, organismGrid[i][j].getName());
             }
         }
     }
 
     public void setUpHashMap() {
-        colorMap = new HashMap<>();
-        colorMap.putIfAbsent("fish", Color.BLUE);
-        colorMap.putIfAbsent("shark", Color.GRAY);
-        colorMap.putIfAbsent("kelp", Color.BLACK);
+        createColorMap(new HashMap<>());
+        addToColorMap("fish", "blue");
+        addToColorMap("shark", "gray");
+        addToColorMap("kelp", "black");
     }
 
     public void moveAllSharks() {
@@ -156,8 +156,8 @@ public class PredPreySim extends Simulation {
             sharksThatNeedToMove.remove(current);
 
 
-            ArrayList<Organism> fishList = current.getFish(current.x, current.y, organismGrid);
-            ArrayList<Organism> kelpList = current.getKelpAndFutureEmpty(current.x, current.y, organismGrid);
+            ArrayList<Organism> fishList = current.getFish(current.getX(), current.getY(), organismGrid);
+            ArrayList<Organism> kelpList = current.getKelpAndFutureEmpty(current.getX(), current.getY(), organismGrid);
 
             if (fishList.size() > 0) {
                 int fishListIndex = (int)(Math.random()*fishList.size());
@@ -178,36 +178,36 @@ public class PredPreySim extends Simulation {
         double currentEnergy = source.getEnergy();
         String name = source.getName();
         checkBreed(source);
-        destination.setNextState(new Organism(destination.x, destination.y, name, source.getLives(), currentEnergy+defaultFishEnergy));
+        destination.setNextState(new Organism(destination.getX(), destination.getY(), name, source.getLives(), currentEnergy+defaultFishEnergy));
     }
 
     public void sharkMovesToKelpCell(Organism source, Organism destination) {
         double currentEnergy = source.getEnergy();
         String name = source.getName();
         checkBreed(source);
-        destination.setNextState(new Organism(destination.x, destination.y, name, source.getLives(), currentEnergy));
+        destination.setNextState(new Organism(destination.getX(), destination.getY(), name, source.getLives(), currentEnergy));
     }
 
     public void fishMovesToKelpCell(Organism source, Organism destination) {
         double currentEnergy = source.getEnergy();
         String name = source.getName();
         checkBreed(source);
-        destination.setNextState(new Organism(destination.x, destination.y, name, source.getLives(), currentEnergy));
+        destination.setNextState(new Organism(destination.getX(), destination.getY(), name, source.getLives(), currentEnergy));
     }
 
     public void checkBreed(Organism source) {
 
         if(source.getName().equals("fish") && source.getLives()>breedThreshFish) {
-            source.setNextState(new Organism(source.x, source.y, source.getName(), 0, defaultFishEnergy));
+            source.setNextState(new Organism(source.getX(), source.getY(), source.getName(), 0, defaultFishEnergy));
             source.setLife(0);
         }
         else if(source.getName().equals("shark") && source.getLives()>breedThreshShark && source.getEnergy() > (defaultSharkEnergy / 2)) {
-            source.setNextState(new Organism(source.x, source.y, source.getName(), 0, defaultSharkEnergy));
+            source.setNextState(new Organism(source.getX(), source.getY(), source.getName(), 0, defaultSharkEnergy));
             source.setLife(0);
         }
          else {
             //System.out.println("YEET");
-            source.setNextState(new Organism(source.x, source.y, "kelp", 0, 0));
+            source.setNextState(new Organism(source.getX(), source.getY(), "kelp", 0, 0));
         }
     }
 
@@ -217,7 +217,7 @@ public class PredPreySim extends Simulation {
             Organism current = fishThatNeedToMove.get(fishListIndex);
             fishThatNeedToMove.remove(current);
 
-            ArrayList<Organism> kelpList = current.getKelpAndFutureEmpty(current.x,current.y,organismGrid);
+            ArrayList<Organism> kelpList = current.getKelpAndFutureEmpty(current.getX(),current.getY(),organismGrid);
 
             if (kelpList.size() > 0) {
                 int kelpListIndex = (int)(Math.random()*kelpList.size());

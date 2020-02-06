@@ -20,9 +20,9 @@ public class Visualizer {
     private int width, height;
     private BorderPane root;
     private Rectangle[][] recList;
-    private HashMap<String, Color> colorMap;
+    private HashMap<String, String> colorMap;
 
-    public Visualizer(int row, int col, int windowWidth, int windowHeight, BorderPane root, HashMap<String, Color> colorMap) {
+    public Visualizer(int row, int col, int windowWidth, int windowHeight, BorderPane root, HashMap<String, String> colorMap) {
         this.visCol = col;
         this.visRow = row;
         this.root = root;
@@ -63,7 +63,7 @@ public class Visualizer {
             for(int j = 0;j<visCol;j++)
             {
                 //System.out.println("I: " + i + "J: "+ j);
-                recList[i][j].setFill(colorMap.get(grid[i][j]));
+                recList[i][j].setFill(Color.web(colorMap.get(grid[i][j])));
             }
         }
         //System.out.println("END YEET!");

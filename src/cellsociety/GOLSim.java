@@ -1,8 +1,6 @@
 package cellsociety;
 
 import javafx.scene.paint.Color;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class GOLSim extends Simulation{
@@ -18,17 +16,17 @@ public class GOLSim extends Simulation{
     }
 
     public void createGrid(int numRows, int numCols) {
-        grid = new String[numRows][numCols];
-        for(int i = 0; i<simRows;i++)
+        createGrid( new String[numRows][numCols]);
+        for(int i = 0; i<getRows();i++)
         {
-            for(int j = 0; j<simCols;j++)
+            for(int j = 0; j<getCols();j++)
             {
                 double choice = Math.random();
                 if (choice<=percentAlive) {
-                    grid[i][j] = "alive";
+                    setCell(i,j,"alive");
                 }
                 else{
-                    grid[i][j] = "dead";
+                    setCell(i,j,"dead");
                 }
             }
         }
@@ -36,17 +34,17 @@ public class GOLSim extends Simulation{
 
 
     public void updateGrid() {
-        String[][] gridCopy = new String[simRows][simCols];
-        for(int i = 0; i<simRows;i++)
+        String[][] gridCopy = new String[getRows()][getCols()];
+        for(int i = 0; i<getRows();i++)
         {
-            for(int j = 0; j<simCols;j++)
+            for(int j = 0; j<getCols();j++)
             {
-                gridCopy[i][j] = grid[i][j];
+                gridCopy[i][j] = getCell(i,j);
             }
         }
-        for(int i = 0; i<simRows;i++)
+        for(int i = 0; i<getRows();i++)
         {
-            for(int j = 0; j<simCols;j++)
+            for(int j = 0; j<getCols();j++)
             {
                 updateCell(i,j,gridCopy);
             }
@@ -55,7 +53,7 @@ public class GOLSim extends Simulation{
 
     @Override
     public void initParams() {
-        percentAlive = params.get("percentAlive");
+        percentAlive = getParams().get("percentAlive");
     }
 
     public void updateCell(int x, int y, String[][]gridCopy) {
@@ -69,22 +67,18 @@ public class GOLSim extends Simulation{
             }
         }
 
-        if(gridCopy[x][y].equals("alive") && (sum == 2 || sum == 3))
-        {
-            grid[x][y] = "alive";
+        if((gridCopy[x][y].equals("alive") && (sum == 2 || sum == 3)) || (gridCopy[x][y].equals("dead") && sum == 3)) {
+            setCell(x, y, "alive");
         }
-        else if(gridCopy[x][y].equals("dead") && sum == 3)
-        {
-            grid[x][y] = "alive";
-        }else {
-            grid[x][y] = "dead";
+        else {
+            setCell(x, y, "dead");
         }
     }
 
     public void setUpHashMap()
     {
-        colorMap = new HashMap<>();
-        colorMap.putIfAbsent("alive", Color.BLACK);
-        colorMap.putIfAbsent("dead", Color.WHITE);
+        createColorMap(new HashMap<>());
+        addToColorMap("alive", "black");
+        addToColorMap("dead", "white");
     }
 }

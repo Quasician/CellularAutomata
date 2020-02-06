@@ -7,12 +7,12 @@ import java.util.HashMap;
 
 public abstract class Simulation {
 
-    protected int simRows, simCols;
-    protected int simWidth, simHeight;
-    protected HashMap<String, Color> colorMap;
-    protected HashMap<String, Double> params;
+    private int simRows, simCols;
+    private int simWidth, simHeight;
+    private HashMap<String, String> colorMap;
+    private HashMap<String, Double> params;
 
-    protected String[][] grid;
+    private String[][] grid;
 
     public Simulation(int rows, int cols, int width, int height, HashMap<String, Double> params){
         this.simRows = rows;
@@ -23,13 +23,34 @@ public abstract class Simulation {
     }
 
     public abstract void initParams();
-    public int getWidth(){return simWidth;}
-    public int getHeight(){return simHeight;}
-    public int getColPos(){return simCols;}
-    public int getRowPos(){return simRows;}
+    public int getRows(){return simRows;}
+    public int getCols(){return simCols;}
+    public int getSimWidth(){return simWidth;}
+    public int getSimHeight(){return simHeight;}
+    public HashMap<String, Double> getParams(){return params;}
+    public void createColorMap(HashMap<String, String> colorMap){
+        this.colorMap = colorMap;
+    }
 
+    public void addToColorMap(String type, String color)
+    {
+        colorMap.putIfAbsent(type, color);
+    }
+    public void createGrid(String[][] grid)
+    {
+        this.grid = grid;
+    }
 
-    public abstract void updateCell(int x, int y,String[][]gridCopy);
+    public String getCell(int x, int y)
+    {
+        return grid[x][y];
+    }
+
+    public void setCell(int x, int y, String value)
+    {
+        grid[x][y] = value;
+    }
+
 
     public abstract void createGrid(int numRows, int numCols);
 
@@ -37,7 +58,10 @@ public abstract class Simulation {
 
     public abstract void setUpHashMap();
 
-    public HashMap<String, Color> getColorMap() {return colorMap;}
+    public HashMap<String, String> getColorMap()
+    {
+        return colorMap;
+    }
 
     public String[][] getGrid()
     {
