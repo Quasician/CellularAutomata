@@ -56,20 +56,10 @@ public class xml_creator {
                 cell_config.appendChild(tempcell);
             }
 
-
-
-
-            // create the xml file
-            //transform the DOM Object to an XML File
             TransformerFactory transformerFactory = TransformerFactory.newInstance();
             Transformer transformer = transformerFactory.newTransformer();
             DOMSource domSource = new DOMSource(document);
             StreamResult streamResult = new StreamResult(new File(xmlFilePath));
-
-            // If you use
-            // StreamResult result = new StreamResult(System.out);
-            // the output will be pushed to the standard output ...
-            // You can use that for debugging
 
             transformer.transform(domSource, streamResult);
 

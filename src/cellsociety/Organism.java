@@ -4,14 +4,14 @@ import java.util.ArrayList;
 
 public class Organism {
 
-    protected String name;
-    protected Organism nextState;
-    protected double lives;
-    protected double breedThresh;
-    protected double energy;
-    protected int x;
-    protected int y;
-    protected Organism[] neighbors;
+    private String name;
+    private Organism nextState;
+    private double lives;
+    private double breedThresh;
+    private double energy;
+    private int x;
+    private int y;
+    private Organism[] neighbors;
 
     public Organism(int x, int y, String name, double lives, double energy) {
         this.name = name;
@@ -110,8 +110,14 @@ public class Organism {
         return kelpAndFutureEmptyList;
     }
 
-    public void setName(String input) {this.name = input;}
     public double getLives() {return lives;}
     public void setLife(int input) {this.lives = input;}
-
+    public int getX()
+    {
+        return x;
+    }
+    public int getY()
+    {
+        return y;
+    }
 }
