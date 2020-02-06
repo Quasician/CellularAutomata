@@ -5,8 +5,6 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
-import javafx.geometry.Pos;
-import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.BorderPane;
@@ -15,8 +13,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import java.awt.event.ActionEvent;
-import java.beans.EventHandler;
+
 import java.io.IOException;
 import java.util.HashMap;
 
@@ -28,7 +25,7 @@ public class Main extends Application{
     HashMap<String,Double> currentParams;
     Simulation currentSim;
     Visualizer currentViz;
-    double seconds = 1;
+    double seconds = 1.1;
     BorderPane root = new BorderPane();
     HBox bottomButtons = new HBox();
     VBox rightButtons = new VBox();
