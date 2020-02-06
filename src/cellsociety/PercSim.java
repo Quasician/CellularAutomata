@@ -80,8 +80,8 @@ public class PercSim extends Simulation{
     public void setUpHashMap()
     {
         colorMap = new HashMap<>();
-        colorMap.putIfAbsent("full", Color.DEEPSKYBLUE);
-        colorMap.putIfAbsent("empty", Color.WHITE);
-        colorMap.putIfAbsent("blocked", Color.BLACK);
+        colorMap.putIfAbsent("full", "deepskyblue");
+        colorMap.putIfAbsent("empty", "white");
+        colorMap.putIfAbsent("blocked", "black");
     }
 }

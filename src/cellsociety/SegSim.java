@@ -1,6 +1,6 @@
 package cellsociety;
 
-import javafx.scene.paint.Color;
+
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -125,8 +125,8 @@ public class SegSim extends Simulation{
     public void setUpHashMap()
     {
         colorMap = new HashMap<>();
-        colorMap.putIfAbsent("empty", Color.WHITE);
-        colorMap.putIfAbsent("x", Color.RED);
-        colorMap.putIfAbsent("o", Color.BLUE);
+        colorMap.putIfAbsent("empty", "white");
+        colorMap.putIfAbsent("x", "red");
+        colorMap.putIfAbsent("o", "blue");
     }
 }

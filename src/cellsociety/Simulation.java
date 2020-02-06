@@ -9,7 +9,7 @@ public abstract class Simulation {
 
     protected int simRows, simCols;
     protected int simWidth, simHeight;
-    protected HashMap<String, Color> colorMap;
+    protected HashMap<String, String> colorMap;
     protected HashMap<String, Double> params;
 
     protected String[][] grid;
@@ -37,7 +37,7 @@ public abstract class Simulation {
 
     public abstract void setUpHashMap();
 
-    public HashMap<String, Color> getColorMap() {return colorMap;}
+    public HashMap<String, String> getColorMap() {return colorMap;}
 
     public String[][] getGrid()
     {

@@ -1,6 +1,5 @@
 package cellsociety;
 
-import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -144,9 +143,9 @@ public class PredPreySim extends Simulation {
 
     public void setUpHashMap() {
         colorMap = new HashMap<>();
-        colorMap.putIfAbsent("fish", Color.BLUE);
-        colorMap.putIfAbsent("shark", Color.GRAY);
-        colorMap.putIfAbsent("kelp", Color.BLACK);
+        colorMap.putIfAbsent("fish", "blue");
+        colorMap.putIfAbsent("shark", "gray");
+        colorMap.putIfAbsent("kelp", "black");
     }
 
     public void moveAllSharks() {

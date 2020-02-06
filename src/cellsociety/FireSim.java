@@ -1,6 +1,5 @@
 package cellsociety;
 
-import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -81,9 +80,9 @@ public class FireSim extends Simulation{
     public void setUpHashMap()
     {
         colorMap = new HashMap<>();
-        colorMap.putIfAbsent("empty", Color.YELLOW);
-        colorMap.putIfAbsent("tree", Color.GREEN);
-        colorMap.putIfAbsent("burning", Color.RED);
+        colorMap.putIfAbsent("empty", "yellow");
+        colorMap.putIfAbsent("tree", "green");
+        colorMap.putIfAbsent("burning", "red");
     }
 
 }
