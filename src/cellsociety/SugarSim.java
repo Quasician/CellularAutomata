@@ -1,5 +1,7 @@
 package cellsociety;
 
+import javafx.scene.paint.Color;
+
 import java.util.HashMap;
 
 public class SugarSim extends Simulation {
@@ -12,7 +14,7 @@ public class SugarSim extends Simulation {
     }
 
     public void initParams() {
-        
+
     }
 
     public void createGrid(int rows, int cols) {
@@ -28,6 +30,8 @@ public class SugarSim extends Simulation {
     }
 
     public void setUpHashMap() {
-
+        createColorMap(new HashMap<>());
+        addToColorMap("agent", "red");
+        addToColorMap("sugar", "yellow");
     }
 }
