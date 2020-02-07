@@ -41,21 +41,25 @@ public class SugarSim extends Simulation {
 
                 if (choice <= percentAgent) {
                     sugarGrid[i][j] = new SugarCell(i, j, "agent", 0, defaultSugar, defaultMetabolism);
+                    sugarGrid[i][j].setPrevState(new SugarCell(i, j, "agent", 0, defaultSugar, defaultMetabolism));
                     sugarGrid[i][j].setNextState(new SugarCell(i, j, "agent", 0, defaultSugar, defaultMetabolism));
                     setCell(i,j,"agent");
                 }
                 if (choice <= percentAgent + percentSugarFull) {
                     sugarGrid[i][j] = new SugarCell(i, j, "sugar_full", defaultCapacity, defaultCapacity, 0);
+                    sugarGrid[i][j].setPrevState(new SugarCell(i, j, "sugar_full", defaultCapacity, defaultCapacity, 0));
                     sugarGrid[i][j].setNextState(new SugarCell(i, j, "sugar_full", defaultCapacity, defaultCapacity, 0));
                     setCell(i,j,"sugar_full");
                 }
                 if (choice <= percentAgent + percentSugarFull + percentSugarHalf) {
                     sugarGrid[i][j] = new SugarCell(i, j, "sugar_half", defaultCapacity, defaultCapacity / 2, 0);
+                    sugarGrid[i][j].setPrevState(new SugarCell(i, j, "sugar_half", defaultCapacity, defaultCapacity / 2, 0));
                     sugarGrid[i][j].setNextState(new SugarCell(i, j, "sugar_half", defaultCapacity, defaultCapacity / 2, 0));
                     setCell(i,j,"sugar_half");
                 }
                 else {
                     sugarGrid[i][j] = new SugarCell(i, j, "sugar_zero", defaultCapacity, 0, 0);
+                    sugarGrid[i][j].setPrevState(new SugarCell(i, j, "sugar_zero", defaultCapacity, 0, 0));
                     sugarGrid[i][j].setNextState(new SugarCell(i, j, "sugar_zero", defaultCapacity, 0, 0));
                     setCell(i,j,"sugar_zero");
                 }
