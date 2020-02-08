@@ -52,7 +52,12 @@ public class Main extends Application{
         currentSim = sim;
         currentViz = vis;
 
-        simbutton_setup();
+        simbutton_setup("buttonSeg", "segregation.xml");
+        simbutton_setup("buttonGol", "game_of_life.xml");
+        simbutton_setup("buttonPerc", "percolate.xml");
+        simbutton_setup("buttonFire", "fire.xml");
+        simbutton_setup("buttonPP", "pred_prey.xml");
+
 
         Button fast = makeSpeedButton(properties.getPropValues("buttonFast"), seconds*10);
         Button normal = makeSpeedButton(properties.getPropValues("buttonNormal"), seconds);
@@ -104,61 +109,44 @@ public class Main extends Application{
         return button;
     }
 
-    private void simbutton_setup() throws IOException {
+    private void simbutton_setup(String buttonName, String filename) throws IOException {
         properties = new GetPropertyValues();
-        Button seg= new Button(properties.getPropValues("buttonSeg"));
-        rightButtons.getChildren().add(seg);
-        seg.setOnAction(e ->{
+        Button button= new Button(properties.getPropValues(buttonName));
+        rightButtons.getChildren().add(button);
+
+        button.setOnAction(e ->{
             //sim = null;
-            currentParams = xml_parser.readFile("segregation.xml");
-            SegSim temp = new SegSim(currentParams.get("grid_height"),currentParams.get("grid_width"), WIDTH, HEIGHT, currentParams);
-            currentSim = temp;
-            sim_helper(temp);
+            Simulation sim;
+            currentParams = xml_parser.readFile(filename);
+            if(filename.equals("segregation.xml"))
+            {
+                sim = new SegSim(currentParams.get("grid_height"),currentParams.get("grid_width"), WIDTH, HEIGHT, currentParams);
+
+            }else if(filename.equals("fire.xml"))
+            {
+                sim = new FireSim(currentParams.get("grid_height"),currentParams.get("grid_width"), WIDTH, HEIGHT, currentParams);
+
+            }else if(filename.equals("game_of_life.xml"))
+            {
+                sim = new GOLSim(currentParams.get("grid_height"),currentParams.get("grid_width"), WIDTH, HEIGHT, currentParams);
+
+            }else if(filename.equals("pred_prey.xml"))
+            {
+                sim = new PredPreySim(currentParams.get("grid_height"),currentParams.get("grid_width"), WIDTH, HEIGHT, currentParams);
+
+            }else if(filename.equals("percolate.xml"))
+            {
+                sim = new PercSim(currentParams.get("grid_height"),currentParams.get("grid_width"), WIDTH, HEIGHT, currentParams);
+
+            }else
+            {
+                sim = new SegSim(currentParams.get("grid_height"),currentParams.get("grid_width"), WIDTH, HEIGHT, currentParams);
+            }
+            currentSim = sim;
+            sim_helper(sim);
         });
 
-        Button gol= new Button(properties.getPropValues("buttonGol"));
-        rightButtons.getChildren().add(gol);
-        gol.setOnAction(e ->{
-            //sim = null;
-            currentParams = xml_parser.readFile("game_of_life.xml");
-            GOLSim temp = new GOLSim(currentParams.get("grid_height"),currentParams.get("grid_width"), WIDTH, HEIGHT, currentParams);
 
-            currentSim = temp;
-            sim_helper(temp);
-        });
-
-        Button perc= new Button(properties.getPropValues("buttonPerc"));
-        rightButtons.getChildren().add(perc);
-        perc.setOnAction(e ->{
-            //sim = null;
-
-            currentParams = xml_parser.readFile("percolate.xml");
-            PercSim temp = new PercSim(currentParams.get("grid_height"),currentParams.get("grid_width"), WIDTH, HEIGHT, currentParams);
-
-            currentSim = temp;
-            sim_helper(temp);
-        });
-
-        Button fire= new Button(properties.getPropValues("buttonFire"));
-        rightButtons.getChildren().add(fire);
-        fire.setOnAction(e ->{
-            //sim = null;
-
-            currentParams = xml_parser.readFile("fire.xml");
-            Simulation temp = new FireSim(currentParams.get("grid_height"),currentParams.get("grid_width"), WIDTH, HEIGHT, currentParams);
-
-            sim_helper(temp);
-        });
-
-        Button pred= new Button(properties.getPropValues("buttonPP"));
-        rightButtons.getChildren().add(pred);
-        pred.setOnAction(e ->{
-            //sim = null;
-
-            currentParams = xml_parser.readFile("pred_prey.xml");
-            PredPreySim temp = new PredPreySim(currentParams.get("grid_height"),currentParams.get("grid_width"), WIDTH, HEIGHT ,currentParams);
-            sim_helper(temp);
-        });
     }
 
 
