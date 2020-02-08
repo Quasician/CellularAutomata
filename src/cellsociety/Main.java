@@ -19,7 +19,7 @@ import java.util.HashMap;
 
 public class Main extends Application{
 
-    private final static int WIDTH = 500;
+    private final static int WIDTH = 501;
     private final static int HEIGHT = 500;
     private Timeline currentTimeline;
     private HashMap<String,Double> currentParams;
@@ -54,23 +54,23 @@ public class Main extends Application{
 
         simbutton_setup();
 
-        Button fast = makeSpeedButton(properties.getPropValues("buttonFast"), seconds*10);
-        Button normal = makeSpeedButton(properties.getPropValues("buttonNormal"), seconds);
-        Button slow = makeSpeedButton(properties.getPropValues("buttonSlow"), seconds*0.5);
-        Button play = makeSpeedButton(properties.getPropValues("buttonPlay"), seconds);
-        Button pause = makeSpeedButton(properties.getPropValues("buttonPause"), 0.0);
+//        Button fast = makeSpeedButton(properties.getPropValues("buttonFast"), seconds*10);
+//        Button normal = makeSpeedButton(properties.getPropValues("buttonNormal"), seconds);
+//        Button slow = makeSpeedButton(properties.getPropValues("buttonSlow"), seconds*0.5);
+//        Button play = makeSpeedButton(properties.getPropValues("buttonPlay"), seconds);
+//        Button pause = makeSpeedButton(properties.getPropValues("buttonPause"), 0.0);
+//
+//        Button step= new Button(properties.getPropValues("buttonStep"));
+//        step.setOnAction(e ->{
+//            currentTimeline.setRate(0);
+//            currentSim.updateGrid();
+//            currentViz.colorGrid(currentSim.getGrid());
+//
+//        });
 
-        Button step= new Button(properties.getPropValues("buttonStep"));
-        step.setOnAction(e ->{
-            currentTimeline.setRate(0);
-            currentSim.updateGrid();
-            currentViz.colorGrid(currentSim.getGrid());
-
-        });
-
-        root.setBottom(bottomButtons);
-        root.setRight(rightButtons);
-        bottomButtons.getChildren().addAll(slow,normal,fast,step, play, pause);
+//        root.setBottom(bottomButtons);
+//        root.setRight(rightButtons);
+//        bottomButtons.getChildren().addAll(slow,normal,fast,step, play, pause);
 
         vis.initialize(sim.getGrid());
         currentTimeline = new Timeline(
