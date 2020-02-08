@@ -1,10 +1,11 @@
-package cellsociety;
+package Model;
 
 
-import java.util.ArrayList;
+import Model.Simulation;
+
 import java.util.HashMap;
 
-public class FireSim extends Simulation{
+public class FireSim extends Simulation {
 
     private double probCatch;
     private double percentBurning;

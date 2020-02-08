@@ -1,8 +1,10 @@
-package cellsociety;
+package Model;
+
+import Model.Simulation;
 
 import java.util.HashMap;
 
-public class GOLSim extends Simulation{
+public class GOLSim extends Simulation {
 
     private double percentAlive;
 
