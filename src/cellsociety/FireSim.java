@@ -1,6 +1,5 @@
 package cellsociety;
 
-import javafx.scene.paint.Color;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,38 +19,38 @@ public class FireSim extends Simulation{
 
     @Override
     public void initParams() {
-        probCatch = params.get("probCatch");
-        percentBurning = params.get("percentBurning");
+        probCatch = getParams().get("probCatch");
+        percentBurning = getParams().get("percentBurning");
     }
 
     public void createGrid(int numRows, int numCols) {
-        grid = new String[numRows][numCols];
-        for(int i = 0; i<simRows;i++)
+       createGrid(new String[numRows][numCols]);
+        for(int i = 0; i<getRows();i++)
         {
-            for(int j = 0; j<simCols;j++)
+            for(int j = 0; j<getCols();j++)
             {
                 double choice = Math.random();
                 if (choice<=percentBurning) {
-                    grid[i][j] = "burning";
+                    setCell(i,j,"burning");
                 }
                 else{
-                    grid[i][j] = "tree";
+                    setCell(i,j,"tree");
                 }
             }
         }
     }
     public void updateGrid() {
-        String[][] gridCopy = new String[simRows][simCols];
-        for(int i = 0; i<simRows;i++)
+        String[][] gridCopy = new String[getRows()][getCols()];
+        for(int i = 0; i<getRows();i++)
         {
-            for(int j = 0; j<simCols;j++)
+            for(int j = 0; j<getCols();j++)
             {
-                gridCopy[i][j] = grid[i][j];
+                gridCopy[i][j] = getCell(i,j);
             }
         }
-        for(int i = 0; i<simRows;i++)
+        for(int i = 0; i<getRows();i++)
         {
-            for(int j = 0; j<simCols;j++)
+            for(int j = 0; j<getCols();j++)
             {
                 updateCell(i,j,gridCopy);
             }
@@ -69,21 +68,22 @@ public class FireSim extends Simulation{
             }
         }
         if (gridCopy[x][y].equals("burning")) {
-            grid[x][y] = "empty";
+            setCell(x,y,"empty");
         }
         if (gridCopy[x][y].equals("tree") && sum > 0) {
            if(Math.random() < probCatch) {
-               grid[x][y] = "burning";
+               setCell(x,y,"burning");
            }
         }
 
     }
     public void setUpHashMap()
     {
-        colorMap = new HashMap<>();
-        colorMap.putIfAbsent("empty", Color.YELLOW);
-        colorMap.putIfAbsent("tree", Color.GREEN);
-        colorMap.putIfAbsent("burning", Color.RED);
+        createColorMap(new HashMap<>());
+        addToColorMap("empty", "yellow");
+        addToColorMap("tree", "green");
+        addToColorMap("burning", "red");
+
     }
 
 }
