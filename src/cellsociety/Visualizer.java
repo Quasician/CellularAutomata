@@ -21,17 +21,20 @@ public class Visualizer {
     private BorderPane root;
     private Rectangle[][] recList;
     private HashMap<String, String> colorMap;
+    private Simulation sim;
 
-    public Visualizer(int row, int col, int windowWidth, int windowHeight, BorderPane root, HashMap<String, String> colorMap) {
-        this.visCol = col;
-        this.visRow = row;
+    public Visualizer(BorderPane root, Simulation sim) {
+        this.visCol = sim.getCols();
+        this.visRow = sim.getRows();
         this.root = root;
-        this.colorMap = colorMap;
-        width = windowWidth;
-        height = windowHeight-100;
+        this.colorMap = sim.getColorMap();
+        width = sim.getSimWidth();
+        height = sim.getSimHeight()-100;
+        this.sim =sim;
+        initialize();
     }
 
-    public void initialize(String[][] grid) {
+    public void initialize() {
         recList = new Rectangle[visRow][visCol];
         double cellWidth = width/(double)visRow;
         double cellHeight= height/(double)visCol;
@@ -52,10 +55,10 @@ public class Visualizer {
             x=0;
             y+=cellHeight;
         }
-        colorGrid(grid);
+        colorGrid();
     }
 
-    public void colorGrid(String[][] grid)
+    public void colorGrid()
     {
         //System.out.println("YEET!");
         for(int i = 0;i<visRow;i++)
@@ -63,7 +66,7 @@ public class Visualizer {
             for(int j = 0;j<visCol;j++)
             {
                 //System.out.println("I: " + i + "J: "+ j);
-                recList[i][j].setFill(Color.web(colorMap.get(grid[i][j])));
+                recList[i][j].setFill(Color.web(colorMap.get(sim.getGrid()[i][j])));
             }
         }
         //System.out.println("END YEET!");
