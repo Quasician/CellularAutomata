@@ -1,6 +1,8 @@
-package cellsociety;
+package View;
 
+import Model.*;
 import configuration.GetPropertyValues;
+import configuration.xml_parser;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;

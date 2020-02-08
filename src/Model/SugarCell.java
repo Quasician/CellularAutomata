@@ -1,4 +1,4 @@
-package cellsociety;
+package Model;
 
 public class SugarCell {
 
