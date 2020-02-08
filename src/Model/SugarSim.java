@@ -9,14 +9,15 @@ public class SugarSim extends Simulation {
     private int defaultSugar = 2;
     private int defaultMetabolism = 1;
     private int sugarRate = 1;
-    private double percentAgent = 0.1;
+    private double percentAgent = 0.05;
     private double percentSugarFull = 0.1;
     private double percentSugarHalf = 0.5;
-    private double percentSugarZero = 0.3;
+    private double percentSugarZero = 0.35;
     private ArrayList<SugarCell> agentsMoved;
     private ArrayList<SugarCell> takenSpots;
     private SugarCell[][] sugarGrid;
-    int count = 0;
+    private SugarCell[][] gridCopy;
+//    int count = 0;
 
     public SugarSim(double rows, double cols, int width, int height, HashMap<String, Double> params) {
         super((int) rows, (int) cols, width, height, params);
@@ -66,10 +67,11 @@ public class SugarSim extends Simulation {
                 }
             }
         }
+        gridCopier(sugarGrid);
     }
 
     public void updateGrid() {
-        count = 0;
+//        count = 0;
         agentsMoved = new ArrayList<>();
         takenSpots = new ArrayList<>();
         for (int i = 0; i < getRows(); i++) {
@@ -84,13 +86,13 @@ public class SugarSim extends Simulation {
             }
         }
         updateStringArray();
-        System.out.println(count);
+//        System.out.println(count);
     }
 
     public void updateCell(SugarCell input) {
         if (input.getName().equals("agent") && !(agentsMoved.contains(input))) {
             moveAgents(input);
-            count++;
+//            count++;
         } else if (!takenSpots.contains(input)) {
             updateSugar(input);
         }
@@ -98,7 +100,7 @@ public class SugarSim extends Simulation {
 
     public void moveAgents(SugarCell input) {
         if (input.sugar < 0) {
-            input.setNextState(new SugarCell(input.x, input.y, "sugar_zero", defaultCapacity, 0, 0));
+            input.setNextState(new SugarCell(input.x, input.y, gridCopy[input.x][input.y].getName(), gridCopy[input.x][input.y].capacity, 0, 0));
             agentsMoved.add(input);
             return;
         }
@@ -125,7 +127,7 @@ public class SugarSim extends Simulation {
             input.decreaseSugar(defaultMetabolism);
 
             target.setNextState(new SugarCell(target.x, target.y, "agent", 0, input.sugar, defaultMetabolism));
-            input.setNextState(new SugarCell(input.x, input.y, "sugar_zero", defaultCapacity, 0, 0));
+            input.setNextState(new SugarCell(input.x, input.y, "sugar_zero", gridCopy[input.x][input.y].capacity, 0, 0));
 
             takenSpots.add(target);
             agentsMoved.add(input);
@@ -138,7 +140,7 @@ public class SugarSim extends Simulation {
             input.decreaseSugar(defaultMetabolism);
 
             target.setNextState(new SugarCell(target.x, target.y, "agent", 0, input.sugar, defaultMetabolism));
-            input.setNextState(new SugarCell(input.x, input.y, "sugar_zero", defaultCapacity, 0, 0));
+            input.setNextState(new SugarCell(input.x, input.y, "sugar_zero", gridCopy[input.x][input.y].capacity, 0, 0));
 
             takenSpots.add(target);
             agentsMoved.add(input);
@@ -150,7 +152,7 @@ public class SugarSim extends Simulation {
             input.decreaseSugar(defaultMetabolism);
 
             target.setNextState(new SugarCell(target.x, target.y, "agent", 0, input.sugar, defaultMetabolism));
-            input.setNextState(new SugarCell(input.x, input.y, "sugar_zero", defaultCapacity, 0, 0));
+            input.setNextState(new SugarCell(input.x, input.y, "sugar_zero", gridCopy[input.x][input.y].capacity, 0, 0));
 
             takenSpots.add(target);
             agentsMoved.add(input);
@@ -163,11 +165,17 @@ public class SugarSim extends Simulation {
 
     public void updateSugar(SugarCell input) {
         if (!input.getName().equals("sugar_full")) {
-            input.increaseSugar(sugarRate);
-            if (input.sugar == defaultCapacity) {
-                input.setNextState(new SugarCell(input.x, input.y, "sugar_full", input.capacity, input.sugar, input.metabolism));
-            } else if (input.sugar >= defaultCapacity / 2) {
-                input.setNextState(new SugarCell(input.x, input.y, "sugar_half", input.capacity, input.sugar, input.metabolism));
+            if (input.sugar < gridCopy[input.x][input.y].capacity) {
+                input.increaseSugar(sugarRate);
+                if (input.sugar == gridCopy[input.x][input.y].capacity && input.getName().equals("sugar_half")) {
+                    input.setNextState(new SugarCell(input.x, input.y, "sugar_full", input.capacity, input.sugar, input.metabolism));
+                }
+                else {
+                    input.setNextState(new SugarCell(input.x, input.y, "sugar_half", input.capacity, input.sugar, input.metabolism));
+                }
+            }
+            else {
+                input.setNextState(input);
             }
         }
         else {
@@ -187,6 +195,23 @@ public class SugarSim extends Simulation {
             for (int i = 0; i < getRows(); i++) {
                 for (int j = 0; j < getCols(); j++) {
                     setCell(i, j, sugarGrid[i][j].getName());
+                }
+            }
+        }
+
+        private void gridCopier(SugarCell[][] grid) {
+            gridCopy = new SugarCell[grid.length][grid[0].length];
+            for (int i = 0; i < grid.length; i++) {
+                for (int j = 0; j < grid[0].length; j++) {
+                    if(grid[i][j].getName().equals("agent")) {
+                        String[] name = {"sugar_full", "sugar_half", "sugar_zero"};
+                        int[] capa = {defaultCapacity, defaultCapacity / 2, 0};
+                        int indexRand = (int) (Math.random() * 2.999);
+                        gridCopy[i][j] = new SugarCell(i, j, name[indexRand], capa[indexRand], 0, 0);
+                    }
+                    else {
+                        gridCopy[i][j] = grid[i][j];
+                    }
                 }
             }
         }
