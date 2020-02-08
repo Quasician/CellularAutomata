@@ -17,7 +17,6 @@ public class SugarSim extends Simulation {
     private ArrayList<SugarCell> takenSpots;
     private SugarCell[][] sugarGrid;
     private SugarCell[][] gridCopy;
-//    int count = 0;
 
     public SugarSim(double rows, double cols, int width, int height, HashMap<String, Double> params) {
         super((int) rows, (int) cols, width, height, params);
@@ -46,22 +45,18 @@ public class SugarSim extends Simulation {
 
                 if (choice <= percentAgent) {
                     sugarGrid[i][j] = new SugarCell(i, j, "agent", 0, defaultSugar, defaultMetabolism);
-//                    sugarGrid[i][j].setInitState(new SugarCell(i, j, "sugar_zero", 0, 0, 0));
                     sugarGrid[i][j].setNextState(new SugarCell(i, j, "agent", 0, defaultSugar, defaultMetabolism));
                     setCell(i, j, "agent");
                 } else if (choice <= percentAgent + percentSugarFull) {
                     sugarGrid[i][j] = new SugarCell(i, j, "sugar_full", defaultCapacity, defaultCapacity, 0);
-//                    sugarGrid[i][j].setInitState(new SugarCell(i, j, "sugar_full", defaultCapacity, defaultCapacity, 0));
                     sugarGrid[i][j].setNextState(new SugarCell(i, j, "sugar_full", defaultCapacity, defaultCapacity, 0));
                     setCell(i, j, "sugar_full");
                 } else if (choice <= percentAgent + percentSugarFull + percentSugarHalf) {
                     sugarGrid[i][j] = new SugarCell(i, j, "sugar_half", defaultCapacity / 2, defaultCapacity / 2, 0);
-//                    sugarGrid[i][j].setInitState(new SugarCell(i, j, "sugar_half", defaultCapacity / 2, defaultCapacity / 2, 0));
                     sugarGrid[i][j].setNextState(new SugarCell(i, j, "sugar_half", defaultCapacity / 2, defaultCapacity / 2, 0));
                     setCell(i, j, "sugar_half");
                 } else {
                     sugarGrid[i][j] = new SugarCell(i, j, "sugar_zero", 0, 0, 0);
-//                    sugarGrid[i][j].setInitState(new SugarCell(i, j, "sugar_zero", 0, 0, 0));
                     sugarGrid[i][j].setNextState(new SugarCell(i, j, "sugar_zero", 0, 0, 0));
                     setCell(i, j, "sugar_zero");
                 }
@@ -71,7 +66,6 @@ public class SugarSim extends Simulation {
     }
 
     public void updateGrid() {
-//        count = 0;
         agentsMoved = new ArrayList<>();
         takenSpots = new ArrayList<>();
         for (int i = 0; i < getRows(); i++) {
@@ -86,14 +80,13 @@ public class SugarSim extends Simulation {
             }
         }
         updateStringArray();
-//        System.out.println(count);
     }
 
     public void updateCell(SugarCell input) {
         if (input.getName().equals("agent") && !(agentsMoved.contains(input))) {
             moveAgents(input);
-//            count++;
-        } else if (!takenSpots.contains(input)) {
+        }
+        else if (!takenSpots.contains(input)) {
             updateSugar(input);
         }
     }
@@ -104,62 +97,20 @@ public class SugarSim extends Simulation {
             agentsMoved.add(input);
             return;
         }
-        SugarCell[] neighbors = input.get4Neighbors(input.x, input.y, sugarGrid);
-        ArrayList<SugarCell> full = new ArrayList<>();
-        ArrayList<SugarCell> half = new ArrayList<>();
-        ArrayList<SugarCell> zero = new ArrayList<>();
-        for (SugarCell n : neighbors) {
-            if (n.getName().equals("sugar_full") && !(takenSpots.contains(n))) {
-                full.add(n);
-            }
-            if (n.getName().equals("sugar_half") && !(takenSpots.contains(n))) {
-                half.add(n);
-            }
-            if (n.getName().equals("sugar_zero") && !(takenSpots.contains(n))) {
-                zero.add(n);
-            }
-        }
+        ArrayList<SugarCell> full = neighborFilter(input, "sugar_full");
+        ArrayList<SugarCell> half = neighborFilter(input, "sugar_half");
+        ArrayList<SugarCell> zero = neighborFilter(input, "sugar_zero");
         if (full.size() > 0 && input.sugar > 0) {
-            int choice = (int) (Math.random() * full.size());
-            SugarCell target = full.get(choice);
-
-            input.increaseSugar(target.sugar);
-            input.decreaseSugar(defaultMetabolism);
-
-            target.setNextState(new SugarCell(target.x, target.y, "agent", 0, input.sugar, defaultMetabolism));
-            input.setNextState(new SugarCell(input.x, input.y, "sugar_zero", gridCopy[input.x][input.y].capacity, 0, 0));
-
-            takenSpots.add(target);
-            agentsMoved.add(input);
+            eatSugar(full, input);
         }
         else if (half.size() > 0 && input.sugar > 0) {
-            int choice = (int) (Math.random() * half.size());
-            SugarCell target = half.get(choice);
-
-            input.increaseSugar(target.sugar);
-            input.decreaseSugar(defaultMetabolism);
-
-            target.setNextState(new SugarCell(target.x, target.y, "agent", 0, input.sugar, defaultMetabolism));
-            input.setNextState(new SugarCell(input.x, input.y, "sugar_zero", gridCopy[input.x][input.y].capacity, 0, 0));
-
-            takenSpots.add(target);
-            agentsMoved.add(input);
+            eatSugar(half, input);
         }
         else if (zero.size() > 0 && input.sugar > 0) {
-            int choice = (int) (Math.random() * zero.size());
-            SugarCell target = zero.get(choice);
-
-            input.decreaseSugar(defaultMetabolism);
-
-            target.setNextState(new SugarCell(target.x, target.y, "agent", 0, input.sugar, defaultMetabolism));
-            input.setNextState(new SugarCell(input.x, input.y, "sugar_zero", gridCopy[input.x][input.y].capacity, 0, 0));
-
-            takenSpots.add(target);
-            agentsMoved.add(input);
+            eatSugar(zero, input);
         }
         else {
-            input.setNextState(new SugarCell(input.x, input.y, "agent", 0, input.sugar, input.metabolism));
-            agentsMoved.add(input);
+            input.setNextState(input);
         }
     }
 
@@ -183,36 +134,61 @@ public class SugarSim extends Simulation {
         }
     }
 
-        public void setUpHashMap() {
-            createColorMap(new HashMap<>());
-            addToColorMap("agent", "red");
-            addToColorMap("sugar_full", "gold");
-            addToColorMap("sugar_half", "yellow");
-            addToColorMap("sugar_zero", "lemonchiffon");
+    public ArrayList<SugarCell> neighborFilter(SugarCell input, String name) {
+        SugarCell[] neighbors = input.get4Neighbors(input.x, input.y, sugarGrid);
+        ArrayList<SugarCell> result = new ArrayList<>();
+        for (SugarCell n : neighbors) {
+            if (n.getName().equals(name) && !(takenSpots.contains(n))) {
+                result.add(n);
+            }
         }
+        return result;
+    }
 
-        private void updateStringArray() {
-            for (int i = 0; i < getRows(); i++) {
-                for (int j = 0; j < getCols(); j++) {
-                    setCell(i, j, sugarGrid[i][j].getName());
+    public void eatSugar(ArrayList<SugarCell> list, SugarCell input) {
+        int choice = (int) (Math.random() * list.size());
+        SugarCell target = list.get(choice);
+
+        input.increaseSugar(target.sugar);
+        input.decreaseSugar(defaultMetabolism);
+
+        target.setNextState(new SugarCell(target.x, target.y, "agent", 0, input.sugar, defaultMetabolism));
+        input.setNextState(new SugarCell(input.x, input.y, "sugar_zero", gridCopy[input.x][input.y].capacity, 0, 0));
+
+        takenSpots.add(target);
+        agentsMoved.add(input);
+    }
+
+    public void setUpHashMap() {
+        createColorMap(new HashMap<>());
+        addToColorMap("agent", "red");
+        addToColorMap("sugar_full", "gold");
+        addToColorMap("sugar_half", "yellow");
+        addToColorMap("sugar_zero", "lemonchiffon");
+    }
+
+    private void updateStringArray() {
+        for (int i = 0; i < getRows(); i++) {
+            for (int j = 0; j < getCols(); j++) {
+                setCell(i, j, sugarGrid[i][j].getName());
+            }
+        }
+    }
+
+    private void gridCopier(SugarCell[][] grid) {
+        gridCopy = new SugarCell[grid.length][grid[0].length];
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[0].length; j++) {
+                if(grid[i][j].getName().equals("agent")) {
+                    String[] name = {"sugar_full", "sugar_half", "sugar_zero"};
+                    int[] capa = {defaultCapacity, defaultCapacity / 2, 0};
+                    int indexRand = (int) (Math.random() * 2.999);
+                    gridCopy[i][j] = new SugarCell(i, j, name[indexRand], capa[indexRand], 0, 0);
+                }
+                else {
+                    gridCopy[i][j] = grid[i][j];
                 }
             }
         }
-
-        private void gridCopier(SugarCell[][] grid) {
-            gridCopy = new SugarCell[grid.length][grid[0].length];
-            for (int i = 0; i < grid.length; i++) {
-                for (int j = 0; j < grid[0].length; j++) {
-                    if(grid[i][j].getName().equals("agent")) {
-                        String[] name = {"sugar_full", "sugar_half", "sugar_zero"};
-                        int[] capa = {defaultCapacity, defaultCapacity / 2, 0};
-                        int indexRand = (int) (Math.random() * 2.999);
-                        gridCopy[i][j] = new SugarCell(i, j, name[indexRand], capa[indexRand], 0, 0);
-                    }
-                    else {
-                        gridCopy[i][j] = grid[i][j];
-                    }
-                }
-            }
-        }
+    }
 }
