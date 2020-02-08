@@ -1,17 +1,12 @@
-package cellsociety;
+package View;
 
-import javafx.scene.Group;
+import Model.Simulation;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Visualizer {
@@ -21,49 +16,46 @@ public class Visualizer {
     private BorderPane root;
     private Rectangle[][] recList;
     private HashMap<String, String> colorMap;
+    private Simulation sim;
 
-    public Visualizer(int row, int col, int windowWidth, int windowHeight, BorderPane root, HashMap<String, String> colorMap) {
-        this.visCol = col;
-        this.visRow = row;
+    public Visualizer(BorderPane root, Simulation sim) {
+        this.visCol = sim.getCols();
+        this.visRow = sim.getRows();
         this.root = root;
-        this.colorMap = colorMap;
-        width = windowWidth;
-        height = windowHeight-100;
+        this.colorMap = sim.getColorMap();
+        width = sim.getSimWidth();
+        height = sim.getSimHeight() - 100;
+        this.sim = sim;
+        initialize();
     }
 
-    public void initialize(String[][] grid) {
+    public void initialize() {
         recList = new Rectangle[visRow][visCol];
-        double cellWidth = width/(double)visRow;
-        double cellHeight= height/(double)visCol;
-
+        double cellWidth = width / (double) visRow;
+        double cellHeight = height / (double) visCol;
 
 
         double x = 0;
         double y = 0;
-        for(int i = 0;i<visRow;i++)
-        {
-            for(int j = 0;j<visCol;j++)
-            {
-                Rectangle rec = new Rectangle(x,y,cellWidth,cellHeight);
+        for (int i = 0; i < visRow; i++) {
+            for (int j = 0; j < visCol; j++) {
+                Rectangle rec = new Rectangle(x, y, cellWidth, cellHeight);
                 root.getChildren().add(rec);
                 recList[i][j] = rec;
-                x+=cellWidth;
+                x += cellWidth;
             }
-            x=0;
-            y+=cellHeight;
+            x = 0;
+            y += cellHeight;
         }
-        colorGrid(grid);
+        colorGrid();
     }
 
-    public void colorGrid(String[][] grid)
-    {
+    public void colorGrid() {
         //System.out.println("YEET!");
-        for(int i = 0;i<visRow;i++)
-        {
-            for(int j = 0;j<visCol;j++)
-            {
+        for (int i = 0; i < visRow; i++) {
+            for (int j = 0; j < visCol; j++) {
                 //System.out.println("I: " + i + "J: "+ j);
-                recList[i][j].setFill(Color.web(colorMap.get(grid[i][j])));
+                recList[i][j].setFill(Color.web(colorMap.get(sim.getGrid()[i][j])));
             }
         }
         //System.out.println("END YEET!");

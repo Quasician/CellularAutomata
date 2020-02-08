@@ -1,11 +1,10 @@
-package cellsociety;
+package Model;
 
-import javafx.scene.paint.Color;
+import Model.Simulation;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
-public class PercSim extends Simulation{
+public class PercSim extends Simulation {
 
     private double percentEmpty;
     private double percentBlocked;

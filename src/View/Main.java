@@ -1,6 +1,8 @@
-package cellsociety;
+package View;
 
+import Model.*;
 import configuration.GetPropertyValues;
+import configuration.xml_parser;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -59,7 +61,7 @@ public class Main extends Application{
         simButtonSetup("buttonPP", "pred_prey.xml");
 
 
-        Button fast = makeSpeedButton(properties.getPropValues("buttonFast"), seconds*10);
+        Button fast = makeSpeedButton(properties.getPropValues("buttonFast"), seconds*5);
         Button normal = makeSpeedButton(properties.getPropValues("buttonNormal"), seconds);
         Button slow = makeSpeedButton(properties.getPropValues("buttonSlow"), seconds*0.5);
         Button play = makeSpeedButton(properties.getPropValues("buttonPlay"), seconds);
@@ -69,7 +71,7 @@ public class Main extends Application{
         step.setOnAction(e ->{
             currentTimeline.setRate(0);
             currentSim.updateGrid();
-            currentViz.colorGrid(currentSim.getGrid());
+            currentViz.colorGrid();
 
         });
 
@@ -152,13 +154,12 @@ public class Main extends Application{
         });
 
         myStage.setScene(curr_scene);
-        Visualizer vis1 = new Visualizer(temp.getGrid().length,temp.getGrid()[0].length,WIDTH, HEIGHT, curr_root, temp.getColorMap());
+        Visualizer vis1 = new Visualizer(curr_root, currentSim);
         currentViz = vis1;
-        vis1.initialize(temp.getGrid());
         currentTimeline = new Timeline(
                 new KeyFrame(Duration.seconds(seconds), j -> {
-                    temp.updateGrid();
-                    vis1.colorGrid(temp.getGrid());
+                    currentSim.updateGrid();
+                    vis1.colorGrid();
                 })
         );
         currentTimeline.setCycleCount(Animation.INDEFINITE);
