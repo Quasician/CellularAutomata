@@ -88,7 +88,7 @@ public class Main extends Application{
         Button button= new Button(properties.getPropValues(buttonName));
         rightButtons.getChildren().add(button);
         TextField firstValue = new TextField();
-        Button aButton = new Button("Enter");
+        Button enter = new Button("Enter");
 
         button.setOnAction(e ->{
             Simulation sim;
@@ -96,8 +96,8 @@ public class Main extends Application{
             if(filename.equals("segregation.xml"))
             {
                 leftButtons.getChildren().clear();
-                leftButtons.getChildren().addAll(firstValue,aButton);
-                aButton.setOnAction(j ->{
+                leftButtons.getChildren().addAll(firstValue,enter);
+                enter.setOnAction(j ->{
                     segSimSetup(firstValue);
                 });
 
@@ -105,38 +105,37 @@ public class Main extends Application{
             }else if(filename.equals("fire.xml"))
             {
                 leftButtons.getChildren().clear();
-                leftButtons.getChildren().addAll(firstValue,aButton);
-                aButton.setOnAction(j ->{
+                leftButtons.getChildren().addAll(firstValue,enter);
+                enter.setOnAction(j ->{
                     fireSimSetup(firstValue);
                 });
 
             }else if(filename.equals("game_of_life.xml"))
             {
                 leftButtons.getChildren().clear();
-                leftButtons.getChildren().addAll(firstValue,aButton);
-                aButton.setOnAction(j ->{
+                leftButtons.getChildren().addAll(firstValue,enter);
+                enter.setOnAction(j ->{
                     golSimSetup(firstValue);
                 });
 
             }else if(filename.equals("pred_prey.xml"))
             {
                 leftButtons.getChildren().clear();
-                leftButtons.getChildren().addAll(firstValue,aButton);
-                aButton.setOnAction(j ->{
+                leftButtons.getChildren().addAll(firstValue,enter);
+                enter.setOnAction(j ->{
                     predpreySimSetup(firstValue);
                 });
 
             }else if(filename.equals("percolate.xml"))
             {
                 leftButtons.getChildren().clear();
-                leftButtons.getChildren().addAll(firstValue,aButton);
-                aButton.setOnAction(j ->{
+                leftButtons.getChildren().addAll(firstValue,enter);
+                enter.setOnAction(j ->{
                     percSimSetup(firstValue);
                 });
 
             }
-//            currentSim = sim;
-//            sim_helper(sim);
+
         });
     }
 
