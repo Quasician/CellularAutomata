@@ -86,6 +86,7 @@ public class SugarSim extends Simulation {
                 updateCell(sugarGrid[i][j]);
             }
         }
+        updateStringArray();
     }
 
     public void updateCell(SugarCell input) {
@@ -168,5 +169,13 @@ public class SugarSim extends Simulation {
         addToColorMap("sugar_full", "gold");
         addToColorMap("sugar_half", "yellow");
         addToColorMap("sugar_zero", "lemonchiffon");
+    }
+
+    private void updateStringArray() {
+        for(int i = 0; i<getRows();i++) {
+            for(int j = 0; j<getCols();j++) {
+                setCell(i,j, sugarGrid[i][j].getName());
+            }
+        }
     }
 }
