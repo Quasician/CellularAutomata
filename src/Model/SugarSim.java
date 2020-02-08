@@ -1,13 +1,15 @@
 package Model;
 
+import javafx.scene.paint.Color;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class SugarSim extends Simulation {
 
-    private int defaultCapacity = 2;
-    private int defaultSugar = 2;
-    private int defaultMetabolism = 1;
+    private int defaultCapacity = 20;
+    private int defaultSugar = 10;
+    private int defaultMetabolism = 5;
     private int sugarRate = 1;
     private double percentAgent = 0.05;
     private double percentSugarFull = 0.1;
@@ -93,18 +95,26 @@ public class SugarSim extends Simulation {
 
     public void moveAgents(SugarCell input) {
         if (input.sugar < 0) {
-            input.setNextState(new SugarCell(input.x, input.y, gridCopy[input.x][input.y].getName(), gridCopy[input.x][input.y].capacity, 0, 0));
+            input.setNextState(new SugarCell(input.x, input.y, "sugar_zero", gridCopy[input.x][input.y].capacity, 0, 0));
             agentsMoved.add(input);
             return;
         }
         ArrayList<SugarCell> full = neighborFilter(input, "sugar_full");
+        ArrayList<SugarCell> almost = neighborFilter(input, "sugar_almost");
         ArrayList<SugarCell> half = neighborFilter(input, "sugar_half");
+        ArrayList<SugarCell> some = neighborFilter(input, "sugar_some");
         ArrayList<SugarCell> zero = neighborFilter(input, "sugar_zero");
         if (full.size() > 0 && input.sugar > 0) {
             eatSugar(full, input);
         }
+        else if (almost.size() > 0 && input.sugar > 0) {
+            eatSugar(almost, input);
+        }
         else if (half.size() > 0 && input.sugar > 0) {
             eatSugar(half, input);
+        }
+        else if (some.size() > 0 && input.sugar > 0) {
+            eatSugar(some, input);
         }
         else if (zero.size() > 0 && input.sugar > 0) {
             eatSugar(zero, input);
@@ -115,18 +125,19 @@ public class SugarSim extends Simulation {
     }
 
     public void updateSugar(SugarCell input) {
-        if (!input.getName().equals("sugar_full")) {
-            if (input.sugar < gridCopy[input.x][input.y].capacity) {
-                input.increaseSugar(sugarRate);
-                if (input.sugar == gridCopy[input.x][input.y].capacity && input.getName().equals("sugar_half")) {
-                    input.setNextState(new SugarCell(input.x, input.y, "sugar_full", input.capacity, input.sugar, input.metabolism));
-                }
-                else {
-                    input.setNextState(new SugarCell(input.x, input.y, "sugar_half", input.capacity, input.sugar, input.metabolism));
-                }
+        if (input.sugar < gridCopy[input.x][input.y].capacity) {
+            input.increaseSugar(sugarRate);
+            if (input.sugar > 0 && input.sugar < (defaultCapacity / 2)) {
+                input.setNextState(new SugarCell(input.x, input.y, "sugar_some", gridCopy[input.x][input.y].capacity, input.sugar, input.metabolism));
+            }
+            else if (input.sugar == (defaultCapacity / 2)) {
+                input.setNextState(new SugarCell(input.x, input.y, "sugar_half", gridCopy[input.x][input.y].capacity, input.sugar, input.metabolism));
+            }
+            else if (input.sugar > (defaultCapacity / 2) && input.sugar < defaultCapacity) {
+                input.setNextState(new SugarCell(input.x, input.y, "sugar_almost", gridCopy[input.x][input.y].capacity, input.sugar, input.metabolism));
             }
             else {
-                input.setNextState(input);
+                input.setNextState(new SugarCell(input.x, input.y, "sugar_full", gridCopy[input.x][input.y].capacity, input.sugar, input.metabolism));
             }
         }
         else {
@@ -162,9 +173,11 @@ public class SugarSim extends Simulation {
     public void setUpHashMap() {
         createColorMap(new HashMap<>());
         addToColorMap("agent", "red");
-        addToColorMap("sugar_full", "gold");
+        addToColorMap("sugar_full", "goldenrod");
+        addToColorMap("sugar_almost", "gold");
         addToColorMap("sugar_half", "yellow");
-        addToColorMap("sugar_zero", "lemonchiffon");
+        addToColorMap("sugar_some", "lemonchiffon");
+        addToColorMap("sugar_zero", "white");
     }
 
     private void updateStringArray() {
