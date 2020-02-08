@@ -48,7 +48,7 @@ public class Main extends Application{
         PredPreySim sim = new PredPreySim(currentParams.get("grid_height"),currentParams.get("grid_width"), WIDTH, HEIGHT, currentParams);
 
 
-        Visualizer vis = new Visualizer(sim.getGrid().length,sim.getGrid()[0].length,WIDTH, HEIGHT, root, sim.getColorMap());
+        Visualizer vis = new Visualizer(root, sim);
         currentSim = sim;
         currentViz = vis;
 
@@ -69,7 +69,7 @@ public class Main extends Application{
         step.setOnAction(e ->{
             currentTimeline.setRate(0);
             currentSim.updateGrid();
-            currentViz.colorGrid(currentSim.getGrid());
+            currentViz.colorGrid();
 
         });
 
@@ -77,26 +77,25 @@ public class Main extends Application{
         root.setRight(rightButtons);
         bottomButtons.getChildren().addAll(slow,normal,fast,step, play, pause);
 
-        vis.initialize(sim.getGrid());
+
         currentTimeline = new Timeline(
                 new KeyFrame(Duration.seconds(seconds), e -> {
                     sim.updateGrid();
-                    vis.colorGrid(sim.getGrid());
+                    vis.colorGrid();
                 })
         );
         currentTimeline.setCycleCount(Animation.INDEFINITE);
         currentTimeline.play();
     }
 
-    public void sim_helper(Simulation temp){
-        currentSim = temp;
-        Visualizer vis1 = new Visualizer(temp.getGrid().length,temp.getGrid()[0].length,WIDTH, HEIGHT, root, temp.getColorMap());
+    public void sim_helper(Simulation sim){
+        currentSim = sim;
+        Visualizer vis1 = new Visualizer(root, sim);
         currentViz = vis1;
-        vis1.initialize(temp.getGrid());
         currentTimeline = new Timeline(
                 new KeyFrame(Duration.seconds(seconds), j -> {
-                    temp.updateGrid();
-                    vis1.colorGrid(temp.getGrid());
+                    sim.updateGrid();
+                    vis1.colorGrid();
                 })
         );
         currentTimeline.setCycleCount(Animation.INDEFINITE);
