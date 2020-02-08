@@ -1,12 +1,13 @@
-package cellsociety;
+package Model;
 
 
 
-import java.lang.reflect.Array;
+import Model.Simulation;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class SegSim extends Simulation{
+public class SegSim extends Simulation {
 
     private double probSatisfy;
     private double percentX;

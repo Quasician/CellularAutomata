@@ -1,6 +1,4 @@
-package cellsociety;
-
-import javafx.scene.paint.Color;
+package Model;
 
 import java.util.ArrayList;
 import java.util.HashMap;
