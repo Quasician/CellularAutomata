@@ -5,11 +5,11 @@ public class SugarCell {
     private String name;
     private SugarCell nextState;
     private SugarCell prevState;
-    private int x;
-    private int y;
-    private int capacity;
-    private int sugar;
-    private int metabolism;
+    protected int x;
+    protected int y;
+    protected int capacity;
+    protected int sugar;
+    protected int metabolism;
 
 
     public SugarCell(int x, int y, String name, int capacity, int sugar, int metabolism) {
