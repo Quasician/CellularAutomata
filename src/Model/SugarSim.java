@@ -5,14 +5,14 @@ import java.util.HashMap;
 
 public class SugarSim extends Simulation {
 
-    private int defaultCapacity;
-    private int defaultSugar;
-    private int defaultMetabolism;
-    private int sugarRate;
-    private double percentAgent;
-    private double percentSugarFull;
-    private double percentSugarHalf;
-    private double percentSugarZero;
+    private int defaultCapacity = 2;
+    private int defaultSugar = 2;
+    private int defaultMetabolism = 1;
+    private int sugarRate = 1;
+    private double percentAgent = 0.1;
+    private double percentSugarFull = 0.1;
+    private double percentSugarHalf = 0.5;
+    private double percentSugarZero = 0.3;
     private ArrayList<SugarCell> agentsMoved;
     private ArrayList<SugarCell> takenSpots;
     private SugarCell[][] sugarGrid;
@@ -26,14 +26,14 @@ public class SugarSim extends Simulation {
     }
 
     public void initParams() {
-        defaultCapacity = (int) (getParams().get("capacity") * 10) / 10;
-        defaultMetabolism = (int) (getParams().get("metabolism") * 10) / 10;
-        defaultSugar = (int) (getParams().get("defaultSugar") * 10) / 10;
-        sugarRate = (int) (getParams().get("sugarRate") * 10) / 10;
-        percentAgent = getParams().get("percentAgent");
-        percentSugarFull = getParams().get("percentSugarFull");
-        percentSugarHalf = getParams().get("percentSugarHalf");
-        percentSugarZero = getParams().get("percentSugarZero");
+//        defaultCapacity = (int) (getParams().get("capacity") * 10) / 10;
+//        defaultMetabolism = (int) (getParams().get("metabolism") * 10) / 10;
+//        defaultSugar = (int) (getParams().get("defaultSugar") * 10) / 10;
+//        sugarRate = (int) (getParams().get("sugarRate") * 10) / 10;
+//        percentAgent = getParams().get("percentAgent");
+//        percentSugarFull = getParams().get("percentSugarFull");
+//        percentSugarHalf = getParams().get("percentSugarHalf");
+//        percentSugarZero = getParams().get("percentSugarZero");
     }
 
     public void createGrid(int rows, int cols) {
@@ -45,25 +45,25 @@ public class SugarSim extends Simulation {
 
                 if (choice <= percentAgent) {
                     sugarGrid[i][j] = new SugarCell(i, j, "agent", 0, defaultSugar, defaultMetabolism);
-                    sugarGrid[i][j].setPrevState(new SugarCell(i, j, "sugar_zero", defaultCapacity, 0, 0));
+//                    sugarGrid[i][j].setPrevState(new SugarCell(i, j, "sugar_zero", defaultCapacity, 0, 0));
                     sugarGrid[i][j].setNextState(new SugarCell(i, j, "agent", 0, defaultSugar, defaultMetabolism));
                     setCell(i,j,"agent");
                 }
-                if (choice <= percentAgent + percentSugarFull) {
+                else if (choice <= percentAgent + percentSugarFull) {
                     sugarGrid[i][j] = new SugarCell(i, j, "sugar_full", defaultCapacity, defaultCapacity, 0);
-                    sugarGrid[i][j].setPrevState(new SugarCell(i, j, "sugar_full", defaultCapacity, defaultCapacity, 0));
+//                    sugarGrid[i][j].setPrevState(new SugarCell(i, j, "sugar_full", defaultCapacity, defaultCapacity, 0));
                     sugarGrid[i][j].setNextState(new SugarCell(i, j, "sugar_full", defaultCapacity, defaultCapacity, 0));
                     setCell(i,j,"sugar_full");
                 }
-                if (choice <= percentAgent + percentSugarFull + percentSugarHalf) {
+                else if (choice <= percentAgent + percentSugarFull + percentSugarHalf) {
                     sugarGrid[i][j] = new SugarCell(i, j, "sugar_half", defaultCapacity, defaultCapacity / 2, 0);
-                    sugarGrid[i][j].setPrevState(new SugarCell(i, j, "sugar_half", defaultCapacity, defaultCapacity / 2, 0));
+//                    sugarGrid[i][j].setPrevState(new SugarCell(i, j, "sugar_half", defaultCapacity, defaultCapacity / 2, 0));
                     sugarGrid[i][j].setNextState(new SugarCell(i, j, "sugar_half", defaultCapacity, defaultCapacity / 2, 0));
                     setCell(i,j,"sugar_half");
                 }
                 else {
                     sugarGrid[i][j] = new SugarCell(i, j, "sugar_zero", defaultCapacity, 0, 0);
-                    sugarGrid[i][j].setPrevState(new SugarCell(i, j, "sugar_zero", defaultCapacity, 0, 0));
+//                    sugarGrid[i][j].setPrevState(new SugarCell(i, j, "sugar_zero", defaultCapacity, 0, 0));
                     sugarGrid[i][j].setNextState(new SugarCell(i, j, "sugar_zero", defaultCapacity, 0, 0));
                     setCell(i,j,"sugar_zero");
                 }
@@ -73,6 +73,7 @@ public class SugarSim extends Simulation {
 
     public void updateGrid() {
         agentsMoved = new ArrayList<>();
+        takenSpots = new ArrayList<>();
         for (int i = 0; i < getRows(); i++) {
             for (int j = 0; j < getCols(); j++) {
                 sugarGrid[i][j] = sugarGrid[i][j].getNextState();
@@ -98,7 +99,8 @@ public class SugarSim extends Simulation {
 
     public void moveAgents(SugarCell input) {
             if (input.sugar < 0) {
-                input.setNextState(input.getPrevState());
+                input.setNextState(new SugarCell(input.x, input.y, "sugar_zero", defaultCapacity, 0, 0));
+                agentsMoved.add(input);
                 return;
             }
             SugarCell[] neighbors = input.get4Neighbors(input.x, input.y, sugarGrid);
@@ -119,32 +121,46 @@ public class SugarSim extends Simulation {
             if (full.size() > 0 && input.sugar > 0) {
                 int choice = (int) (Math.random() * full.size());
                 SugarCell target = full.get(choice);
+
                 input.increaseSugar(target.sugar);
                 input.decreaseSugar(input.metabolism);
-                input.setNextState(input.getPrevState());
-                target.setNextState(input);
-                target.setPrevState(input.getPrevState());
+
+                target.setNextState(new SugarCell(target.x, target.y, "agent", 0, defaultSugar, defaultMetabolism));
+                input.setNextState(new SugarCell(input.x, input.y, "sugar_zero", defaultCapacity, 0, 0));
+//                target.setPrevState(new SugarCell(target.x, target.y, "sugar_zero", defaultCapacity, 0, 0));
+
                 takenSpots.add(target);
                 agentsMoved.add(input);
             }
-            if (half.size() > 0 && input.sugar > 0) {
+            else if (half.size() > 0 && input.sugar > 0) {
                 int choice = (int) (Math.random() * half.size());
                 SugarCell target = half.get(choice);
+
                 input.increaseSugar(target.sugar);
                 input.decreaseSugar(input.metabolism);
-                input.setNextState(input.getPrevState());
-                target.setNextState(input);
-                target.setPrevState(input.getPrevState());
+
+                target.setNextState(new SugarCell(target.x, target.y, "agent", 0, defaultSugar, defaultMetabolism));
+                input.setNextState(new SugarCell(input.x, input.y, "sugar_zero", defaultCapacity, 0, 0));
+//                target.setPrevState(new SugarCell(target.x, target.y, "sugar_zero", defaultCapacity, 0, 0));
+
                 takenSpots.add(target);
                 agentsMoved.add(input);
             }
-            if (zero.size() > 0 && input.sugar > 0) {
+            else if (zero.size() > 0 && input.sugar > 0) {
                 int choice = (int) (Math.random() * zero.size());
                 SugarCell target = zero.get(choice);
+
                 input.decreaseSugar(input.metabolism);
-                input.setNextState(input.getPrevState());
-                target.setNextState(input);
+
+                target.setNextState(new SugarCell(target.x, target.y, "agent", 0, defaultSugar, defaultMetabolism));
+                input.setNextState(new SugarCell(input.x, input.y, "sugar_zero", defaultCapacity, 0, 0));
+//                target.setPrevState(new SugarCell(target.x, target.y, "sugar_zero", defaultCapacity, 0, 0));
+
                 takenSpots.add(target);
+                agentsMoved.add(input);
+            }
+            else {
+                input.setNextState(new SugarCell(input.x, input.y, "agent", 0, defaultSugar, defaultMetabolism));
                 agentsMoved.add(input);
             }
     }
@@ -158,6 +174,9 @@ public class SugarSim extends Simulation {
             else if (input.sugar >= defaultCapacity / 2) {
                 input.setNextState(new SugarCell(input.x, input.y, "sugar_half", input.capacity,  input.sugar, input.metabolism));
             }
+        }
+        else {
+            input.setNextState(input);
         }
     }
 

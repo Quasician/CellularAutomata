@@ -24,8 +24,8 @@ public class SugarCell {
     public String getName() {return name;}
     public SugarCell getNextState() {return nextState;}
     public void setNextState(SugarCell input) {nextState = input;}
-    public SugarCell getPrevState() {return prevState;}
-    public void setPrevState(SugarCell input) {prevState = input;}
+//    public SugarCell getPrevState() {return prevState;}
+//    public void setPrevState(SugarCell input) {prevState = input;}
     public void increaseSugar(int input) {sugar += input;}
     public void decreaseSugar(int input) {sugar -= input;}
 
