@@ -4,6 +4,7 @@ import Model.Simulation;
 import javafx.scene.Parent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
@@ -15,6 +16,7 @@ public class Visualizer {
     private int width, height;
     private BorderPane root;
     private Rectangle[][] recList;
+    private Polygon[][] hexList;
     private HashMap<String, String> colorMap;
     private Simulation sim;
 
@@ -29,10 +31,11 @@ public class Visualizer {
         initialize();
     }
 
-    public void initialize() {
+    public void createRecGrid()
+    {
         recList = new Rectangle[visRow][visCol];
-        double cellWidth = width / (double) visRow;
-        double cellHeight = height / (double) visCol;
+        double cellWidth = width / (double) visCol;
+        double cellHeight = height / (double) visRow;
 
 
         double x = 0;
@@ -47,6 +50,52 @@ public class Visualizer {
             x = 0;
             y += cellHeight;
         }
+    }
+
+    public void createHexGrid()
+    {
+        hexList = new Polygon[visRow][visCol];
+        double cellWidth = (width / (double) visCol)/2.0;
+        double cellHeight = (height / (double) visRow)/2.0;
+
+
+        double x = cellWidth;
+        double y = cellHeight;
+        for (int i = 0; i < visRow; i++) {
+            for (int j = 0; j < visCol; j++) {
+                double[] xVals = new double[6];
+                double[] yVals = new double[6];
+                for(int k = 0; k<6;k++)
+                {
+                    xVals[k] = cellWidth * Math.cos(2*Math.PI*k/6 ) + x;
+                    yVals[k] = cellHeight * Math.sin(2*Math.PI*k/6 ) + y;
+                }
+                double[] combined = new double [12];
+                for(int k = 0; k<6;k++)
+                {
+                    combined[2*k] = xVals[k];
+                    combined[2*k+1] = yVals[k];
+                }
+                Polygon hex = new Polygon(combined);
+                root.getChildren().add(hex);
+                hexList[i][j] = hex;
+                x += 2*cellWidth;
+
+                if(j!=visCol-1) {
+                    if (j % 2 == 0) {
+                        y += cellHeight;
+                    } else {
+                        y -= cellHeight;
+                    }
+                }
+            }
+            x = cellWidth;
+            y += 2*cellHeight;
+        }
+    }
+
+    public void initialize() {
+        createHexGrid();
         colorGrid();
     }
 
@@ -55,7 +104,7 @@ public class Visualizer {
         for (int i = 0; i < visRow; i++) {
             for (int j = 0; j < visCol; j++) {
                 //System.out.println("I: " + i + "J: "+ j);
-                recList[i][j].setFill(Color.web(colorMap.get(sim.getCell(i,j))));
+                hexList[i][j].setFill(Color.web(colorMap.get(sim.getCell(i,j))));
             }
         }
         //System.out.println("END YEET!");
