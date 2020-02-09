@@ -4,7 +4,7 @@ public class SugarCell {
 
     private String name;
     private SugarCell nextState;
-    private SugarCell prevState;
+    private SugarCell initState;
     protected int x;
     protected int y;
     protected int capacity;
@@ -24,8 +24,6 @@ public class SugarCell {
     public String getName() {return name;}
     public SugarCell getNextState() {return nextState;}
     public void setNextState(SugarCell input) {nextState = input;}
-    public SugarCell getPrevState() {return prevState;}
-    public void setPrevState(SugarCell input) {prevState = input;}
     public void increaseSugar(int input) {sugar += input;}
     public void decreaseSugar(int input) {sugar -= input;}
 
