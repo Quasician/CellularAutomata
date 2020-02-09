@@ -60,6 +60,7 @@ public class Main extends Application{
         simButtonSetup("buttonPerc", "percolate.xml");
         simButtonSetup("buttonFire", "fire.xml");
         simButtonSetup("buttonPP", "pred_prey.xml");
+        simButtonSetup("buttonSugar", "sugar.xml");
 
 
         Button fast = makeSpeedButton(properties.getPropValues("buttonFast"), seconds*5);
@@ -134,6 +135,14 @@ public class Main extends Application{
                 leftButtons.getChildren().addAll(firstValue,enter);
                 enter.setOnAction(j ->{
                     percSimSetup(firstValue);
+                });
+
+            }else if(filename.equals("sugar.xml"))
+            {
+                leftButtons.getChildren().clear();
+                leftButtons.getChildren().addAll(firstValue,enter);
+                enter.setOnAction(j ->{
+                    sugarSimSetup(firstValue);
                 });
 
             }
@@ -248,6 +257,23 @@ public class Main extends Application{
             currentParams.put("percentFish", Double.parseDouble(parameters[0]));
             currentParams.put("percentSharks", Double.parseDouble(parameters[1]));
             sim2 = new PredPreySim(currentParams.get("grid_height"),currentParams.get("grid_width"), WIDTH, HEIGHT, currentParams);
+            sim_helper(sim2);
+        }
+    }
+
+    public void sugarSimSetup(TextField firstValue){
+        Simulation sim2;
+        if (firstValue.getText().equals("random")){
+            sim2 = new SugarSim(currentParams.get("grid_height"),currentParams.get("grid_width"), WIDTH, HEIGHT, currentParams);
+            sim_helper(sim2);
+        }
+        else {
+            String[] parameters = firstValue.getText().split(",");
+            currentParams.put("percentAgent", Double.parseDouble(parameters[0]));
+            currentParams.put("percentSugarFull", Double.parseDouble(parameters[1]));
+            currentParams.put("percentSugarHalf", Double.parseDouble(parameters[2]));
+            currentParams.put("percentSugarZero", Double.parseDouble(parameters[3]));
+            sim2 = new SugarSim(currentParams.get("grid_height"),currentParams.get("grid_width"), WIDTH, HEIGHT, currentParams);
             sim_helper(sim2);
         }
     }
