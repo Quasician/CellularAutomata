@@ -49,4 +49,28 @@ public class xml_parser {
         }
         return paramMap;
     }
+    public static HashMap<String,Double> readSavedFile(String file) {
+        sims.putIfAbsent("pred_prey.xml",predPreyParams);
+        sims.putIfAbsent("fire.xml",fireParams);
+        sims.putIfAbsent("percolate.xml",percParams);
+        sims.putIfAbsent("game_of_life.xml",GOLParams);
+        sims.putIfAbsent("segregation.xml",segParams);
+        sims.putIfAbsent("sugar.xml",sugarParams);
+        HashMap<String,Double> paramMap = new HashMap<>();
+        try {
+            File inputFile = new File("Resources/"+file);
+
+            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+            Document doc = dBuilder.parse(inputFile);
+            doc.getDocumentElement().normalize();
+            for(String s: sims.get(file))
+            {
+                paramMap.putIfAbsent(s,Double.parseDouble(doc.getDocumentElement().getElementsByTagName(s).item(0).getTextContent()));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return paramMap;
+    }
 }

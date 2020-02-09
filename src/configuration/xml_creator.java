@@ -10,6 +10,8 @@ import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+
+import Model.Simulation;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -17,11 +19,17 @@ import java.util.*;
 
 public class xml_creator {
 
-    public static final String xmlFilePath = "Resources/game_of_life.xml";
+    private static double num = Math.random()*10000;
+    private static final String xmlFilePath = "Resources/game_of_life" + num + ".xml";
+    private Simulation sim;
+    public xml_creator(Simulation sim)
+    {
+        this.sim = sim;
+        createGrid(sim);
+    }
 
-
-    public static void main(String argv[]) {
-
+    public static void createGrid(Simulation sim)
+    {
         try {
 
             String grid = "9";
@@ -43,9 +51,13 @@ public class xml_creator {
             author.appendChild(document.createTextNode("Vineet Alaparthi"));
             root.appendChild(author);
 
-            Element grid_size = document.createElement("grid_size");
-            grid_size.appendChild(document.createTextNode(grid));
-            root.appendChild(grid_size);
+            Element grid_width = document.createElement("grid_width");
+            grid_width.appendChild(document.createTextNode(sim.getCols()+""));
+            root.appendChild(grid_width);
+
+            Element grid_height = document.createElement("grid_height");
+            grid_height.appendChild(document.createTextNode(sim.getRows()+""));
+            root.appendChild(grid_height);
 
             Element cell_config = document.createElement("cell_config");
             root.appendChild(cell_config);
@@ -71,4 +83,5 @@ public class xml_creator {
             tfe.printStackTrace();
         }
     }
+
 }
