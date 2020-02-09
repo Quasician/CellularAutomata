@@ -156,10 +156,11 @@ public class Main extends Application{
         rightButtons2.getChildren().clear();
         rightButtons2.getChildren().add(back);
         curr_root.setRight(rightButtons2);
-
+        curr_root.setBottom(bottomButtons);
         back.setOnAction(e -> {
             currentTimeline.stop();
             myStage.setScene(start_scene);
+            curr_root = new BorderPane();
             return;
         });
 
