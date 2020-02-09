@@ -35,6 +35,7 @@ public class GOLSim extends Simulation {
 
 
     public void updateGrid() {
+        resetAgentNumbers();
         String[][] gridCopy = new String[getRows()][getCols()];
         for(int i = 0; i<getRows();i++)
         {
@@ -50,12 +51,17 @@ public class GOLSim extends Simulation {
                 updateCell(i,j,gridCopy);
             }
         }
+        countAgentNumbers();
     }
 
     @Override
     public void initParams() {
+
         percentAlive = getParams().get("percentAlive");
+        initAddToAgentNumberMap("alive");
+        initAddToAgentNumberMap("dead");
     }
+
 
     public void updateCell(int x, int y, String[][]gridCopy) {
         String[] neighbors = get8Neighbors(x,y, gridCopy);

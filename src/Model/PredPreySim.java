@@ -13,7 +13,6 @@ public class PredPreySim extends Simulation {
     private double percentFish;
     private double percentSharks;
     private Organism[][] organismGrid;
-    private ArrayList<Organism> emptyCells;
     private ArrayList<Organism> fishThatNeedToMove;
     private ArrayList<Organism> sharksThatNeedToMove;
 
@@ -33,6 +32,9 @@ public class PredPreySim extends Simulation {
         defaultFishEnergy = getParams().get("defaultFishEnergy");
         percentFish = getParams().get("percentFish");
         percentSharks = getParams().get("percentSharks");
+        initAddToAgentNumberMap("shark");
+        initAddToAgentNumberMap("fish");
+        initAddToAgentNumberMap("kelp");
     }
 
     public void createGrid(int numRows, int numCols) {
@@ -73,7 +75,7 @@ public class PredPreySim extends Simulation {
 
 
     public void updateGrid() {
-
+        resetAgentNumbers();
 
         sharksThatNeedToMove = new ArrayList<>();
         fishThatNeedToMove = new ArrayList<>();
@@ -94,6 +96,7 @@ public class PredPreySim extends Simulation {
         moveAllSharks();
         moveAllFish();
         updateStringArray();
+        countAgentNumbers();
     }
 
 
