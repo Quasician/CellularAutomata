@@ -20,6 +20,7 @@ import javafx.util.Duration;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class Main extends Application{
 
@@ -73,7 +74,6 @@ public class Main extends Application{
             currentTimeline.setRate(0);
             currentSim.updateGrid();
             currentViz.colorGrid();
-
         });
 
         curr_root.setBottom(bottomButtons);
@@ -158,6 +158,7 @@ public class Main extends Application{
         curr_root.setRight(rightButtons2);
 
         back.setOnAction(e -> {
+            currentTimeline.stop();
             myStage.setScene(start_scene);
             return;
         });
@@ -169,6 +170,10 @@ public class Main extends Application{
                 new KeyFrame(Duration.seconds(seconds), j -> {
                     currentSim.updateGrid();
                     vis1.colorGrid();
+                    for(Map.Entry<String,Double> entry : currentSim.getAgentNumberMap().entrySet())
+                    {
+                        System.out.format("key: %s, value: %.0f%n", entry.getKey(), entry.getValue());
+                    }
                 })
         );
         currentTimeline.setCycleCount(Animation.INDEFINITE);
