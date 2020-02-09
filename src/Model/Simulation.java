@@ -4,6 +4,7 @@ package Model;
 import javafx.scene.paint.Color;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public abstract class Simulation {
 
@@ -11,7 +12,7 @@ public abstract class Simulation {
     private int simWidth, simHeight;
     private HashMap<String, String> colorMap;
     private HashMap<String, Double> params;
-
+    private HashMap<String, Double> agentNumbers;
 
     private String[][] grid;
 
@@ -21,6 +22,7 @@ public abstract class Simulation {
         this.simWidth = width;
         this.simHeight = height;
         this.params = params;
+        agentNumbers = new HashMap<>();
     }
 
     public abstract void initParams();
@@ -31,6 +33,33 @@ public abstract class Simulation {
     public HashMap<String, Double> getParams(){return params;}
     public void createColorMap(HashMap<String, String> colorMap){
         this.colorMap = colorMap;
+    }
+    public void initAddToAgentNumberMap(String type)
+    {
+        agentNumbers.putIfAbsent(type, 0.0);
+    }
+    public void updateAgentNumberMap(String type, Double num)
+    {
+        agentNumbers.put(type, num);
+    }
+    public HashMap<String, Double> getAgentNumberMap(){return agentNumbers;}
+
+    public void countAgentNumbers() {
+        for(int i = 0; i<getRows();i++)
+        {
+            for(int j = 0; j<getCols();j++)
+            {
+                updateAgentNumberMap(getCell(i,j),getAgentNumberMap().get(getCell(i,j))+1);
+            }
+        }
+    }
+
+    public void resetAgentNumbers()
+    {
+        for(Map.Entry<String,Double> entry : getAgentNumberMap().entrySet())
+        {
+            updateAgentNumberMap(entry.getKey(),0.0);
+        }
     }
 
     public void addToColorMap(String type, String color)
@@ -61,12 +90,6 @@ public abstract class Simulation {
 
 
     public HashMap<String, String> getColorMap() {return colorMap;}
-
-
-    public String[][] getGrid()
-    {
-        return grid;
-    }
 
     public boolean inGrid(int rows, int cols)
     {

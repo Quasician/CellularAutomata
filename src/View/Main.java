@@ -20,6 +20,7 @@ import javafx.util.Duration;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class Main extends Application{
 
@@ -59,6 +60,7 @@ public class Main extends Application{
         simButtonSetup("buttonPerc", "percolate.xml");
         simButtonSetup("buttonFire", "fire.xml");
         simButtonSetup("buttonPP", "pred_prey.xml");
+        simButtonSetup("buttonSugar", "sugar.xml");
 
 
         Button fast = makeSpeedButton(properties.getPropValues("buttonFast"), seconds*5);
@@ -72,7 +74,6 @@ public class Main extends Application{
             currentTimeline.setRate(0);
             currentSim.updateGrid();
             currentViz.colorGrid();
-
         });
 
         curr_root.setBottom(bottomButtons);
@@ -136,6 +137,14 @@ public class Main extends Application{
                     percSimSetup(firstValue);
                 });
 
+            }else if(filename.equals("sugar.xml"))
+            {
+                leftButtons.getChildren().clear();
+                leftButtons.getChildren().addAll(firstValue,enter);
+                enter.setOnAction(j ->{
+                    sugarSimSetup(firstValue);
+                });
+
             }
 
         });
@@ -149,6 +158,7 @@ public class Main extends Application{
         curr_root.setRight(rightButtons2);
 
         back.setOnAction(e -> {
+            currentTimeline.stop();
             myStage.setScene(start_scene);
             return;
         });
@@ -160,6 +170,10 @@ public class Main extends Application{
                 new KeyFrame(Duration.seconds(seconds), j -> {
                     currentSim.updateGrid();
                     vis1.colorGrid();
+                    for(Map.Entry<String,Double> entry : currentSim.getAgentNumberMap().entrySet())
+                    {
+                        System.out.format("key: %s, value: %.0f%n", entry.getKey(), entry.getValue());
+                    }
                 })
         );
         currentTimeline.setCycleCount(Animation.INDEFINITE);
@@ -226,8 +240,7 @@ public class Main extends Application{
         }
         else {
             String[] parameters = firstValue.getText().split(",");
-            currentParams.put("alive", Double.parseDouble(parameters[0]));
-            currentParams.put("probBurning", Double.parseDouble(parameters[1]));
+            currentParams.put("percentAlive", Double.parseDouble(parameters[0]));
             sim2 = new GOLSim(currentParams.get("grid_height"),currentParams.get("grid_width"), WIDTH, HEIGHT, currentParams);
             sim_helper(sim2);
         }
@@ -244,6 +257,23 @@ public class Main extends Application{
             currentParams.put("percentFish", Double.parseDouble(parameters[0]));
             currentParams.put("percentSharks", Double.parseDouble(parameters[1]));
             sim2 = new PredPreySim(currentParams.get("grid_height"),currentParams.get("grid_width"), WIDTH, HEIGHT, currentParams);
+            sim_helper(sim2);
+        }
+    }
+
+    public void sugarSimSetup(TextField firstValue){
+        Simulation sim2;
+        if (firstValue.getText().equals("random")){
+            sim2 = new SugarSim(currentParams.get("grid_height"),currentParams.get("grid_width"), WIDTH, HEIGHT, currentParams);
+            sim_helper(sim2);
+        }
+        else {
+            String[] parameters = firstValue.getText().split(",");
+            currentParams.put("percentAgent", Double.parseDouble(parameters[0]));
+            currentParams.put("percentSugarFull", Double.parseDouble(parameters[1]));
+            currentParams.put("percentSugarHalf", Double.parseDouble(parameters[2]));
+            currentParams.put("percentSugarZero", Double.parseDouble(parameters[3]));
+            sim2 = new SugarSim(currentParams.get("grid_height"),currentParams.get("grid_width"), WIDTH, HEIGHT, currentParams);
             sim_helper(sim2);
         }
     }

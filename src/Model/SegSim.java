@@ -29,6 +29,9 @@ public class SegSim extends Simulation {
         probSatisfy = getParams().get("probSatisfy");
         percentO = getParams().get("percentO");
         percentX = getParams().get("percentX");
+        initAddToAgentNumberMap("x");
+        initAddToAgentNumberMap("o");
+        initAddToAgentNumberMap("empty");
     }
 
     public void createGrid(int numRows, int numCols) {
@@ -52,6 +55,7 @@ public class SegSim extends Simulation {
         }
     }
     public void updateGrid() {
+        resetAgentNumbers();
         String[][] gridCopy = new String[getRows()][getCols()];
         for(int i = 0; i<getRows();i++)
         {
@@ -70,6 +74,7 @@ public class SegSim extends Simulation {
                 updateCell(i,j,gridCopy);
             }
         }
+        countAgentNumbers();
     }
 
 
