@@ -20,6 +20,7 @@ import javafx.util.Duration;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 public class Main extends Application{
 
@@ -60,12 +61,6 @@ public class Main extends Application{
         simButtonSetup("buttonFire", "fire.xml");
         simButtonSetup("buttonPP", "pred_prey.xml");
 
-        simbutton_setup("buttonSeg", "segregation.xml");
-        simbutton_setup("buttonGol", "game_of_life.xml");
-        simbutton_setup("buttonPerc", "percolate.xml");
-        simbutton_setup("buttonFire", "fire.xml");
-        simbutton_setup("buttonPP", "pred_prey.xml");
-        simbutton_setup("buttonSugar", "sugar.xml");
 
         Button fast = makeSpeedButton(properties.getPropValues("buttonFast"), seconds*5);
         Button normal = makeSpeedButton(properties.getPropValues("buttonNormal"), seconds);
@@ -78,7 +73,6 @@ public class Main extends Application{
             currentTimeline.setRate(0);
             currentSim.updateGrid();
             currentViz.colorGrid();
-
         });
 
         curr_root.setBottom(bottomButtons);
@@ -155,6 +149,7 @@ public class Main extends Application{
         curr_root.setRight(rightButtons2);
 
         back.setOnAction(e -> {
+            currentTimeline.stop();
             myStage.setScene(start_scene);
             return;
         });
@@ -166,6 +161,10 @@ public class Main extends Application{
                 new KeyFrame(Duration.seconds(seconds), j -> {
                     currentSim.updateGrid();
                     vis1.colorGrid();
+                    for(Map.Entry<String,Double> entry : currentSim.getAgentNumberMap().entrySet())
+                    {
+                        System.out.format("key: %s, value: %.0f%n", entry.getKey(), entry.getValue());
+                    }
                 })
         );
         currentTimeline.setCycleCount(Animation.INDEFINITE);
@@ -232,8 +231,7 @@ public class Main extends Application{
         }
         else {
             String[] parameters = firstValue.getText().split(",");
-            currentParams.put("alive", Double.parseDouble(parameters[0]));
-            currentParams.put("probBurning", Double.parseDouble(parameters[1]));
+            currentParams.put("percentAlive", Double.parseDouble(parameters[0]));
             sim2 = new GOLSim(currentParams.get("grid_height"),currentParams.get("grid_width"), WIDTH, HEIGHT, currentParams);
             sim_helper(sim2);
         }

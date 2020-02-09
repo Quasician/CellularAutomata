@@ -11,7 +11,7 @@ public abstract class Simulation {
     private int simWidth, simHeight;
     private HashMap<String, String> colorMap;
     private HashMap<String, Double> params;
-
+    private HashMap<String, Double> agentNumbers;
 
     private String[][] grid;
 
@@ -21,6 +21,7 @@ public abstract class Simulation {
         this.simWidth = width;
         this.simHeight = height;
         this.params = params;
+        agentNumbers = new HashMap<>();
     }
 
     public abstract void initParams();
@@ -32,7 +33,15 @@ public abstract class Simulation {
     public void createColorMap(HashMap<String, String> colorMap){
         this.colorMap = colorMap;
     }
-
+    public void initAddToAgentNumberMap(String type)
+    {
+        agentNumbers.putIfAbsent(type, 0.0);
+    }
+    public void updateAgentNumberMap(String type, Double num)
+    {
+        agentNumbers.put(type, num);
+    }
+    public HashMap<String, Double> getAgentNumberMap(){return agentNumbers;};
     public void addToColorMap(String type, String color)
     {
         colorMap.putIfAbsent(type, color);

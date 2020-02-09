@@ -4,6 +4,7 @@ import Model.Simulation;
 import javafx.scene.Parent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
@@ -15,6 +16,7 @@ public class Visualizer {
     private int width, height;
     private BorderPane root;
     private Rectangle[][] recList;
+    private Polygon[][] hexList;
     private HashMap<String, String> colorMap;
     private Simulation sim;
 
@@ -29,7 +31,8 @@ public class Visualizer {
         initialize();
     }
 
-    public void initialize() {
+    public void createRecGrid()
+    {
         recList = new Rectangle[visRow][visCol];
         double cellWidth = width / (double) visRow;
         double cellHeight = height / (double) visCol;
@@ -47,6 +50,31 @@ public class Visualizer {
             x = 0;
             y += cellHeight;
         }
+    }
+
+    public void createHexGrid()
+    {
+        recList = new Rectangle[visRow][visCol];
+        double cellWidth = width / (double) visRow;
+        double cellHeight = height / (double) visCol;
+
+
+        double x = 0;
+        double y = 0;
+        for (int i = 0; i < visRow; i++) {
+            for (int j = 0; j < visCol; j++) {
+                Rectangle rec = new Rectangle(x, y, cellWidth, cellHeight);
+                root.getChildren().add(rec);
+                recList[i][j] = rec;
+                x += cellWidth;
+            }
+            x = 0;
+            y += cellHeight;
+        }
+    }
+
+    public void initialize() {
+        createHexGrid();
         colorGrid();
     }
 

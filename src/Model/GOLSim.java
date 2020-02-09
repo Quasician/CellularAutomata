@@ -7,6 +7,8 @@ import java.util.HashMap;
 public class GOLSim extends Simulation {
 
     private double percentAlive;
+    private double aliveNum;
+    private double deadNum;
 
     public GOLSim(double rows, double cols, int width, int height, HashMap<String,Double> params)
     {
@@ -35,6 +37,8 @@ public class GOLSim extends Simulation {
 
 
     public void updateGrid() {
+        aliveNum=0;
+        deadNum =0;
         String[][] gridCopy = new String[getRows()][getCols()];
         for(int i = 0; i<getRows();i++)
         {
@@ -50,11 +54,16 @@ public class GOLSim extends Simulation {
                 updateCell(i,j,gridCopy);
             }
         }
+        updateAgentNumberMap("alive",aliveNum);
+        updateAgentNumberMap("dead",deadNum);
     }
 
     @Override
     public void initParams() {
+
         percentAlive = getParams().get("percentAlive");
+        initAddToAgentNumberMap("alive");
+        initAddToAgentNumberMap("dead");
     }
 
     public void updateCell(int x, int y, String[][]gridCopy) {
@@ -70,9 +79,11 @@ public class GOLSim extends Simulation {
 
         if((gridCopy[x][y].equals("alive") && (sum == 2 || sum == 3)) || (gridCopy[x][y].equals("dead") && sum == 3)) {
             setCell(x, y, "alive");
+            aliveNum++;
         }
         else {
             setCell(x, y, "dead");
+            deadNum++;
         }
     }
 
