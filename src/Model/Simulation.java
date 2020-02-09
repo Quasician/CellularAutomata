@@ -4,6 +4,7 @@ package Model;
 import javafx.scene.paint.Color;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public abstract class Simulation {
 
@@ -41,7 +42,26 @@ public abstract class Simulation {
     {
         agentNumbers.put(type, num);
     }
-    public HashMap<String, Double> getAgentNumberMap(){return agentNumbers;};
+    public HashMap<String, Double> getAgentNumberMap(){return agentNumbers;}
+
+    public void countAgentNumbers() {
+        for(int i = 0; i<getRows();i++)
+        {
+            for(int j = 0; j<getCols();j++)
+            {
+                updateAgentNumberMap(getCell(i,j),getAgentNumberMap().get(getCell(i,j))+1);
+            }
+        }
+    }
+
+    public void resetAgentNumbers()
+    {
+        for(Map.Entry<String,Double> entry : getAgentNumberMap().entrySet())
+        {
+            updateAgentNumberMap(entry.getKey(),0.0);
+        }
+    }
+
     public void addToColorMap(String type, String color)
     {
         colorMap.putIfAbsent(type, color);

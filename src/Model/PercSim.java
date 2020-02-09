@@ -21,6 +21,9 @@ public class PercSim extends Simulation {
     public void initParams() {
         percentEmpty =getParams().get("percentEmpty");
         percentBlocked = getParams().get("percentBlocked");
+        initAddToAgentNumberMap("empty");
+        initAddToAgentNumberMap("blocked");
+        initAddToAgentNumberMap("full");
     }
 
     public void createGrid(int numRows, int numCols) {
@@ -43,6 +46,7 @@ public class PercSim extends Simulation {
 
 
     public void updateGrid() {
+        resetAgentNumbers();
         String[][] gridCopy = new String[getRows()][getCols()];
         for(int i = 0; i<getRows();i++)
         {
@@ -58,6 +62,7 @@ public class PercSim extends Simulation {
                 updateCell(i,j,gridCopy);
             }
         }
+        countAgentNumbers();
     }
 
     public void updateCell(int x, int y, String[][]gridCopy) {

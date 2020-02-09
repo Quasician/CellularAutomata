@@ -22,6 +22,9 @@ public class FireSim extends Simulation {
     public void initParams() {
         probCatch = getParams().get("probCatch");
         percentBurning = getParams().get("percentBurning");
+        initAddToAgentNumberMap("empty");
+        initAddToAgentNumberMap("burning");
+        initAddToAgentNumberMap("tree");
     }
 
     public void createGrid(int numRows, int numCols) {
@@ -41,6 +44,8 @@ public class FireSim extends Simulation {
         }
     }
     public void updateGrid() {
+        resetAgentNumbers();
+
         String[][] gridCopy = new String[getRows()][getCols()];
         for(int i = 0; i<getRows();i++)
         {
@@ -56,6 +61,7 @@ public class FireSim extends Simulation {
                 updateCell(i,j,gridCopy);
             }
         }
+        countAgentNumbers();
     }
 
     public void updateCell(int x, int y, String[][]gridCopy) {
