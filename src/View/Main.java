@@ -47,7 +47,8 @@ public class Main extends Application{
 //        PercSim sim = new PercSim(100,100, WIDTH, HEIGHT);
 //        FireSim sim = new FireSim(100,100, WIDTH, HEIGHT);
 //        SegSim sim = new SegSim(30,30, WIDTH, HEIGHT);
-        SugarSim sim = new SugarSim(30,30, WIDTH, HEIGHT, currentParams);
+//        SugarSim sim = new SugarSim(30,30, WIDTH, HEIGHT, currentParams);
+        RPSSim sim = new RPSSim(100,100, WIDTH, HEIGHT, currentParams);
 //        PredPreySim sim = new PredPreySim(currentParams.get("grid_height"),currentParams.get("grid_width"), WIDTH, HEIGHT, currentParams);
 
 
