@@ -49,8 +49,8 @@ public class Main extends Application{
         currentParams = xml_parser.readFile("pred_prey.xml");
         properties = new GetPropertyValues();
         myStage.setTitle(properties.getPropValues("title"));
-        start_scene = new Scene(start_root, WIDTH + 100, HEIGHT);
-        curr_scene = new Scene(curr_root, WIDTH + 100, HEIGHT);
+        start_scene = new Scene(start_root, WIDTH + 300, HEIGHT);
+        curr_scene = new Scene(curr_root, WIDTH + 300, HEIGHT);
         myStage.setScene(start_scene);
         myStage.show();
 
@@ -235,8 +235,7 @@ public class Main extends Application{
         }
         else {
             String[] parameters = firstValue.getText().split(",");
-            currentParams.put("alive", Double.parseDouble(parameters[0]));
-            currentParams.put("probBurning", Double.parseDouble(parameters[1]));
+            currentParams.put("percentAlive", Double.parseDouble(parameters[0]));
             sim2 = new GOLSim(currentParams.get("grid_height"),currentParams.get("grid_width"), WIDTH, HEIGHT, currentParams);
             sim_helper(sim2);
         }
