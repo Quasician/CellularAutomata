@@ -47,8 +47,8 @@ public class Main extends Application{
 //        PercSim sim = new PercSim(100,100, WIDTH, HEIGHT);
 //        FireSim sim = new FireSim(100,100, WIDTH, HEIGHT);
 //        SegSim sim = new SegSim(30,30, WIDTH, HEIGHT);
-        SugarSim sim = new SugarSim(30,30, WIDTH, HEIGHT, currentParams);
-//        PredPreySim sim = new PredPreySim(currentParams.get("grid_height"),currentParams.get("grid_width"), WIDTH, HEIGHT, currentParams);
+//        SugarSim sim = new SugarSim(30,30, WIDTH, HEIGHT, currentParams);
+        PredPreySim sim = new PredPreySim(currentParams.get("grid_height"),currentParams.get("grid_width"), WIDTH, HEIGHT, currentParams);
 
 
         Visualizer vis = new Visualizer(root, sim);
@@ -60,6 +60,7 @@ public class Main extends Application{
         simbutton_setup("buttonPerc", "percolate.xml");
         simbutton_setup("buttonFire", "fire.xml");
         simbutton_setup("buttonPP", "pred_prey.xml");
+        simbutton_setup("buttonSugar", "sugar.xml");
 
 
         Button fast = makeSpeedButton(properties.getPropValues("buttonFast"), seconds*10);
@@ -139,6 +140,10 @@ public class Main extends Application{
             }else if(filename.equals("percolate.xml"))
             {
                 sim = new PercSim(currentParams.get("grid_height"),currentParams.get("grid_width"), WIDTH, HEIGHT, currentParams);
+
+            }else if(filename.equals("sugar.xml"))
+            {
+                sim = new SugarSim(currentParams.get("grid_height"),currentParams.get("grid_width"), WIDTH, HEIGHT, currentParams);
 
             }else
             {
