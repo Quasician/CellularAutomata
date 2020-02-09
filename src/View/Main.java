@@ -199,6 +199,7 @@ public class Main extends Application{
                     {
                         System.out.format("key: %s, value: %.0f%n", entry.getKey(), entry.getValue());
                         data_array[count].getData().add(new XYChart.Data(simpleDateFormat.format(now), entry.getValue()));
+                        data_array[count].setName(entry.getKey());
                         count += 1;
 
                     }
