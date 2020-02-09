@@ -172,7 +172,7 @@ public class Main extends Application{
         curr_root.setBottom(bottomButtons);
         curr_root.setRight(rightButtons2);
 
-        final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss");
+        final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss:SS");
 
         back.setOnAction(e -> {
             currentTimeline.stop();
