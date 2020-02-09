@@ -166,8 +166,8 @@ public class Main extends Application{
         rightButtons2.getChildren().add(back);
         rightButtons2.getChildren().add(lineChart);
         lineChart.setPrefSize(500,500);
-        curr_root.setRight(rightButtons2);
         curr_root.setBottom(bottomButtons);
+        curr_root.setRight(rightButtons2);
 
         final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss");
 
@@ -175,7 +175,7 @@ public class Main extends Application{
             currentTimeline.stop();
             myStage.setScene(start_scene);
             lineChart.getData().clear();
-            curr_root = new BorderPane();
+            curr_root.getChildren().clear();
             return;
         });
 
