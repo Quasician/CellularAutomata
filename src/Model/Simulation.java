@@ -23,6 +23,7 @@ public abstract class Simulation {
         this.simHeight = height;
         this.params = params;
         agentNumbers = new HashMap<>();
+        createGrid(rows, cols);
     }
 
     public abstract void initParams();

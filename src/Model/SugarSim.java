@@ -20,10 +20,11 @@ public class SugarSim extends Simulation {
     private SugarCell[][] sugarGrid;
     private SugarCell[][] gridCopy;
 
-    public SugarSim(double rows, double cols, int width, int height, HashMap<String, Double> params) {
-        super((int) rows, (int) cols, width, height, params);
+    public SugarSim(int width, int height, HashMap<String,Double> params)
+    {
+        super((int)(params.get("grid_height")*10)/10,(int)(params.get("grid_width")*10/10), width,height, params);
         initParams();
-        createGrid((int) rows, (int) cols);
+        createGrid(getRows(),getCols());
         setUpHashMap();
     }
 

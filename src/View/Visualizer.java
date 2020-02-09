@@ -81,13 +81,17 @@ public class Visualizer {
                 hexList[i][j] = hex;
                 x += 2*cellWidth;
 
-                if(j!=visCol-1) {
-                    if (j % 2 == 0) {
-                        y += cellHeight;
-                    } else {
+
+                if (j % 2 == 0) {
+                    y += cellHeight;
+                    if(j == visCol-1)
+                    {
                         y -= cellHeight;
                     }
+                } else {
+                    y -= cellHeight;
                 }
+
             }
             x = cellWidth;
             y += 2*cellHeight;
