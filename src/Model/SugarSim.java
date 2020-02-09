@@ -36,6 +36,13 @@ public class SugarSim extends Simulation {
         percentSugarFull = getParams().get("percentSugarFull");
         percentSugarHalf = getParams().get("percentSugarHalf");
         percentSugarZero = getParams().get("percentSugarZero");
+        initAddToAgentNumberMap("agent");
+        initAddToAgentNumberMap("sugar_zero");
+        initAddToAgentNumberMap("sugar_almost");
+        initAddToAgentNumberMap("sugar_some");
+        initAddToAgentNumberMap("sugar_half");
+        initAddToAgentNumberMap("sugar_full");
+
     }
 
     public void createGrid(int rows, int cols) {
@@ -68,6 +75,7 @@ public class SugarSim extends Simulation {
     }
 
     public void updateGrid() {
+        resetAgentNumbers();
         agentsMoved = new ArrayList<>();
         takenSpots = new ArrayList<>();
         for (int i = 0; i < getRows(); i++) {
@@ -82,6 +90,7 @@ public class SugarSim extends Simulation {
             }
         }
         updateStringArray();
+        countAgentNumbers();
     }
 
     public void updateCell(SugarCell input) {
