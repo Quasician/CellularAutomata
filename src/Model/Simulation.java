@@ -62,12 +62,6 @@ public abstract class Simulation {
 
     public HashMap<String, String> getColorMap() {return colorMap;}
 
-
-    public String[][] getGrid()
-    {
-        return grid;
-    }
-
     public boolean inGrid(int rows, int cols)
     {
         if(rows>=0 && rows <simRows && cols>=0 && cols<simCols)
