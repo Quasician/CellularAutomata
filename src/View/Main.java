@@ -8,6 +8,10 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.chart.CategoryAxis;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
@@ -18,7 +22,9 @@ import javafx.util.Duration;
 
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -41,6 +47,9 @@ public class Main extends Application{
     Stage myStage;
     Scene start_scene;
     Scene curr_scene;
+    private CategoryAxis xAxis = new CategoryAxis();
+    private NumberAxis yAxis = new NumberAxis();
+    private LineChart<String,Number> lineChart = new LineChart<String,Number>(xAxis,yAxis);
 
 
 
@@ -50,8 +59,8 @@ public class Main extends Application{
         currentParams = xml_parser.readFile("pred_prey.xml");
         properties = new GetPropertyValues();
         myStage.setTitle(properties.getPropValues("title"));
-        start_scene = new Scene(start_root, WIDTH + 100, HEIGHT);
-        curr_scene = new Scene(curr_root, WIDTH + 100, HEIGHT);
+        start_scene = new Scene(start_root, WIDTH + 500, HEIGHT);
+        curr_scene = new Scene(curr_root, WIDTH + 500, HEIGHT);
         myStage.setScene(start_scene);
         myStage.show();
 
@@ -155,25 +164,46 @@ public class Main extends Application{
         Button back = new Button("Back");
         rightButtons2.getChildren().clear();
         rightButtons2.getChildren().add(back);
+        rightButtons2.getChildren().add(lineChart);
+        lineChart.setPrefSize(500,500);
         curr_root.setRight(rightButtons2);
+        final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss");
 
         back.setOnAction(e -> {
             currentTimeline.stop();
             myStage.setScene(start_scene);
+            lineChart.getData().clear();
             return;
         });
 
         myStage.setScene(curr_scene);
         Visualizer vis1 = new Visualizer(curr_root, currentSim);
         currentViz = vis1;
+        xAxis.setAnimated(false);
+        yAxis.setAnimated(false);
+
+
+
+
+        XYChart.Series[] data_array = chartArray(currentSim.getAgentNumberMap().entrySet().size());
+
+
         currentTimeline = new Timeline(
                 new KeyFrame(Duration.seconds(seconds), j -> {
                     currentSim.updateGrid();
                     vis1.colorGrid();
+                    int count = 0;
+                    Date now = new Date();
+
                     for(Map.Entry<String,Double> entry : currentSim.getAgentNumberMap().entrySet())
                     {
                         System.out.format("key: %s, value: %.0f%n", entry.getKey(), entry.getValue());
+                        data_array[count].getData().add(new XYChart.Data(simpleDateFormat.format(now), entry.getValue()));
+                        count += 1;
+
                     }
+                    count = 0;
+
                 })
         );
         currentTimeline.setCycleCount(Animation.INDEFINITE);
@@ -277,6 +307,21 @@ public class Main extends Application{
             sim_helper(sim2);
         }
     }
+
+    public XYChart.Series[] chartArray(int size){
+        XYChart.Series[] chart_data = new XYChart.Series[size];
+        for (int i = 0; i<size; i++){
+            XYChart.Series temp = new XYChart.Series();
+            chart_data[i] = temp;
+            lineChart.getData().add(temp);
+        }
+
+
+
+        return chart_data;
+    }
+
+
 
 
 
