@@ -59,28 +59,22 @@ public abstract class Simulation {
     }
 
     public void createGridFromAnotherSim(Simulation sim) {
-        for(int i = 0; i<getRows();i++)
-        {
-            for(int j = 0; j<getCols();j++)
-            {
+        for(int i = 0; i<getRows();i++) {
+            for(int j = 0; j<getCols();j++) {
                 grid[i][j] = sim.getCell(i,j);
             }
         }
     }
     public void countAgentNumbers() {
-        for(int i = 0; i<getRows();i++)
-        {
-            for(int j = 0; j<getCols();j++)
-            {
+        for(int i = 0; i<getRows();i++) {
+            for(int j = 0; j<getCols();j++) {
                 updateAgentNumberMap(getCell(i,j),getAgentNumberMap().get(getCell(i,j))+1);
             }
         }
     }
 
-    public void resetAgentNumbers()
-    {
-        for(Map.Entry<String,Double> entry : getAgentNumberMap().entrySet())
-        {
+    public void resetAgentNumbers() {
+        for(Map.Entry<String,Double> entry : getAgentNumberMap().entrySet()) {
             updateAgentNumberMap(entry.getKey(),0.0);
         }
     }
@@ -114,35 +108,29 @@ public abstract class Simulation {
 
     public HashMap<String, String> getColorMap() {return colorMap;}
 
-    public boolean inGrid(int rows, int cols)
-    {
-        if(rows>=0 && rows <simRows && cols>=0 && cols<simCols)
-        {
+    public boolean inGrid(int rows, int cols) {
+        if(rows>=0 && rows <simRows && cols>=0 && cols<simCols) {
             return true;
         }
         return false;
     }
 
-    public String[] get4Neighbors(int x, int y, String[][] gridCopy)
-    {
+    public String[] get4Neighbors(int x, int y, String[][] gridCopy) {
         String[] neighbors = new String[4];
         int count = 0;
-        for(int i = x-1; i<=x+1;i++)
-        {
-            for(int j = y-1; j<=y+1;j++)
-            {
+        for(int i = x-1; i<=x+1;i++) {
+            for(int j = y-1; j<=y+1;j++) {
                 int temp1 = i - x + 1;
                 int temp2 = j - y + 1;
-                if((i - x + 1 + j - y + 1) % 2 == 0)
-                {
+                if((i - x + 1 + j - y + 1) % 2 == 0) {
                     continue;
                 }
                 else {
-                    if(inGrid(i,j))
-                    {
+                    if(inGrid(i,j)) {
                         neighbors[count] = gridCopy[i][j];
 
-                    } else {
+                    }
+                    else {
                         neighbors[count] = "outOfBounds";
                     }
                     count++;
@@ -152,24 +140,20 @@ public abstract class Simulation {
         return neighbors;
     }
 
-    public String[] get8Neighbors(int x, int y, String[][] gridCopy)
-    {
+    public String[] get8Neighbors(int x, int y, String[][] gridCopy) {
         String[] neighbors = new String[8];
         int count = 0;
-        for(int i = x-1; i<=x+1;i++)
-        {
-            for(int j = y-1; j<=y+1;j++)
-            {
-                if(i == x && j == y)
-                {
+        for(int i = x-1; i<=x+1;i++) {
+            for(int j = y-1; j<=y+1;j++) {
+                if(i == x && j == y) {
                     continue;
                 }
                 else {
-                    if(inGrid(i,j))
-                    {
+                    if(inGrid(i,j)) {
                         neighbors[count] = gridCopy[i][j];
 
-                    } else {
+                    }
+                    else {
                         neighbors[count] = "outOfBounds";
                     }
                     count++;

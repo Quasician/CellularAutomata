@@ -34,13 +34,7 @@ public class xml_parser {
 
     public HashMap<String,Double> readFile(String file) {
         fileType = file;
-        sims.putIfAbsent("pred_prey.xml",predPreyParams);
-        sims.putIfAbsent("fire.xml",fireParams);
-        sims.putIfAbsent("percolate.xml",percParams);
-        sims.putIfAbsent("game_of_life.xml",GOLParams);
-        sims.putIfAbsent("segregation.xml",segParams);
-        sims.putIfAbsent("sugar.xml",sugarParams);
-        sims.putIfAbsent("rps.xml",RPSParams);
+        addSimsToHashMap();
         HashMap<String,Double> paramMap = new HashMap<>();
         try {
             File inputFile = new File("data/"+file);
@@ -60,15 +54,9 @@ public class xml_parser {
     }
 
     public HashMap<String,Double> readSavedFile(File file) {
-        sims.putIfAbsent("pred_prey.xml",predPreyParams);
-        sims.putIfAbsent("fire.xml",fireParams);
-        sims.putIfAbsent("percolate.xml",percParams);
-        sims.putIfAbsent("game_of_life.xml",GOLParams);
-        sims.putIfAbsent("segregation.xml",segParams);
-        sims.putIfAbsent("sugar.xml",sugarParams);
-        sims.putIfAbsent("rps.xml",RPSParams);
+        addSimsToHashMap();
         String fileName = file.toString().replaceAll("[0-9]", "");
-        String[] paths = fileName.split("\\\\");
+        String[] paths = fileName.split("/");
         fileType= paths[paths.length-1];
         HashMap<String,Double> paramMap = new HashMap<>();
         try {
@@ -121,5 +109,15 @@ public class xml_parser {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setContentText(mes);
         alert.showAndWait();
+    }
+
+    public void addSimsToHashMap() {
+        sims.putIfAbsent("pred_prey.xml",predPreyParams);
+        sims.putIfAbsent("fire.xml",fireParams);
+        sims.putIfAbsent("percolate.xml",percParams);
+        sims.putIfAbsent("game_of_life.xml",GOLParams);
+        sims.putIfAbsent("segregation.xml",segParams);
+        sims.putIfAbsent("sugar.xml",sugarParams);
+        sims.putIfAbsent("rps.xml",RPSParams);
     }
 }

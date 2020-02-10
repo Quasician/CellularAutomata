@@ -113,20 +113,4 @@ public class Visualizer {
         }
         //System.out.println("END YEET!");
     }
-
-
-    public void newConfig(/** some action **/) {
-        Parent root;
-        Stage stage;
-
-//        if(/** some action triggered **/) {
-//            stage = /** new stage **/;
-//            root = /** new root **/;
-//
-//            Scene scene = new Scene(root);
-//            stage.setTitle("temp title");
-//            stage.setScene(scene);
-//            stage.show();
-//        }
-    }
 }

@@ -99,7 +99,7 @@ public class AntSim extends Simulation {
 
     private void moveAnt(AntCell input) {
         //Find all Neighbor(s)
-        AntCell[] neighbors = new AntCell[4];
+        ArrayList<AntCell> neighbors = new ArrayList<>();
         neighbors = input.get4NeighborsTorroidal(input.x, input.y, antGrid, neighbors);
         //Find Neighbor(s) the ant can move to
         ArrayList<AntCell> locationFinder;
@@ -218,7 +218,7 @@ public class AntSim extends Simulation {
         return;
     }
 
-    private ArrayList<AntCell> neighborFilterForward(AntCell input, AntCell[] neighbors) {
+    private ArrayList<AntCell> neighborFilterForward(AntCell input, ArrayList<AntCell> neighbors) {
         ArrayList<AntCell> result = new ArrayList<>();
         if (input.getName().equals("tl_ant")) {
             for (AntCell n : neighbors) {
@@ -251,7 +251,7 @@ public class AntSim extends Simulation {
         return result;
     }
 
-    private ArrayList<AntCell> neighborFilterBackward(AntCell input, AntCell[] neighbors) {
+    private ArrayList<AntCell> neighborFilterBackward(AntCell input, ArrayList<AntCell> neighbors) {
         ArrayList<AntCell> result = new ArrayList<>();
         if (input.getName().equals("tl_ant")) {
             for (AntCell n : neighbors) {

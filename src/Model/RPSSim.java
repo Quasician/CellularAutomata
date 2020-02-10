@@ -1,12 +1,18 @@
 package Model;
 
+import configuration.GetPropertyValues;
+
+import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 public class RPSSim extends Simulation{
+    private GetPropertyValues properties = new GetPropertyValues();
     private double percentRock;
     private double percentScissors;
     private int defaultThreshold;
+//    private String boundary = properties.getPropValues("boundary");
     private RPSCell[][] rpsGrid;
 
     public RPSSim(int width, int height, HashMap<String, Double> params) {
@@ -17,8 +23,7 @@ public class RPSSim extends Simulation{
         setName("rps");
     }
 
-    public RPSSim(int width, int height, HashMap<String,Double> params, Simulation sim)
-    {
+    public RPSSim(int width, int height, HashMap<String,Double> params, Simulation sim) throws IOException {
         super((int)(params.get("grid_height")*10)/10,(int)(params.get("grid_width")*10/10), width,height, params);
         initParams();
         createGridFromAnotherSim(sim);
@@ -141,7 +146,8 @@ public class RPSSim extends Simulation{
 
     public int neighborFilter(RPSCell input, String name) {
         int result = 0;
-        RPSCell[] neighbors = input.get8Neighbors(input.x, input.y, rpsGrid, getRows(), getCols());
+        ArrayList<RPSCell> neighbors = new ArrayList<>();
+        neighbors = input.get8NeighborsFinite(input.x, input.y, rpsGrid, neighbors);
         for (RPSCell n : neighbors) {
             if (n.getName().equals(name)) {
                 result++;

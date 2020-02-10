@@ -1,8 +1,6 @@
 package configuration;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.Properties;
 
 public class GetPropertyValues {
@@ -30,5 +28,30 @@ public class GetPropertyValues {
             inputStream.close();
         }
         return result;
+    }
+
+    public void setPropValues(String key, String input) throws IOException {
+        File configFile = new File("src/configuration/config.properties");
+        FileWriter writer = new FileWriter(configFile);
+        Properties props = new Properties();
+        props.setProperty("buttonNormal", "Normal");
+        props.setProperty("buttonSlow", "Slow");
+        props.setProperty("buttonStep", "Step");
+        props.setProperty("buttonSeg", "Segregation");
+        props.setProperty("buttonGol", "Game of Life");
+        props.setProperty("buttonPerc", "Percolation");
+        props.setProperty("buttonFire", "Fire");
+        props.setProperty("buttonPP", "Pred Prey");
+        props.setProperty("buttonSugar", "Sugar");
+        props.setProperty("buttonLoadSim", "Load Custom Sim");
+        props.setProperty("buttonEnter", "Enter");
+        props.setProperty("buttonStart", "Start");
+        props.setProperty("buttonSave", "Save");
+        props.setProperty("buttonBack", "Back");
+        props.setProperty("buttonRPS", "Rock,Paper,Scissors");
+        props.setProperty("buttonAnt", "Ant");
+        props.setProperty(key, input);
+        props.store(writer, "host settings");
+        writer.close();
     }
 }

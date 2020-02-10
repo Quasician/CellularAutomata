@@ -1,6 +1,6 @@
 package Model;
 
-import java.lang.reflect.Type;
+import java.util.ArrayList;
 
 public abstract class Cell {
     private String name;
@@ -24,56 +24,55 @@ public abstract class Cell {
     private <Type> Type left(Type[][] gridCopy, int x, int y) { return gridCopy[(x-1+gridCopy.length)%gridCopy.length][(y+gridCopy[0].length)%gridCopy[0].length];}
     private <Type> Type right(Type[][] gridCopy, int x, int y) { return gridCopy[(x+1+gridCopy.length)%gridCopy.length][(y+gridCopy[0].length)%gridCopy[0].length];}
 
-    public <Type> Type[] get4NeighborsTorroidal(int x, int y, Type[][] gridCopy, Type[] neighbors) {
-        neighbors[0] = top(gridCopy, x, y);
-        neighbors[1] = bottom(gridCopy, x, y);
-        neighbors[2] = left(gridCopy, x, y);
-        neighbors[3] = right(gridCopy, x, y);
-        return neighbors;
-    }
-    public <Type> Type[] get8NeighborsTorroidal(int x, int y, Type[][] gridCopy, Type[] neighbors) {
-        neighbors[0] = top(gridCopy, x, y);
-        neighbors[1] = bottom(gridCopy, x, y);
-        neighbors[2] = left(gridCopy, x, y);
-        neighbors[3] = right(gridCopy, x, y);
-        neighbors[4] = top_right(gridCopy, x, y);
-        neighbors[5] = top_left(gridCopy, x, y);
-        neighbors[6] = bottom_right(gridCopy, x, y);
-        neighbors[7] = bottom_left(gridCopy, x, y);
-        return neighbors;
-    }
-
-    public <Type> Type[] get4NeighborsFinite(int x, int y, Type[][] gridCopy, Type[] neighbors) {
-        int count = 0;
+    public <Type> ArrayList<Type> get4NeighborsTorroidal(int x, int y, Type[][] gridCopy, ArrayList<Type> neighbors) {
         for(int i = x-1; i<=x+1;i++) {
             for(int j = y-1; j<=y+1;j++) {
                 if((i - x + 1 + j - y + 1) % 2 == 0) {
                     continue;
                 }
                 else {
-                    if(inGrid(i,j, gridCopy)) {
-                        neighbors[count] = gridCopy[i][j];
-
-                    }
-                    count++;
+                    neighbors.add(gridCopy[(i+gridCopy.length)%gridCopy.length][(j+gridCopy[0].length)%gridCopy[0].length]);
                 }
             }
         }
         return neighbors;
     }
 
-    public <Type> Type[] get8NeighborsFinite(int x, int y, Type[][] gridCopy, Type[] neighbors) {
-        int count = 0;
+
+    public <Type> ArrayList<Type>  get8NeighborsTorroidal(int x, int y, Type[][] gridCopy, ArrayList<Type> neighbors) {
+        neighbors.add(top(gridCopy, x, y));
+        neighbors.add(bottom(gridCopy, x, y));
+        neighbors.add(left(gridCopy, x, y));
+        neighbors.add(right(gridCopy, x, y));
+        neighbors.add(top_right(gridCopy, x, y));
+        neighbors.add(top_left(gridCopy, x, y));
+        neighbors.add(bottom_right(gridCopy, x, y));
+        neighbors.add(bottom_left(gridCopy, x, y));
+        return neighbors;
+    }
+
+    public <Type> ArrayList<Type> get4NeighborsFinite(int x, int y, Type[][] gridCopy, ArrayList<Type> neighbors) {
+        for(int i = x-1; i<=x+1;i++) {
+            for(int j = y-1; j<=y+1;j++) {
+                if((i - x + 1 + j - y + 1) % 2 == 0) {
+                    continue;
+                }
+                else if(inGrid(i,j, gridCopy)) {
+                    neighbors.add(gridCopy[i][j]);
+                }
+            }
+        }
+        return neighbors;
+    }
+
+    public <Type> ArrayList<Type> get8NeighborsFinite(int x, int y, Type[][] gridCopy, ArrayList<Type> neighbors) {
         for(int i = x-1; i<=x+1;i++) {
             for(int j = y-1; j<=y+1;j++) {
                 if(i == x && j == y) {
                     continue;
                 }
-                else {
-                    if(inGrid(i,j, gridCopy)) {
-                        neighbors[count] = gridCopy[i][j];
-                    }
-                    count++;
+                else if(inGrid(i,j, gridCopy)) {
+                    neighbors.add(gridCopy[i][j]);
                 }
             }
         }
