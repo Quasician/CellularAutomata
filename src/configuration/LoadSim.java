@@ -23,7 +23,7 @@ public class LoadSim {
         this.button_box = vbox;
         this.stage = stage;
         currentParams = xml_parser.readFile(selectedFile.toString());
-        type_tag = xml_parser.get_type();
+        type_tag = xml_parser.getFileType();
     }
 
     public Button create_button(){
@@ -40,9 +40,7 @@ public class LoadSim {
 
 
     public void button_action(){
-        if (xml_parser.){
 
-        }
 
 
 
