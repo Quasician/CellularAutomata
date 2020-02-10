@@ -347,8 +347,8 @@ public class Main extends Application{
         simButtonSetup("buttonFire", "fire.xml", "standard");
         simButtonSetup("buttonPP", "pred_prey.xml", "standard");
         simButtonSetup("buttonSugar", "sugar.xml", "standard");
-        simButtonSetup("buttonRPS", "sugar.xml", "standard");
-        simButtonSetup("buttonAnt", "sugar.xml", "standard");
+        simButtonSetup("buttonRPS", "rps.xml", "standard");
+        //simButtonSetup("buttonAnt", "sugar.xml", "standard");
         Button fast = makeSpeedButton(properties.getPropValues("buttonFast"), seconds*5);
         Button normal = makeSpeedButton(properties.getPropValues("buttonNormal"), seconds);
         Button slow = makeSpeedButton(properties.getPropValues("buttonSlow"), seconds*0.5);
