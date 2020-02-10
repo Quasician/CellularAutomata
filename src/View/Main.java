@@ -126,14 +126,15 @@ public class Main extends Application{
             }else if(filename.equals("sugar.xml")) {
                 enter.setOnAction(j ->{
                     sugarSimSetup(textField);
-                });
+                });}
 
-            }else if(filename.equals("ant.xml")) {
-                enter.setOnAction(j ->{
-                    antSimSetup(textField);
-                });
-
-            }else if(filename.equals("rps.xml")) {
+//            }else if(filename.equals("ant.xml")) {
+//                enter.setOnAction(j ->{
+//                    antSimSetup(textField);
+//                });
+//
+//            }
+            else if(filename.equals("rps.xml")) {
                 enter.setOnAction(j ->{
                     rpsSimSetup(textField);
                 });
@@ -279,22 +280,22 @@ public class Main extends Application{
         }
     }
 
-    public void antSimSetup(TextField firstValue){
-        Simulation sim2;
-        if (firstValue.getText().equals("random")){
-            sim2 = new AntSim( WIDTH, HEIGHT, currentParams);
-            sim_helper(sim2);
-        }
-        else {
-            String[] parameters = firstValue.getText().split(",");
-            currentParams.put("percentAgent", Double.parseDouble(parameters[0]));
-            currentParams.put("percentSugarFull", Double.parseDouble(parameters[1]));
-            currentParams.put("percentSugarHalf", Double.parseDouble(parameters[2]));
-            currentParams.put("percentSugarZero", Double.parseDouble(parameters[3]));
-            sim2 = new AntSim(WIDTH, HEIGHT, currentParams);
-            sim_helper(sim2);
-        }
-    }
+//    public void antSimSetup(TextField firstValue){
+//        Simulation sim2;
+//        if (firstValue.getText().equals("random")){
+//            sim2 = new AntSim(WIDTH, HEIGHT, currentParams);
+//            sim_helper(sim2);
+//        }
+//        else {
+//            String[] parameters = firstValue.getText().split(",");
+//            currentParams.put("percentAgent", Double.parseDouble(parameters[0]));
+//            currentParams.put("percentSugarFull", Double.parseDouble(parameters[1]));
+//            currentParams.put("percentSugarHalf", Double.parseDouble(parameters[2]));
+//            currentParams.put("percentSugarZero", Double.parseDouble(parameters[3]));
+//            sim2 = new AntSim(WIDTH, HEIGHT, currentParams);
+//            sim_helper(sim2);
+//        }
+//    }
 
     public void rpsSimSetup(TextField firstValue){
         Simulation sim2;
