@@ -43,7 +43,7 @@ public class Main extends Application{
     private VBox rightButtons = new VBox();
     private VBox rightButtons2 = new VBox();
     private VBox leftButtons = new VBox();
-    private GetPropertyValues properties = new GetPropertyValues();;
+    private GetPropertyValues properties = new GetPropertyValues();
     private Stage myStage;
     private Scene start_scene;
     private Scene curr_scene;
@@ -87,7 +87,7 @@ public class Main extends Application{
     private void simButtonSetup(String buttonName, String filename, String file_type) throws IOException {
         Button button= new Button(properties.getPropValues(buttonName));
         rightButtons.getChildren().add(button);
-        TextField firstValue = new TextField();
+        TextField textField = new TextField();
         Button enter = new Button(properties.getPropValues("buttonEnter"));
 
         button.setOnAction(e ->{
