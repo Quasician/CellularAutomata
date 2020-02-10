@@ -19,6 +19,7 @@ public class xml_parser {
     final static ArrayList<String> segParams = new ArrayList<String>(Arrays.asList("grid_width", "grid_height", "probSatisfy", "percentX", "percentO"));
     final static ArrayList<String> predPreyParams = new ArrayList<String>(Arrays.asList("grid_width", "grid_height", "percentFish", "percentSharks", "breedThreshFish", "breedThreshShark", "defaultSharkEnergy", "defaultFishEnergy"));
     final static ArrayList<String> sugarParams = new ArrayList<String>(Arrays.asList("grid_width", "grid_height", "defaultCapacity", "defaultMetabolism", "defaultSugar", "sugarRate", "percentAgent", "percentSugarFull", "percentSugarHalf", "percentSugarZero"));
+    final static ArrayList<String> RPSParams = new ArrayList<String>(Arrays.asList("grid_width", "grid_height", "percentRock","percentScissors","threshold"));
     private Simulation sim;
     private String fileType;
 
@@ -35,6 +36,7 @@ public class xml_parser {
         sims.putIfAbsent("game_of_life.xml",GOLParams);
         sims.putIfAbsent("segregation.xml",segParams);
         sims.putIfAbsent("sugar.xml",sugarParams);
+        sims.putIfAbsent("rps.xml",RPSParams);
         HashMap<String,Double> paramMap = new HashMap<>();
         try {
             File inputFile = new File("data/"+file);

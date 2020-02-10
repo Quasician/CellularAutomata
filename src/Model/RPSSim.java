@@ -50,6 +50,7 @@ public class RPSSim extends Simulation{
         }
     }
     public void updateGrid() {
+        resetAgentNumbers();
         for (int i = 0; i < getRows(); i++) {
             for (int j = 0; j < getCols(); j++) {
                 rpsGrid[i][j] = rpsGrid[i][j].getNextState();
@@ -62,6 +63,7 @@ public class RPSSim extends Simulation{
             }
         }
         updateStringArray();
+        countAgentNumbers();
     }
 
     public void updateCell(RPSCell input) {

@@ -22,6 +22,7 @@ public class LoadSim {
     private final static int WIDTH = 500;
     private final static int HEIGHT = 500;
     private Simulation dummyGrid;
+    private GetPropertyValues properties = new GetPropertyValues();
 
     public LoadSim(Stage stage, VBox vbox){
         this.button_box = vbox;

@@ -43,7 +43,7 @@ public class Main extends Application{
     private VBox rightButtons = new VBox();
     private VBox rightButtons2 = new VBox();
     private VBox leftButtons = new VBox();
-    private GetPropertyValues properties = new GetPropertyValues();;
+    private GetPropertyValues properties = new GetPropertyValues();
     private Stage myStage;
     private Scene start_scene;
     private Scene curr_scene;
@@ -87,7 +87,7 @@ public class Main extends Application{
     private void simButtonSetup(String buttonName, String filename, String file_type) throws IOException {
         Button button= new Button(properties.getPropValues(buttonName));
         rightButtons.getChildren().add(button);
-        TextField firstValue = new TextField();
+        TextField textField = new TextField();
         Button enter = new Button(properties.getPropValues("buttonEnter"));
 
         button.setOnAction(e ->{
@@ -347,8 +347,8 @@ public class Main extends Application{
         simButtonSetup("buttonFire", "fire.xml", "standard");
         simButtonSetup("buttonPP", "pred_prey.xml", "standard");
         simButtonSetup("buttonSugar", "sugar.xml", "standard");
-        simButtonSetup("buttonRPS", "sugar.xml", "standard");
-        simButtonSetup("buttonAnt", "sugar.xml", "standard");
+        simButtonSetup("buttonRPS", "rps.xml", "standard");
+        //simButtonSetup("buttonAnt", "sugar.xml", "standard");
         Button fast = makeSpeedButton(properties.getPropValues("buttonFast"), seconds*5);
         Button normal = makeSpeedButton(properties.getPropValues("buttonNormal"), seconds);
         Button slow = makeSpeedButton(properties.getPropValues("buttonSlow"), seconds*0.5);
