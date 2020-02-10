@@ -1,5 +1,6 @@
 package Model;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -110,7 +111,8 @@ public class RPSSim extends Simulation{
 
     public int neighborFilter(RPSCell input, String name) {
         int result = 0;
-        RPSCell[] neighbors = input.get8Neighbors(input.x, input.y, rpsGrid, getRows(), getCols());
+        ArrayList<RPSCell> neighbors = new ArrayList<>();
+        neighbors = input.get8NeighborsFinite(input.x, input.y, rpsGrid, neighbors);
         for (RPSCell n : neighbors) {
             if (n.getName().equals(name)) {
                 result++;
