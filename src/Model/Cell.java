@@ -14,7 +14,7 @@ public abstract class Cell {
     }
 
     public String getName() {return name;}
-
+    public void setName(String input) {this.name = input;}
     private <Type> Type top(Type[][] gridCopy, int x, int y) { return gridCopy[(x+gridCopy.length)%gridCopy.length][(y+1+gridCopy[0].length)%gridCopy[0].length];}
     private <Type> Type top_right(Type[][] gridCopy, int x, int y) { return gridCopy[(x+1+gridCopy.length)%gridCopy.length][(y+1+gridCopy[0].length)%gridCopy[0].length];}
     private <Type> Type top_left(Type[][] gridCopy, int x, int y) { return gridCopy[(x-1+gridCopy.length)%gridCopy.length][(y+1+gridCopy[0].length)%gridCopy[0].length];}
