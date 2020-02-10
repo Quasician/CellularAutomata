@@ -76,12 +76,12 @@ public class xml_parser {
         return paramMap;
     }
 
-    public Simulation getSim()
+    public static Simulation getSim()
     {
         return sim;
     }
 
-    public String getFileType()
+    public static String getFileType()
     {
         return fileType;
     }
