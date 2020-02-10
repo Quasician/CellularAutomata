@@ -13,6 +13,7 @@ public class PercSim extends Simulation {
     {
         super((int)(params.get("grid_height")*10)/10,(int)(params.get("grid_width")*10/10), width,height, params);
         initParams();
+        createGrid(getRows(),getCols());
         setUpHashMap();
     }
 

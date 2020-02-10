@@ -17,8 +17,8 @@ import java.util.*;
 
 public class xml_creator {
 
-    private static double num = Math.random() * 10000;
-    private static final String xmlFilePath = "Resources/game_of_life" + num + ".xml";
+    private static double num = Math.random() * 1000;
+    private static final String xmlFilePath = String.format("Resources/game_of_life%.0f.xml",num);
     private Simulation sim;
 
     public xml_creator(Simulation sim) {
