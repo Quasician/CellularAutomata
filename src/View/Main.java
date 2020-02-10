@@ -32,6 +32,7 @@ public class Main extends Application{
 
     private final static int WIDTH = 500;
     private final static int HEIGHT = 500;
+    private Timeline intialTimeline;
     private Timeline currentTimeline;
     private HashMap<String,Double> currentParams;
     private Simulation currentSim;
@@ -47,7 +48,6 @@ public class Main extends Application{
     private Stage myStage;
     private Scene start_scene;
     private Scene curr_scene;
-    private Button load;
     private LoadSim load_sim = new LoadSim(myStage,rightButtons);
     private CategoryAxis xAxis = new CategoryAxis();
     private NumberAxis yAxis = new NumberAxis();
@@ -76,7 +76,7 @@ public class Main extends Application{
         Button play = makeSpeedButton(properties.getPropValues("buttonPlay"), seconds);
         Button pause = makeSpeedButton(properties.getPropValues("buttonPause"), 0.0);
 
-        load = load_sim.create_button();
+        load_sim.create_button();
 
         Button step= new Button(properties.getPropValues("buttonStep"));
         step.setOnAction(e ->{
@@ -89,6 +89,15 @@ public class Main extends Application{
         start_root.setRight(rightButtons);
         start_root.setLeft(leftButtons);
         bottomButtons.getChildren().addAll(slow,normal,fast,step, play, pause);
+
+        intialTimeline = new Timeline(
+                new KeyFrame(Duration.seconds(seconds), j -> {
+                    checkCustomSim();
+                })
+        );
+        intialTimeline.setCycleCount(Animation.INDEFINITE);
+        intialTimeline.play();
+
     }
 
     private void simButtonSetup(String buttonName, String filename, String file_type) throws IOException {
@@ -100,7 +109,8 @@ public class Main extends Application{
 
         button.setOnAction(e ->{
             Simulation sim;
-            currentParams = xml_parser.readFile(filename);
+            xml_parser parser = new xml_parser();
+            currentParams = parser.readFile(filename);
             //String type_tag = xml_parser.get_type();
             if(filename.equals("segregation.xml"))
             {
@@ -169,6 +179,7 @@ public class Main extends Application{
 
         back.setOnAction(e -> {
             currentTimeline.stop();
+            currentTimeline = intialTimeline;
             myStage.setScene(start_scene);
             lineChart.getData().clear();
             curr_root.getChildren().clear();
@@ -190,7 +201,6 @@ public class Main extends Application{
         currentTimeline = new Timeline(
                 new KeyFrame(Duration.seconds(seconds), j -> {
                     currentSim.updateGrid();
-                    checkCustomSim();
                     vis1.colorGrid();
                     int count = 0;
                     Date now = new Date();
@@ -318,6 +328,7 @@ public class Main extends Application{
 
     private void checkCustomSim(){
         if (load_sim.is_clicked() == true){
+            System.out.println("YEEET");
             sim_helper(load_sim.getSim());
         }
         load_sim.set_clicked(false);
