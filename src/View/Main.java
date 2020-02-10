@@ -1,7 +1,9 @@
 package View;
 
 import Model.*;
+import configuration.*;
 import configuration.GetPropertyValues;
+import configuration.LoadSim;
 import configuration.xml_creator;
 import configuration.xml_parser;
 import javafx.animation.Animation;
@@ -20,11 +22,8 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-
-
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -45,19 +44,18 @@ public class Main extends Application{
     private VBox rightButtons2 = new VBox();
     private VBox leftButtons = new VBox();
     private GetPropertyValues properties;
-    Stage myStage;
-    Scene start_scene;
-    Scene curr_scene;
+    private Stage myStage;
+    private Scene start_scene;
+    private Scene curr_scene;
+    private Button load;
+    private LoadSim load_sim = new LoadSim(myStage,rightButtons);
     private CategoryAxis xAxis = new CategoryAxis();
     private NumberAxis yAxis = new NumberAxis();
     private LineChart<String,Number> lineChart = new LineChart<String,Number>(xAxis,yAxis);
 
-
-
     @Override
     public void start(Stage primaryStage) throws Exception {
         myStage = primaryStage;
-        currentParams = xml_parser.readFile("pred_prey.xml");
         properties = new GetPropertyValues();
         myStage.setTitle(properties.getPropValues("title"));
         start_scene = new Scene(start_root, WIDTH + 500, HEIGHT);
@@ -65,19 +63,20 @@ public class Main extends Application{
         myStage.setScene(start_scene);
         myStage.show();
 
-        simButtonSetup("buttonSeg", "segregation.xml");
-        simButtonSetup("buttonGol", "game_of_life.xml");
-        simButtonSetup("buttonPerc", "percolate.xml");
-        simButtonSetup("buttonFire", "fire.xml");
-        simButtonSetup("buttonPP", "pred_prey.xml");
-        simButtonSetup("buttonSugar", "sugar.xml");
-
+        simButtonSetup("buttonSeg", "segregation.xml", "standard");
+        simButtonSetup("buttonGol", "game_of_life.xml", "standard");
+        simButtonSetup("buttonPerc", "percolate.xml", "standard");
+        simButtonSetup("buttonFire", "fire.xml", "standard");
+        simButtonSetup("buttonPP", "pred_prey.xml", "standard");
+        simButtonSetup("buttonSugar", "sugar.xml", "standard");
 
         Button fast = makeSpeedButton(properties.getPropValues("buttonFast"), seconds*5);
         Button normal = makeSpeedButton(properties.getPropValues("buttonNormal"), seconds);
         Button slow = makeSpeedButton(properties.getPropValues("buttonSlow"), seconds*0.5);
         Button play = makeSpeedButton(properties.getPropValues("buttonPlay"), seconds);
         Button pause = makeSpeedButton(properties.getPropValues("buttonPause"), 0.0);
+
+        load = load_sim.create_button();
 
         Button step= new Button(properties.getPropValues("buttonStep"));
         step.setOnAction(e ->{
@@ -90,13 +89,9 @@ public class Main extends Application{
         start_root.setRight(rightButtons);
         start_root.setLeft(leftButtons);
         bottomButtons.getChildren().addAll(slow,normal,fast,step, play, pause);
-
     }
 
-
-
-
-    private void simButtonSetup(String buttonName, String filename) throws IOException {
+    private void simButtonSetup(String buttonName, String filename, String file_type) throws IOException {
         properties = new GetPropertyValues();
         Button button= new Button(properties.getPropValues(buttonName));
         rightButtons.getChildren().add(button);
@@ -106,6 +101,7 @@ public class Main extends Application{
         button.setOnAction(e ->{
             Simulation sim;
             currentParams = xml_parser.readFile(filename);
+            //String type_tag = xml_parser.get_type();
             if(filename.equals("segregation.xml"))
             {
                 leftButtons.getChildren().clear();
@@ -113,7 +109,6 @@ public class Main extends Application{
                 enter.setOnAction(j ->{
                     segSimSetup(firstValue);
                 });
-
 
             }else if(filename.equals("fire.xml"))
             {
@@ -154,9 +149,7 @@ public class Main extends Application{
                 enter.setOnAction(j ->{
                     sugarSimSetup(firstValue);
                 });
-
             }
-
         });
     }
 
@@ -192,29 +185,23 @@ public class Main extends Application{
         currentViz = vis1;
         xAxis.setAnimated(false);
         yAxis.setAnimated(false);
-
-
-
-
         XYChart.Series[] data_array = chartArray(currentSim.getAgentNumberMap().entrySet().size());
-
 
         currentTimeline = new Timeline(
                 new KeyFrame(Duration.seconds(seconds), j -> {
                     currentSim.updateGrid();
+                    checkCustomSim();
                     vis1.colorGrid();
                     int count = 0;
                     Date now = new Date();
-
                     for(Map.Entry<String,Double> entry : currentSim.getAgentNumberMap().entrySet())
                     {
                         System.out.format("key: %s, value: %.0f%n", entry.getKey(), entry.getValue());
                         data_array[count].getData().add(new XYChart.Data(simpleDateFormat.format(now), entry.getValue()));
+                        data_array[count].setName(entry.getKey());
                         count += 1;
-
                     }
                     count = 0;
-
                 })
         );
         currentTimeline.setCycleCount(Animation.INDEFINITE);
@@ -326,16 +313,15 @@ public class Main extends Application{
             chart_data[i] = temp;
             lineChart.getData().add(temp);
         }
-
-
-
         return chart_data;
     }
 
-
-
-
-
+    private void checkCustomSim(){
+        if (load_sim.is_clicked() == true){
+            sim_helper();
+        }
+        load_sim.set_clicked(false);
+    }
 
     public static void main (String[] args) {
         launch(args);
