@@ -7,9 +7,6 @@ import java.util.HashMap;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.DocumentBuilder;
 import org.w3c.dom.Document;
-import org.w3c.dom.NodeList;
-import org.w3c.dom.Node;
-import org.w3c.dom.Element;
 
 public class xml_parser {
     static HashMap<String, ArrayList<String>> sims = new HashMap<>();
@@ -19,7 +16,7 @@ public class xml_parser {
     final static ArrayList<String> segParams = new ArrayList<String>(Arrays.asList("grid_width", "grid_height", "probSatisfy", "percentX", "percentO"));
     final static ArrayList<String> predPreyParams = new ArrayList<String>(Arrays.asList("grid_width", "grid_height", "percentFish", "percentSharks", "breedThreshFish", "breedThreshShark", "defaultSharkEnergy", "defaultFishEnergy"));
     final static ArrayList<String> sugarParams = new ArrayList<String>(Arrays.asList("grid_width", "grid_height", "defaultCapacity", "defaultMetabolism", "defaultSugar", "sugarRate", "percentAgent", "percentSugarFull", "percentSugarHalf", "percentSugarZero"));
-
+    private static String type = "";
 
     public static void main(String[] args)
     {
@@ -44,9 +41,14 @@ public class xml_parser {
             {
                 paramMap.putIfAbsent(s,Double.parseDouble(doc.getDocumentElement().getElementsByTagName(s).item(0).getTextContent()));
             }
+            type = doc.getDocumentElement().getElementsByTagName("file_type").item(0).getTextContent();
         } catch (Exception e) {
             e.printStackTrace();
         }
         return paramMap;
+    }
+
+    public static String get_type(){
+        return type;
     }
 }
