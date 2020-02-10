@@ -18,7 +18,7 @@ import java.util.*;
 public class xml_creator {
 
     private static double num = Math.random() * 1000;
-    private static final String xmlFilePath = String.format("Resources/game_of_life%.0f.xml",num);
+    private static final String xmlFilePath = String.format("data/game_of_life%.0f.xml",num);
     private Simulation sim;
 
     public xml_creator(Simulation sim) {
@@ -48,6 +48,10 @@ public class xml_creator {
             Element grid_height = document.createElement("grid_height");
             grid_height.appendChild(document.createTextNode(sim.getRows() + ""));
             root.appendChild(grid_height);
+
+            Element percentAlive = document.createElement("percentAlive");
+            percentAlive.appendChild(document.createTextNode(sim.getParams().get("percentAlive") + ""));
+            root.appendChild(percentAlive);
 
             Element grid_config = document.createElement("grid_config");
             root.appendChild(grid_config);

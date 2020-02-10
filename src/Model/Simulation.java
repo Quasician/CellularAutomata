@@ -44,7 +44,20 @@ public abstract class Simulation {
         agentNumbers.put(type, num);
     }
     public HashMap<String, Double> getAgentNumberMap(){return agentNumbers;}
+    public void createInitialGridFromFile(String[][] grid)
+    {
+        this.grid = grid;
+    }
 
+    public void createGridFromAnotherSim(Simulation sim) {
+        for(int i = 0; i<getRows();i++)
+        {
+            for(int j = 0; j<getCols();j++)
+            {
+                grid[i][j] = sim.getCell(i,j);
+            }
+        }
+    }
     public void countAgentNumbers() {
         for(int i = 0; i<getRows();i++)
         {
