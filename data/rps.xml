@@ -4,6 +4,6 @@
     <grid_width>50</grid_width>
     <grid_height>50</grid_height>
     <percentRock>0.333</percentRock>
-    <percentScissor>0.333</percentScissor>
+    <percentScissors>0.333</percentScissors>
     <threshold>3</threshold>
 </title>
