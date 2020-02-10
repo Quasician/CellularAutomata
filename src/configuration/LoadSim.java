@@ -1,6 +1,7 @@
 package configuration;
 
 import Model.*;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
@@ -30,7 +31,7 @@ public class LoadSim {
         this.stage = stage;
     }
 
-    public Button create_button() throws Exception {
+    public Button create_button() throws IOException,XMLException {
         Button new_button = new Button(properties.getPropValues("buttonLoadSim"));
         load = new_button;
         button_box.getChildren().add(load);
@@ -38,39 +39,52 @@ public class LoadSim {
             FileChooser fileChooser = new FileChooser();
             selectedFile = fileChooser.showOpenDialog(stage);
             xml_parser parser = new xml_parser();
-            currentParams = parser.readSavedFile(selectedFile);
-            dummyGrid = parser.getSim();
-            System.out.println(parser.getFileType());
-            button_action(parser);
-            is_clicked = true;
+            try {
+                currentParams = parser.readSavedFile(selectedFile);
+                dummyGrid = parser.getSim();
+                System.out.println(parser.getFileType());
+                is_clicked = true;
+                button_action(parser);
+            }catch(NullPointerException j)
+            {
+                showError("File not selected");
+            }
         });
         return load;
     }
 
-    public void button_action(xml_parser parser){
-        if (parser.getFileType().equals("fire.xml")){
-            sim = new FireSim( WIDTH, HEIGHT, currentParams, dummyGrid);
-        }
-        else if (parser.getFileType().equals("game_of_life.xml")){
-            sim = new GOLSim( WIDTH, HEIGHT, currentParams, dummyGrid);
-        }
-        else if (parser.getFileType().equals("percolate.xml")){
-            sim = new PercSim( WIDTH, HEIGHT, currentParams, dummyGrid);
-        }
-        else if (parser.getFileType().equals("pred_prey.xml")){
-            sim = new PredPreySim( WIDTH, HEIGHT, currentParams, dummyGrid);
-        }
-        else if (parser.getFileType().equals("segregation.xml")){
-            sim = new SegSim( WIDTH, HEIGHT, currentParams, dummyGrid);
-        }
-        else if (parser.getFileType().equals("sugar.xml")){
-            sim = new SugarSim( WIDTH, HEIGHT, currentParams, dummyGrid);
-        }
-        else if (parser.getFileType().equals("ant.xml")){
-            sim = new AntSim(WIDTH, HEIGHT, currentParams);
-        }
-        else if (parser.getFileType().equals("rps.xml")){
-            sim = new RPSSim(WIDTH, HEIGHT, currentParams);
+    public void button_action(xml_parser parser) throws XMLException{
+        try {
+            if (parser.getFileType().equals("fire.xml")) {
+                sim = new FireSim(WIDTH, HEIGHT, currentParams, dummyGrid);
+                return;
+            } else if (parser.getFileType().equals("game_of_life.xml")) {
+                sim = new GOLSim(WIDTH, HEIGHT, currentParams, dummyGrid);
+                return;
+            } else if (parser.getFileType().equals("percolate.xml")) {
+                sim = new PercSim(WIDTH, HEIGHT, currentParams, dummyGrid);
+                return;
+            } else if (parser.getFileType().equals("pred_prey.xml")) {
+                sim = new PredPreySim(WIDTH, HEIGHT, currentParams, dummyGrid);
+                return;
+            } else if (parser.getFileType().equals("segregation.xml")) {
+                sim = new SegSim(WIDTH, HEIGHT, currentParams, dummyGrid);
+                return;
+            } else if (parser.getFileType().equals("sugar.xml")) {
+                sim = new SugarSim(WIDTH, HEIGHT, currentParams, dummyGrid);
+                return;
+            } else if (parser.getFileType().equals("ant.xml")) {
+                sim = new AntSim(WIDTH, HEIGHT, currentParams);
+                return;
+            } else if (parser.getFileType().equals("rps.xml")) {
+                sim = new RPSSim(WIDTH, HEIGHT, currentParams);
+                return;
+            }
+            throw new XMLException("Wrong File", parser.getFileType());
+        }catch (XMLException e)
+        {
+            showError(e.getMessage());
+            is_clicked = false;
         }
     }
 
@@ -84,5 +98,12 @@ public class LoadSim {
 
     public Simulation getSim() {
         return sim;
+    }
+
+    private void showError(String mes)
+    {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setContentText(mes);
+        alert.showAndWait();
     }
 }

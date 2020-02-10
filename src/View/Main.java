@@ -1,10 +1,7 @@
 package View;
 
 import Model.*;
-import configuration.GetPropertyValues;
-import configuration.LoadSim;
-import configuration.xml_creator;
-import configuration.xml_parser;
+import configuration.*;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -14,6 +11,7 @@ import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
@@ -53,7 +51,7 @@ public class Main extends Application{
     private LineChart<String,Number> lineChart = new LineChart<String,Number>(xAxis,yAxis);
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
+    public void start(Stage primaryStage) throws IOException, XMLException {
         myStage = primaryStage;
         myStage.setTitle(properties.getPropValues("title"));
         start_scene = new Scene(start_root, WIDTH + 500, HEIGHT);
@@ -62,7 +60,16 @@ public class Main extends Application{
         myStage.show();
 
         button_setup();
-        load_sim.create_button();
+        try{
+            load_sim.create_button();
+        }catch (IOException e)
+        {
+            showError(e.getMessage());
+        }catch (XMLException e)
+        {
+            showError(e.getMessage());
+        }
+
         lineChart.setPrefSize(500,500);
         lineChart.setCreateSymbols(false);
         xAxis.setAnimated(false);
@@ -96,35 +103,67 @@ public class Main extends Application{
             xml_parser parser = new xml_parser();
             currentParams = parser.readFile(filename);
 
-            if(filename.equals("segregation.xml")) {
-                enter.setOnAction(j ->{
-                    segSimSetup(textField);
+
+            if (filename.equals("segregation.xml")) {
+                enter.setOnAction(j -> {
+                    try{
+                        segSimSetup(textField);
+                    }catch(NumberFormatException a)
+                    {
+                        showError("Incorrect value");
+                    }
                 });
 
-            }else if(filename.equals("fire.xml")) {
-                enter.setOnAction(j ->{
-                    fireSimSetup(textField);
+            } else if (filename.equals("fire.xml")) {
+                enter.setOnAction(j -> {
+                    try{
+                        rpsSimSetup(textField);
+                    }catch(NumberFormatException a)
+                    {
+                        showError("Incorrect value");
+                    }
                 });
 
-            }else if(filename.equals("game_of_life.xml")) {
-                enter.setOnAction(j ->{
-                    golSimSetup(textField);
+            } else if (filename.equals("game_of_life.xml")) {
+                enter.setOnAction(j -> {
+                    try{
+                        golSimSetup(textField);
+                    }catch(NumberFormatException a)
+                    {
+                        showError("Incorrect value");
+                    }
                 });
 
-            }else if(filename.equals("pred_prey.xml")) {
-                enter.setOnAction(j ->{
-                    predpreySimSetup(textField);
+            } else if (filename.equals("pred_prey.xml")) {
+                enter.setOnAction(j -> {
+                    try{
+                        predpreySimSetup(textField);
+                    }catch(NumberFormatException a)
+                    {
+                        showError("Incorrect value");
+                    }
                 });
 
-            }else if(filename.equals("percolate.xml")) {
-                enter.setOnAction(j ->{
-                    percSimSetup(textField);
+            } else if (filename.equals("percolate.xml")) {
+                enter.setOnAction(j -> {
+                    try{
+                        percSimSetup(textField);
+                    }catch(NumberFormatException a)
+                    {
+                        showError("Incorrect value");
+                    }
                 });
 
-            }else if(filename.equals("sugar.xml")) {
-                enter.setOnAction(j ->{
-                    sugarSimSetup(textField);
-                });}
+            } else if (filename.equals("sugar.xml")) {
+                enter.setOnAction(j -> {
+                    try{
+                        sugarSimSetup(textField);
+                    }catch(NumberFormatException a)
+                    {
+                        showError("Incorrect value");
+                    }
+                });
+            }
 
 //            }else if(filename.equals("ant.xml")) {
 //                enter.setOnAction(j ->{
@@ -132,11 +171,17 @@ public class Main extends Application{
 //                });
 //
 //            }
-            else if(filename.equals("rps.xml")) {
-                enter.setOnAction(j ->{
+            else if (filename.equals("rps.xml")) {
+                enter.setOnAction(j -> {
+                    try{
                     rpsSimSetup(textField);
+                    }catch(NumberFormatException a)
+                    {
+                        showError("Incorrect value");
+                    }
                 });
             }
+
         });
     }
 
@@ -186,7 +231,7 @@ public class Main extends Application{
         return button;
     }
 
-    public void percSimSetup(TextField firstValue){
+    public void percSimSetup(TextField firstValue) throws NumberFormatException{
         Simulation sim2;
         if (firstValue.getText().equals("random")){
             sim2 = new PercSim( WIDTH, HEIGHT, currentParams);
@@ -194,14 +239,19 @@ public class Main extends Application{
         }
         else {
             String[] parameters = firstValue.getText().split(",");
-            currentParams.put("percentEmpty", Double.parseDouble(parameters[0]));
-            currentParams.put("percentBlocked", Double.parseDouble(parameters[1]));
-            sim2 = new PercSim( WIDTH, HEIGHT, currentParams);
-            sim_helper(sim2);
+            try{
+                currentParams.put("percentEmpty", Double.parseDouble(parameters[0]));
+                currentParams.put("percentBlocked", Double.parseDouble(parameters[1]));
+                sim2 = new PercSim( WIDTH, HEIGHT, currentParams);
+                sim_helper(sim2);
+            }catch(ArrayIndexOutOfBoundsException p)
+            {
+                showError("Not enough parameters");
+            }
         }
     }
 
-    public void segSimSetup(TextField firstValue){
+    public void segSimSetup(TextField firstValue) throws NumberFormatException{
         Simulation sim2;
         if (firstValue.getText().equals("random")){
             sim2 = new SegSim( WIDTH, HEIGHT, currentParams);
@@ -209,15 +259,20 @@ public class Main extends Application{
         }
         else {
             String[] parameters = firstValue.getText().split(",");
-            currentParams.put("probSatisfy", Double.parseDouble(parameters[0]));
-            currentParams.put("Percent0", Double.parseDouble(parameters[1]));
-            currentParams.put("PercentX", Double.parseDouble(parameters[2]));
-            sim2 = new SegSim( WIDTH, HEIGHT, currentParams);
-            sim_helper(sim2);
+            try{
+                currentParams.put("probSatisfy", Double.parseDouble(parameters[0]));
+                currentParams.put("Percent0", Double.parseDouble(parameters[1]));
+                currentParams.put("PercentX", Double.parseDouble(parameters[2]));
+                sim2 = new SegSim( WIDTH, HEIGHT, currentParams);
+                sim_helper(sim2);
+            }catch(ArrayIndexOutOfBoundsException p)
+            {
+                showError("Not enough parameters");
+            }
         }
     }
 
-    public void fireSimSetup(TextField firstValue){
+    public void fireSimSetup(TextField firstValue) throws NumberFormatException{
         Simulation sim2;
         if (firstValue.getText().equals("random")){
             sim2 = new FireSim( WIDTH, HEIGHT, currentParams);
@@ -225,14 +280,19 @@ public class Main extends Application{
         }
         else {
             String[] parameters = firstValue.getText().split(",");
-            currentParams.put("probCatch", Double.parseDouble(parameters[0]));
-            currentParams.put("probBurning", Double.parseDouble(parameters[1]));
-            sim2 = new FireSim( WIDTH, HEIGHT, currentParams);
-            sim_helper(sim2);
+            try{
+                currentParams.put("probCatch", Double.parseDouble(parameters[0]));
+                currentParams.put("probBurning", Double.parseDouble(parameters[1]));
+                sim2 = new FireSim( WIDTH, HEIGHT, currentParams);
+                sim_helper(sim2);
+            }catch(ArrayIndexOutOfBoundsException p)
+            {
+                showError("Not enough parameters");
+            }
         }
     }
 
-    public void golSimSetup(TextField firstValue){
+    public void golSimSetup(TextField firstValue) throws NumberFormatException{
         Simulation sim2;
         if (firstValue.getText().equals("random")){
             sim2 = new GOLSim( WIDTH, HEIGHT, currentParams);
@@ -240,13 +300,18 @@ public class Main extends Application{
         }
         else {
             String[] parameters = firstValue.getText().split(",");
-            currentParams.put("percentAlive", Double.parseDouble(parameters[0]));
-            sim2 = new GOLSim( WIDTH, HEIGHT, currentParams);
-            sim_helper(sim2);
+            try{
+                currentParams.put("percentAlive", Double.parseDouble(parameters[0]));
+                sim2 = new GOLSim( WIDTH, HEIGHT, currentParams);
+                sim_helper(sim2);
+            }catch(ArrayIndexOutOfBoundsException p)
+            {
+                showError("Not enough parameters");
+            }
         }
     }
 
-    public void predpreySimSetup(TextField firstValue){
+    public void predpreySimSetup(TextField firstValue) throws NumberFormatException{
         Simulation sim2;
         if (firstValue.getText().equals("random")){
             sim2 = new PredPreySim(WIDTH, HEIGHT, currentParams);
@@ -254,14 +319,18 @@ public class Main extends Application{
         }
         else {
             String[] parameters = firstValue.getText().split(",");
-            currentParams.put("percentFish", Double.parseDouble(parameters[0]));
-            currentParams.put("percentSharks", Double.parseDouble(parameters[1]));
-            sim2 = new PredPreySim(WIDTH, HEIGHT, currentParams);
-            sim_helper(sim2);
+            try{
+                currentParams.put("percentFish", Double.parseDouble(parameters[0]));
+                currentParams.put("percentSharks", Double.parseDouble(parameters[1]));
+                sim2 = new PredPreySim(WIDTH, HEIGHT, currentParams);
+                sim_helper(sim2);
+            }catch(ArrayIndexOutOfBoundsException p) {
+                showError("Not enough parameters");
+            }
         }
     }
 
-    public void sugarSimSetup(TextField firstValue){
+    public void sugarSimSetup(TextField firstValue) throws NumberFormatException {
         Simulation sim2;
         if (firstValue.getText().equals("random")){
             sim2 = new SugarSim( WIDTH, HEIGHT, currentParams);
@@ -269,12 +338,17 @@ public class Main extends Application{
         }
         else {
             String[] parameters = firstValue.getText().split(",");
-            currentParams.put("percentAgent", Double.parseDouble(parameters[0]));
-            currentParams.put("percentSugarFull", Double.parseDouble(parameters[1]));
-            currentParams.put("percentSugarHalf", Double.parseDouble(parameters[2]));
-            currentParams.put("percentSugarZero", Double.parseDouble(parameters[3]));
-            sim2 = new SugarSim(WIDTH, HEIGHT, currentParams);
-            sim_helper(sim2);
+            try {
+                currentParams.put("percentAgent", Double.parseDouble(parameters[0]));
+                currentParams.put("percentSugarFull", Double.parseDouble(parameters[1]));
+                currentParams.put("percentSugarHalf", Double.parseDouble(parameters[2]));
+                currentParams.put("percentSugarZero", Double.parseDouble(parameters[3]));
+                sim2 = new SugarSim(WIDTH, HEIGHT, currentParams);
+                sim_helper(sim2);
+            }catch(ArrayIndexOutOfBoundsException p)
+            {
+                showError("Not enough parameters");
+            }
         }
     }
 
@@ -295,7 +369,7 @@ public class Main extends Application{
 //        }
 //    }
 
-    public void rpsSimSetup(TextField firstValue){
+    public void rpsSimSetup(TextField firstValue) throws NumberFormatException{
         Simulation sim2;
         if (firstValue.getText().equals("random")){
             sim2 = new RPSSim(WIDTH, HEIGHT, currentParams);
@@ -303,12 +377,15 @@ public class Main extends Application{
         }
         else {
             String[] parameters = firstValue.getText().split(",");
-            currentParams.put("percentAgent", Double.parseDouble(parameters[0]));
-            currentParams.put("percentSugarFull", Double.parseDouble(parameters[1]));
-            currentParams.put("percentSugarHalf", Double.parseDouble(parameters[2]));
-            currentParams.put("percentSugarZero", Double.parseDouble(parameters[3]));
-            sim2 = new RPSSim(WIDTH, HEIGHT, currentParams);
-            sim_helper(sim2);
+            try {
+                currentParams.put("percentRock", Double.parseDouble(parameters[0]));
+                currentParams.put("percentScissors", Double.parseDouble(parameters[1]));
+                sim2 = new RPSSim(WIDTH, HEIGHT, currentParams);
+                sim_helper(sim2);
+            }catch(ArrayIndexOutOfBoundsException p)
+            {
+                showError("Not enough parameters");
+            }
         }
     }
 
@@ -362,6 +439,12 @@ public class Main extends Application{
             currentSim.updateGrid();
             currentViz.colorGrid();
         });
+    }
+    private void showError(String mes)
+    {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setContentText(mes);
+        alert.showAndWait();
     }
 
     public static void main (String[] args) {

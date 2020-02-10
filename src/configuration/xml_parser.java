@@ -1,15 +1,19 @@
 package configuration;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.ParserConfigurationException;
 
 import Model.GOLSim;
 import Model.Simulation;
+import javafx.scene.control.Alert;
 import org.w3c.dom.Document;
+import org.xml.sax.SAXException;
 
 public class xml_parser {
     private HashMap<String, ArrayList<String>> sims = new HashMap<>();
@@ -49,8 +53,8 @@ public class xml_parser {
             {
                 paramMap.putIfAbsent(s,Double.parseDouble(doc.getDocumentElement().getElementsByTagName(s).item(0).getTextContent()));
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (NullPointerException | IOException | SAXException  | ParserConfigurationException e) {
+            showError("Wrong formatting of XML");
         }
         return paramMap;
     }
@@ -75,7 +79,12 @@ public class xml_parser {
             for(String s: sims.get(fileType))
             {
                 System.out.println(s);
-                paramMap.putIfAbsent(s,Double.parseDouble(doc.getDocumentElement().getElementsByTagName(s).item(0).getTextContent()));
+                double paramValue = Double.parseDouble(doc.getDocumentElement().getElementsByTagName(s).item(0).getTextContent());
+                if(paramValue<0)
+                {
+                    throw new XMLException("Negative value",paramValue);
+                }
+                paramMap.putIfAbsent(s,paramValue);
             }
             int rows = (int)(paramMap.get("grid_height")*10)/10;
             int cols = (int)(paramMap.get("grid_width")*10)/10;
@@ -89,8 +98,10 @@ public class xml_parser {
             }
             sim = new GOLSim(new HashMap<String,Double>());
             sim.createInitialGridFromFile(grid);
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (NullPointerException | IOException | SAXException  | ParserConfigurationException e) {
+            showError("Wrong formatting of XML");
+        }catch (XMLException e) {
+            showError(e.getMessage());
         }
         return paramMap;
     }
@@ -103,5 +114,12 @@ public class xml_parser {
     public String getFileType()
     {
         return fileType;
+    }
+
+    private void showError(String mes)
+    {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setContentText(mes);
+        alert.showAndWait();
     }
 }
