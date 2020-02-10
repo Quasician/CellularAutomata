@@ -32,6 +32,7 @@ public class xml_parser {
         fileType = "";
     }
 
+
     public HashMap<String,Double> readFile(String file) {
         fileType = file;
         addSimsToHashMap();
@@ -53,9 +54,16 @@ public class xml_parser {
         return paramMap;
     }
 
+
+    /*
+    Reads custom files and parses them
+    Takes in file path and reduces the file name to its original variant
+    From this it loads the rules of that variant within the doc
+     */
     public HashMap<String,Double> readSavedFile(File file) {
         addSimsToHashMap();
         String fileName = file.toString().replaceAll("[0-9]", "");
+        fileName = fileName.replace('\\', '/');
         String[] paths = fileName.split("/");
         fileType= paths[paths.length-1];
         HashMap<String,Double> paramMap = new HashMap<>();
