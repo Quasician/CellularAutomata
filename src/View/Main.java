@@ -318,7 +318,7 @@ public class Main extends Application{
 
     private void checkCustomSim(){
         if (load_sim.is_clicked() == true){
-            sim_helper();
+            sim_helper(load_sim.getSim());
         }
         load_sim.set_clicked(false);
     }
