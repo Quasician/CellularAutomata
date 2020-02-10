@@ -15,7 +15,7 @@ public class PredPreyCell extends Cell{
     }
 
     public ArrayList<PredPreyCell> getFish(int x, int y, PredPreyCell[][] gridCopy) {
-        PredPreyCell[] neighbors = new PredPreyCell[4];
+        ArrayList<PredPreyCell> neighbors = new ArrayList<>();
         neighbors = get4NeighborsTorroidal(x,y,gridCopy, neighbors);
         ArrayList<PredPreyCell> fishList = new ArrayList<PredPreyCell>();
         for(PredPreyCell i: neighbors) {
@@ -27,7 +27,7 @@ public class PredPreyCell extends Cell{
     }
 
     public ArrayList<PredPreyCell> getKelpAndFutureEmpty(int x, int y, PredPreyCell[][] gridCopy) {
-        PredPreyCell[] neighbors = new PredPreyCell[4];
+        ArrayList<PredPreyCell> neighbors = new ArrayList<>();
         neighbors = get4NeighborsTorroidal(x,y,gridCopy, neighbors);
         ArrayList<PredPreyCell> kelpAndFutureEmptyList = new ArrayList<PredPreyCell>();
         for(PredPreyCell i: neighbors) {

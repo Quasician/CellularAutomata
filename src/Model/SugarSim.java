@@ -195,7 +195,7 @@ public class SugarSim extends Simulation {
     }
 
     public ArrayList<SugarCell> neighborFilter(SugarCell input, String name) {
-        SugarCell[] neighbors = new SugarCell[4];
+        ArrayList<SugarCell> neighbors = new ArrayList<>();
         neighbors = input.get4NeighborsTorroidal(input.x, input.y, sugarGrid, neighbors);
         ArrayList<SugarCell> result = new ArrayList<>();
         for (SugarCell n : neighbors) {
