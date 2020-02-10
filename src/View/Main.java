@@ -44,7 +44,7 @@ public class Main extends Application{
     private VBox rightButtons = new VBox();
     private VBox rightButtons2 = new VBox();
     private VBox leftButtons = new VBox();
-    private GetPropertyValues properties;
+    private GetPropertyValues properties = new GetPropertyValues();;
     private Stage myStage;
     private Scene start_scene;
     private Scene curr_scene;
@@ -56,7 +56,6 @@ public class Main extends Application{
     @Override
     public void start(Stage primaryStage) throws Exception {
         myStage = primaryStage;
-        properties = new GetPropertyValues();
         myStage.setTitle(properties.getPropValues("title"));
         start_scene = new Scene(start_root, WIDTH + 500, HEIGHT);
         curr_scene = new Scene(curr_root, WIDTH + 500, HEIGHT);
@@ -87,11 +86,10 @@ public class Main extends Application{
     }
 
     private void simButtonSetup(String buttonName, String filename, String file_type) throws IOException {
-        properties = new GetPropertyValues();
         Button button= new Button(properties.getPropValues(buttonName));
         rightButtons.getChildren().add(button);
         TextField firstValue = new TextField();
-        Button enter = new Button("Enter");
+        Button enter = new Button(properties.getPropValues("buttonEnter"));
 
         button.setOnAction(e ->{
             leftButtons.getChildren().clear();
@@ -132,7 +130,7 @@ public class Main extends Application{
         });
     }
 
-    public void sim_helper(Simulation temp){
+    public void sim_helper(Simulation temp) {
         currentSim = temp;
         Button back = new Button("Back");
         Button save = new Button("Save");

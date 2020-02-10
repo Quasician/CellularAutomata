@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class RPSSim extends Simulation{
-    private double percentRock = 0.333;
-    private double percentScissors = 0.333;
-    private int defaultThreshold = 3;
+    private double percentRock;
+    private double percentScissors;
+    private int defaultThreshold;
     private RPSCell[][] rpsGrid;
 
     public RPSSim(double rows, double cols, int width, int height, HashMap<String, Double> params) {
@@ -17,14 +17,12 @@ public class RPSSim extends Simulation{
     }
 
     public void initParams() {
-//        defaultCapacity = (int) (getParams().get("capacity") * 10) / 10;
-//        defaultMetabolism = (int) (getParams().get("metabolism") * 10) / 10;
-//        defaultSugar = (int) (getParams().get("defaultSugar") * 10) / 10;
-//        sugarRate = (int) (getParams().get("sugarRate") * 10) / 10;
-//        percentAgent = getParams().get("percentAgent");
-//        percentSugarFull = getParams().get("percentSugarFull");
-//        percentSugarHalf = getParams().get("percentSugarHalf");
-//        percentSugarZero = getParams().get("percentSugarZero");
+        defaultThreshold = (int) (getParams().get("threshold") * 10) / 10;
+        percentRock = getParams().get("percentRock");
+        percentScissors = getParams().get("percentScissors");
+        initAddToAgentNumberMap("rock");
+        initAddToAgentNumberMap("paper");
+        initAddToAgentNumberMap("scissor");
     }
 
     public void createGrid(int rows, int cols) {

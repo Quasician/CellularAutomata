@@ -7,6 +7,7 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 
 
@@ -16,6 +17,7 @@ public class LoadSim {
     Stage stage;
     File selectedFile;
     private HashMap<String,Double> currentParams;
+    private GetPropertyValues properties;
     private String type_tag;
     private Simulation sim;
     private boolean is_clicked = false;
@@ -28,8 +30,9 @@ public class LoadSim {
         this.stage = stage;
     }
 
-    public Button create_button(){
-        Button new_button = new Button("Load Custom Sim");
+    public Button create_button() throws Exception {
+        properties = new GetPropertyValues();
+        Button new_button = new Button(properties.getPropValues("buttonLoadSim"));
         load = new_button;
         button_box.getChildren().add(load);
         load.setOnAction(e -> {
