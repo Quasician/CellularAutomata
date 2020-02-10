@@ -54,14 +54,4 @@ public class PredPreyCell extends Cell{
     public double getLives() {return lives;}
 
     public void setLife(int input) {this.lives = input;}
-
-    public int getX()
-    {
-        return x;
-    }
-
-    public int getY()
-    {
-        return y;
-    }
 }
