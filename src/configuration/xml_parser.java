@@ -7,6 +7,7 @@ import java.util.HashMap;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.DocumentBuilder;
 
+import Model.GOLSim;
 import Model.Simulation;
 import org.w3c.dom.Document;
 
@@ -45,7 +46,18 @@ public class xml_parser {
             {
                 paramMap.putIfAbsent(s,Double.parseDouble(doc.getDocumentElement().getElementsByTagName(s).item(0).getTextContent()));
             }
-            String[][] grid = new String[(int)(paramMap.get("grid_height")*10)/10][(int)(paramMap.get("grid_width")*10)/10];
+            int rows = (int)(paramMap.get("grid_height")*10)/10;
+            int cols = (int)(paramMap.get("grid_width")*10)/10;
+            String[][] grid = new String[rows][cols];
+            for(int i  = 0; i<rows;i++)
+            {
+                for(int j  = 0; j<cols;j++)
+                {
+                    grid[i][j] = doc.getDocumentElement().getElementsByTagName("cell"+i+""+j).item(0).getTextContent();
+                }
+            }
+            sim = new GOLSim(rows, cols, new HashMap<String,Double>());
+            sim.createInitialGridFromFile(grid);
         } catch (Exception e) {
             e.printStackTrace();
         }

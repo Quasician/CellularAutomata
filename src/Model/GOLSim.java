@@ -16,6 +16,14 @@ public class GOLSim extends Simulation {
         setUpHashMap();
     }
 
+    public GOLSim(int width, int height, HashMap<String,Double> params, Simulation sim)
+    {
+        super((int)(params.get("grid_height")*10)/10,(int)(params.get("grid_width")*10/10), width,height, params);
+        initParams();
+        createGridFromAnotherSim(sim);
+        setUpHashMap();
+    }
+
     public void createGrid(int numRows, int numCols) {
         createGrid( new String[numRows][numCols]);
         for(int i = 0; i<getRows();i++)
