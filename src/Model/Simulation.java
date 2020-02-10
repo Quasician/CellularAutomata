@@ -10,6 +10,7 @@ public abstract class Simulation {
 
     private int simRows, simCols;
     private int simWidth, simHeight;
+    private String name;
     private HashMap<String, String> colorMap;
     private HashMap<String, Double> params;
     private HashMap<String, Double> agentNumbers;
@@ -23,11 +24,13 @@ public abstract class Simulation {
         this.simHeight = height;
         this.params = params;
         agentNumbers = new HashMap<>();
-        createGrid(rows, cols);
+        createGrid(new String[rows][cols]);
     }
 
     public abstract void initParams();
     public int getRows(){return simRows;}
+    public void setName(String name){this.name = name;}
+    public String getName(){return name;}
     public int getCols(){return simCols;}
     public int getSimWidth(){return simWidth;}
     public int getSimHeight(){return simHeight;}

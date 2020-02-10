@@ -15,13 +15,22 @@ public class SegSim extends Simulation {
     private ArrayList<Integer> x_empty_cells;
     private ArrayList<Integer> y_empty_cells;
 
-
     public SegSim(int width, int height, HashMap<String,Double> params)
     {
         super((int)(params.get("grid_height")*10)/10,(int)(params.get("grid_width")*10/10), width,height, params);
         initParams();
         createGrid(getRows(),getCols());
         setUpHashMap();
+        setName("segregation");
+    }
+
+    public SegSim(int width, int height, HashMap<String,Double> params, Simulation sim)
+    {
+        super((int)(params.get("grid_height")*10)/10,(int)(params.get("grid_width")*10/10), width,height, params);
+        initParams();
+        createGridFromAnotherSim(sim);
+        setUpHashMap();
+        setName("segregation");
     }
 
     @Override

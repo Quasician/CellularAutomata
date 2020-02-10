@@ -10,12 +10,23 @@ public class FireSim extends Simulation {
     private double probCatch;
     private double percentBurning;
 
+
     public FireSim(int width, int height, HashMap<String,Double> params)
     {
         super((int)(params.get("grid_height")*10)/10,(int)(params.get("grid_width")*10/10), width,height, params);
         initParams();
         createGrid(getRows(),getCols());
         setUpHashMap();
+        setName("fire");
+    }
+
+    public FireSim(int width, int height, HashMap<String,Double> params, Simulation sim)
+    {
+        super((int)(params.get("grid_height")*10)/10,(int)(params.get("grid_width")*10/10), width,height, params);
+        initParams();
+        createGridFromAnotherSim(sim);
+        setUpHashMap();
+        setName("fire");
     }
 
     @Override

@@ -18,7 +18,7 @@ import java.util.*;
 public class xml_creator {
 
     private static double num = Math.random() * 1000;
-    private static final String xmlFilePath = String.format("data/game_of_life%.0f.xml",num);
+    private static String xmlFilePath = "";
     private Simulation sim;
 
     public xml_creator(Simulation sim) {
@@ -28,13 +28,13 @@ public class xml_creator {
 
     public static void createGrid(Simulation sim) {
         try {
-
+            xmlFilePath = String.format("data/%s%.0f.xml",sim.getName(), num);
             DocumentBuilderFactory documentFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder documentBuilder = documentFactory.newDocumentBuilder();
             Document document = documentBuilder.newDocument();
 
             Element root = document.createElement("title");
-            root.appendChild(document.createTextNode("Game of Life xml file"));
+            root.appendChild(document.createTextNode(String.format("%s.xml",sim.getName())));
             document.appendChild(root);
 
             Element author = document.createElement("author");
@@ -49,9 +49,13 @@ public class xml_creator {
             grid_height.appendChild(document.createTextNode(sim.getRows() + ""));
             root.appendChild(grid_height);
 
-            Element percentAlive = document.createElement("percentAlive");
-            percentAlive.appendChild(document.createTextNode(sim.getParams().get("percentAlive") + ""));
-            root.appendChild(percentAlive);
+            for(Map.Entry<String,Double> entry: sim.getParams().entrySet())
+            {
+                Element param = document.createElement(entry.getKey());
+                param.appendChild(document.createTextNode(entry.getValue() + ""));
+                root.appendChild(param);
+            }
+
 
             Element grid_config = document.createElement("grid_config");
             root.appendChild(grid_config);
