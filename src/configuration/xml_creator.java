@@ -41,14 +41,6 @@ public class xml_creator {
             author.appendChild(document.createTextNode("Vineet Alaparthi"));
             root.appendChild(author);
 
-            Element grid_width = document.createElement("grid_width");
-            grid_width.appendChild(document.createTextNode(sim.getCols() + ""));
-            root.appendChild(grid_width);
-
-            Element grid_height = document.createElement("grid_height");
-            grid_height.appendChild(document.createTextNode(sim.getRows() + ""));
-            root.appendChild(grid_height);
-
             for(Map.Entry<String,Double> entry: sim.getParams().entrySet())
             {
                 Element param = document.createElement(entry.getKey());
