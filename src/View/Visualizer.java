@@ -99,7 +99,7 @@ public class Visualizer {
     }
 
     public void initialize() {
-        createHexGrid();
+        createRecGrid();
         colorGrid();
     }
 
@@ -108,7 +108,7 @@ public class Visualizer {
         for (int i = 0; i < visRow; i++) {
             for (int j = 0; j < visCol; j++) {
                 //System.out.println("I: " + i + "J: "+ j);
-                hexList[i][j].setFill(Color.web(colorMap.get(sim.getCell(i,j))));
+                recList[i][j].setFill(Color.web(colorMap.get(sim.getCell(i,j))));
             }
         }
         //System.out.println("END YEET!");

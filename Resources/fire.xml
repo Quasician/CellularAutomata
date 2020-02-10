@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <title>Fire xml file
     <author>Rodrigo Araujo</author>
+    <file_type>Fire</file_type>
     <grid_width>51</grid_width>
     <grid_height>51</grid_height>
     <probCatch>0.6</probCatch>

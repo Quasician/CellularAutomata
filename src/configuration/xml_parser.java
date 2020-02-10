@@ -9,9 +9,6 @@ import javax.xml.parsers.DocumentBuilder;
 
 import Model.Simulation;
 import org.w3c.dom.Document;
-import org.w3c.dom.NodeList;
-import org.w3c.dom.Node;
-import org.w3c.dom.Element;
 
 public class xml_parser {
     private static HashMap<String, ArrayList<String>> sims = new HashMap<>();
