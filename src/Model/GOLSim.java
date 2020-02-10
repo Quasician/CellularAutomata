@@ -8,6 +8,11 @@ public class GOLSim extends Simulation {
 
     private double percentAlive;
 
+    public GOLSim(HashMap<String,Double> params)
+    {
+        super(10,10, 10,10, params);
+    }
+
     public GOLSim(int width, int height, HashMap<String,Double> params)
     {
         super((int)(params.get("grid_height")*10)/10,(int)(params.get("grid_width")*10/10), width,height, params);
