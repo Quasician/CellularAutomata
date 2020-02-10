@@ -8,7 +8,7 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.util.HashMap;
-import java.util.Map;
+
 
 public class LoadSim {
     VBox button_box;
