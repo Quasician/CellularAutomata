@@ -58,9 +58,9 @@ public class AntSim extends Simulation {
     public void updateGrid() {
         takenSpots = new ArrayList<>();
         antsMoved = new ArrayList<>();
-//        if (antCount < maxAnt) {
-//            antSpawn();
-//        }
+        if (antCount < maxAnt) {
+            antSpawn();
+        }
         for (int i = 0; i < getRows(); i++) {
             for (int j = 0; j < getCols(); j++) {
                 antGrid[i][j] = antGrid[i][j].getNextState();
