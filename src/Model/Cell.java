@@ -24,13 +24,6 @@ public abstract class Cell {
     private <Type> Type left(Type[][] gridCopy, int x, int y) { return gridCopy[(x-1+gridCopy.length)%gridCopy.length][(y+gridCopy[0].length)%gridCopy[0].length];}
     private <Type> Type right(Type[][] gridCopy, int x, int y) { return gridCopy[(x+1+gridCopy.length)%gridCopy.length][(y+gridCopy[0].length)%gridCopy[0].length];}
 
-//    public <Type> Type[] get4NeighborsTorroidal(int x, int y, Type[][] gridCopy, Type[] neighbors) {
-//        neighbors[0] = top(gridCopy, x, y);
-//        neighbors[1] = bottom(gridCopy, x, y);
-//        neighbors[2] = left(gridCopy, x, y);
-//        neighbors[3] = right(gridCopy, x, y);
-//        return neighbors;
-//    }
     public <Type> ArrayList<Type> get4NeighborsTorroidal(int x, int y, Type[][] gridCopy, ArrayList<Type> neighbors) {
         for(int i = x-1; i<=x+1;i++) {
             for(int j = y-1; j<=y+1;j++) {
@@ -46,15 +39,15 @@ public abstract class Cell {
     }
 
 
-    public <Type> Type[] get8NeighborsTorroidal(int x, int y, Type[][] gridCopy, Type[] neighbors) {
-        neighbors[0] = top(gridCopy, x, y);
-        neighbors[1] = bottom(gridCopy, x, y);
-        neighbors[2] = left(gridCopy, x, y);
-        neighbors[3] = right(gridCopy, x, y);
-        neighbors[4] = top_right(gridCopy, x, y);
-        neighbors[5] = top_left(gridCopy, x, y);
-        neighbors[6] = bottom_right(gridCopy, x, y);
-        neighbors[7] = bottom_left(gridCopy, x, y);
+    public <Type> ArrayList<Type>  get8NeighborsTorroidal(int x, int y, Type[][] gridCopy, ArrayList<Type> neighbors) {
+        neighbors.add(top(gridCopy, x, y));
+        neighbors.add(bottom(gridCopy, x, y));
+        neighbors.add(left(gridCopy, x, y));
+        neighbors.add(right(gridCopy, x, y));
+        neighbors.add(top_right(gridCopy, x, y));
+        neighbors.add(top_left(gridCopy, x, y));
+        neighbors.add(bottom_right(gridCopy, x, y));
+        neighbors.add(bottom_left(gridCopy, x, y));
         return neighbors;
     }
 
