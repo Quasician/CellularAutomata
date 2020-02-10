@@ -117,7 +117,7 @@ public class Main extends Application{
             } else if (filename.equals("fire.xml")) {
                 enter.setOnAction(j -> {
                     try{
-                        rpsSimSetup(textField);
+                        fireSimSetup(textField);
                     }catch(NumberFormatException a)
                     {
                         showError("Incorrect value");
