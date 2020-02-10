@@ -4,7 +4,6 @@ public class SugarCell {
 
     private String name;
     private SugarCell nextState;
-    private SugarCell initState;
     protected int x;
     protected int y;
     protected int capacity;
