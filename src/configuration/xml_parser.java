@@ -62,7 +62,7 @@ public class xml_parser {
         sims.putIfAbsent("segregation.xml",segParams);
         sims.putIfAbsent("sugar.xml",sugarParams);
         String fileName = file.toString().replaceAll("[0-9]", "");
-        String[] paths = fileName.split("\\\\");
+        String[] paths = fileName.split("/");
         fileType= paths[paths.length-1];
         HashMap<String,Double> paramMap = new HashMap<>();
         try {
