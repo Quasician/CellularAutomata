@@ -48,29 +48,28 @@ public class PredPreySim extends Simulation {
         initAddToAgentNumberMap("kelp");
     }
 
-    public void initPredPreyGridFromFile(int numRows, int numCols)
-    {
-        organismGrid = new Organism[numRows][numCols];
+    public void initPredPreyGridFromFile(int numRows, int numCols) {
+        organismGrid = new PredPreyCell[numRows][numCols];
         for(int i = 0; i<getRows();i++) {
             for(int j = 0; j<getCols();j++) {
                 if (getCell(i,j).equals("fish")) {
-                    organismGrid[i][j] = new Organism(i,j,"fish",0, defaultFishEnergy);
-                    organismGrid[i][j].setNextState(new Organism(i,j,"fish",0,defaultFishEnergy));
+                    organismGrid[i][j] = new PredPreyCell(i,j,"fish",0, defaultFishEnergy);
+                    organismGrid[i][j].setNextState(new PredPreyCell(i,j,"fish",0,defaultFishEnergy));
                 }
                 else if (getCell(i,j).equals("kelp")) {
-                    organismGrid[i][j] = new Organism(i,j,"kelp",0,0);
-                    organismGrid[i][j].setNextState(new Organism(i,j,"kelp",0,0));
+                    organismGrid[i][j] = new PredPreyCell(i,j,"kelp",0,0);
+                    organismGrid[i][j].setNextState(new PredPreyCell(i,j,"kelp",0,0));
                 }
                 else {
-                    organismGrid[i][j] = new Organism(i,j,"shark", 0, defaultSharkEnergy);
-                    organismGrid[i][j].setNextState(new Organism(i,j,"shark", 0, defaultSharkEnergy));
+                    organismGrid[i][j] = new PredPreyCell(i,j,"shark", 0, defaultSharkEnergy);
+                    organismGrid[i][j].setNextState(new PredPreyCell(i,j,"shark", 0, defaultSharkEnergy));
                 }
             }
         }
     }
 
     public void createGrid(int numRows, int numCols) {
-        organismGrid = new Organism[numRows][numCols];
+        organismGrid = new PredPreyCell[numRows][numCols];
         for(int i = 0; i<getRows();i++) {
             for(int j = 0; j<getCols();j++) {
                 double choice = Math.random();
