@@ -16,7 +16,6 @@ public class LoadSim {
     Stage stage;
     File selectedFile;
     private HashMap<String,Double> currentParams;
-    private String type_tag;
     private Simulation sim;
     private boolean is_clicked = false;
     private final static int WIDTH = 500;
@@ -63,6 +62,12 @@ public class LoadSim {
         }
         else if (parser.getFileType().equals("sugar.xml")){
             sim = new SugarSim( WIDTH, HEIGHT, currentParams);
+        }
+        else if (parser.getFileType().equals("ant.xml")){
+            sim = new AntSim(WIDTH, HEIGHT, currentParams);
+        }
+        else if (parser.getFileType().equals("rps.xml")){
+            sim = new RPSSim(WIDTH, HEIGHT, currentParams);
         }
     }
 

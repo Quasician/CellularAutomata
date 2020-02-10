@@ -1,7 +1,6 @@
 package View;
 
 import Model.*;
-import configuration.*;
 import configuration.GetPropertyValues;
 import configuration.LoadSim;
 import configuration.xml_creator;
@@ -127,6 +126,16 @@ public class Main extends Application{
             }else if(filename.equals("sugar.xml")) {
                 enter.setOnAction(j ->{
                     sugarSimSetup(firstValue);
+                });
+
+            }else if(filename.equals("ant.xml")) {
+                enter.setOnAction(j ->{
+                    antSimSetup(firstValue);
+                });
+
+            }else if(filename.equals("rps.xml")) {
+                enter.setOnAction(j ->{
+                    rpsSimSetup(firstValue);
                 });
             }
         });
@@ -270,6 +279,40 @@ public class Main extends Application{
         }
     }
 
+    public void antSimSetup(TextField firstValue){
+        Simulation sim2;
+        if (firstValue.getText().equals("random")){
+            sim2 = new AntSim( WIDTH, HEIGHT, currentParams);
+            sim_helper(sim2);
+        }
+        else {
+            String[] parameters = firstValue.getText().split(",");
+            currentParams.put("percentAgent", Double.parseDouble(parameters[0]));
+            currentParams.put("percentSugarFull", Double.parseDouble(parameters[1]));
+            currentParams.put("percentSugarHalf", Double.parseDouble(parameters[2]));
+            currentParams.put("percentSugarZero", Double.parseDouble(parameters[3]));
+            sim2 = new AntSim(WIDTH, HEIGHT, currentParams);
+            sim_helper(sim2);
+        }
+    }
+
+    public void rpsSimSetup(TextField firstValue){
+        Simulation sim2;
+        if (firstValue.getText().equals("random")){
+            sim2 = new RPSSim(WIDTH, HEIGHT, currentParams);
+            sim_helper(sim2);
+        }
+        else {
+            String[] parameters = firstValue.getText().split(",");
+            currentParams.put("percentAgent", Double.parseDouble(parameters[0]));
+            currentParams.put("percentSugarFull", Double.parseDouble(parameters[1]));
+            currentParams.put("percentSugarHalf", Double.parseDouble(parameters[2]));
+            currentParams.put("percentSugarZero", Double.parseDouble(parameters[3]));
+            sim2 = new RPSSim(WIDTH, HEIGHT, currentParams);
+            sim_helper(sim2);
+        }
+    }
+    
     public XYChart.Series[] chartArray(int size){
         XYChart.Series[] chart_data = new XYChart.Series[size];
         for (int i = 0; i<size; i++){
@@ -305,6 +348,8 @@ public class Main extends Application{
         simButtonSetup("buttonFire", "fire.xml", "standard");
         simButtonSetup("buttonPP", "pred_prey.xml", "standard");
         simButtonSetup("buttonSugar", "sugar.xml", "standard");
+        //simButtonSetup("buttonRPS", "sugar.xml", "standard");
+        //simButtonSetup("buttonAnt", "sugar.xml", "standard");
         Button fast = makeSpeedButton(properties.getPropValues("buttonFast"), seconds*5);
         Button normal = makeSpeedButton(properties.getPropValues("buttonNormal"), seconds);
         Button slow = makeSpeedButton(properties.getPropValues("buttonSlow"), seconds*0.5);
