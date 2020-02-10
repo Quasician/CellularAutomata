@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <title>Rock Paper Scissors xml file
     <author>Rodrigo Araujo</author>
-    <grid_width>-50</grid_width>
+    <grid_width>50</grid_width>
     <grid_height>50</grid_height>
     <percentRock>.333</percentRock>
     <percentScissors>0.333</percentScissors>
