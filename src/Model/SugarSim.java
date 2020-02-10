@@ -26,6 +26,17 @@ public class SugarSim extends Simulation {
         initParams();
         createGrid(getRows(),getCols());
         setUpHashMap();
+        setName("sugar");
+    }
+
+    public SugarSim(int width, int height, HashMap<String,Double> params, Simulation sim)
+    {
+        super((int)(params.get("grid_height")*10)/10,(int)(params.get("grid_width")*10/10), width,height, params);
+        initParams();
+        createGridFromAnotherSim(sim);
+        initSugarGridFromFile(getRows(),getCols());
+        setUpHashMap();
+        setName("sugar");
     }
 
     public void initParams() {
@@ -43,11 +54,9 @@ public class SugarSim extends Simulation {
         initAddToAgentNumberMap("sugar_some");
         initAddToAgentNumberMap("sugar_half");
         initAddToAgentNumberMap("sugar_full");
-
     }
 
     public void createGrid(int rows, int cols) {
-        createGrid(new String[rows][cols]);
         sugarGrid = new SugarCell[rows][cols];
         for (int i = 0; i < getRows(); i++) {
             for (int j = 0; j < getCols(); j++) {
@@ -74,6 +83,36 @@ public class SugarSim extends Simulation {
         }
         gridCopier(sugarGrid);
     }
+
+    public void initSugarGridFromFile(int rows, int cols) {
+        sugarGrid = new SugarCell[rows][cols];
+        for (int i = 0; i < getRows(); i++) {
+            for (int j = 0; j < getCols(); j++) {
+
+                if (getCell(i,j).equals("agent")) {
+                    sugarGrid[i][j] = new SugarCell(i, j, "agent", 0, (int)defaultSugar, (int)defaultMetabolism);
+                    sugarGrid[i][j].setNextState(new SugarCell(i, j, "agent", 0, (int)defaultSugar, (int)defaultMetabolism));
+                } else if (getCell(i,j).equals("sugar_full")) {
+                    sugarGrid[i][j] = new SugarCell(i, j, "sugar_full", (int)defaultCapacity, (int)defaultCapacity, 0);
+                    sugarGrid[i][j].setNextState(new SugarCell(i, j, "sugar_full", (int)defaultCapacity, (int)defaultCapacity, 0));
+                } else if (getCell(i,j).equals("sugar_almost")) {
+                    sugarGrid[i][j] = new SugarCell(i, j, "sugar_almost", (int)(defaultCapacity * (3/4)), (int)(defaultCapacity * (3/4)), 0);
+                    sugarGrid[i][j].setNextState(new SugarCell(i, j, "sugar_almost", (int)(defaultCapacity * (3/4)), (int)(defaultCapacity * (3/4)), 0));
+                } else if (getCell(i,j).equals("sugar_half")) {
+                    sugarGrid[i][j] = new SugarCell(i, j, "sugar_half", (int)(defaultCapacity / 2), (int)(defaultCapacity / 2), 0);
+                    sugarGrid[i][j].setNextState(new SugarCell(i, j, "sugar_half", (int)(defaultCapacity / 2), (int)(defaultCapacity / 2), 0));
+                } else if (getCell(i,j).equals("sugar_some")) {
+                    sugarGrid[i][j] = new SugarCell(i, j, "sugar_some", (int)(defaultCapacity * (1/4)), (int)(defaultCapacity * (1/4)), 0);
+                    sugarGrid[i][j].setNextState(new SugarCell(i, j, "sugar_some", (int)(defaultCapacity * (1/4)), (int)(defaultCapacity * (1/4)), 0));
+                } else {
+                    sugarGrid[i][j] = new SugarCell(i, j, "sugar_zero", 0, 0, 0);
+                    sugarGrid[i][j].setNextState(new SugarCell(i, j, "sugar_zero", 0, 0, 0));
+                }
+            }
+        }
+        gridCopier(sugarGrid);
+    }
+
 
     public void updateGrid() {
         resetAgentNumbers();

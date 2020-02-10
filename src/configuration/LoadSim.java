@@ -47,22 +47,22 @@ public class LoadSim {
 
     public void button_action(xml_parser parser){
         if (parser.getFileType().equals("fire.xml")){
-            sim = new FireSim( WIDTH, HEIGHT, currentParams);
+            sim = new FireSim( WIDTH, HEIGHT, currentParams, dummyGrid);
         }
         else if (parser.getFileType().equals("game_of_life.xml")){
             sim = new GOLSim( WIDTH, HEIGHT, currentParams, dummyGrid);
         }
         else if (parser.getFileType().equals("percolate.xml")){
-            sim = new PercSim( WIDTH, HEIGHT, currentParams);
+            sim = new PercSim( WIDTH, HEIGHT, currentParams, dummyGrid);
         }
         else if (parser.getFileType().equals("pred_prey.xml")){
-            sim = new PredPreySim( WIDTH, HEIGHT, currentParams);
+            sim = new PredPreySim( WIDTH, HEIGHT, currentParams, dummyGrid);
         }
         else if (parser.getFileType().equals("segregation.xml")){
-            sim = new SegSim( WIDTH, HEIGHT, currentParams);
+            sim = new SegSim( WIDTH, HEIGHT, currentParams, dummyGrid);
         }
         else if (parser.getFileType().equals("sugar.xml")){
-            sim = new SugarSim( WIDTH, HEIGHT, currentParams);
+            sim = new SugarSim( WIDTH, HEIGHT, currentParams, dummyGrid);
         }
     }
 

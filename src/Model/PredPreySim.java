@@ -22,6 +22,17 @@ public class PredPreySim extends Simulation {
         initParams();
         createGrid(getRows(),getCols());
         setUpHashMap();
+        setName("pred_prey");
+    }
+
+    public PredPreySim(int width, int height, HashMap<String,Double> params, Simulation sim)
+    {
+        super((int)(params.get("grid_height")*10)/10,(int)(params.get("grid_width")*10/10), width,height, params);
+        initParams();
+        createGridFromAnotherSim(sim);
+        initPredPreyGridFromFile(getRows(),getCols());
+        setUpHashMap();
+        setName("pred_prey");
     }
 
     public void initParams()
@@ -37,8 +48,28 @@ public class PredPreySim extends Simulation {
         initAddToAgentNumberMap("kelp");
     }
 
+    public void initPredPreyGridFromFile(int numRows, int numCols)
+    {
+        organismGrid = new Organism[numRows][numCols];
+        for(int i = 0; i<getRows();i++) {
+            for(int j = 0; j<getCols();j++) {
+                if (getCell(i,j).equals("fish")) {
+                    organismGrid[i][j] = new Organism(i,j,"fish",0, defaultFishEnergy);
+                    organismGrid[i][j].setNextState(new Organism(i,j,"fish",0,defaultFishEnergy));
+                }
+                else if (getCell(i,j).equals("kelp")) {
+                    organismGrid[i][j] = new Organism(i,j,"kelp",0,0);
+                    organismGrid[i][j].setNextState(new Organism(i,j,"kelp",0,0));
+                }
+                else {
+                    organismGrid[i][j] = new Organism(i,j,"shark", 0, defaultSharkEnergy);
+                    organismGrid[i][j].setNextState(new Organism(i,j,"shark", 0, defaultSharkEnergy));
+                }
+            }
+        }
+    }
+
     public void createGrid(int numRows, int numCols) {
-        createGrid(new String[numRows][numCols]);
         organismGrid = new Organism[numRows][numCols];
         for(int i = 0; i<getRows();i++) {
             for(int j = 0; j<getCols();j++) {
@@ -59,18 +90,8 @@ public class PredPreySim extends Simulation {
                     organismGrid[i][j].setNextState(new Organism(i,j,"shark", 0, defaultSharkEnergy));
                     setCell(i,j,"shark");
                 }
-//                organismGrid[i][j] = new Organism(i,j,"kelp", 0, 0);
-//                organismGrid[i][j].setNextState(new Organism(i,j,"kelp", 0, 0));
-//                grid[i][j] = "kelp";
             }
         }
-//        organismGrid[25][25] = new Organism(25,25,"shark", 0, defaultSharkEnergy);
-//        organismGrid[25][25].setNextState(new Organism(25,25,"shark", 0, defaultSharkEnergy));
-//        grid[25][25] = "shark";
-//
-//        organismGrid[25][26] = new Organism(25,26,"fish", 0, defaultFishEnergy);
-//        organismGrid[25][26].setNextState(new Organism(25,26,"fish", 0, defaultFishEnergy));
-//        grid[25][26] = "fish";
     }
 
 

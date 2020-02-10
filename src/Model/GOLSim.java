@@ -10,7 +10,8 @@ public class GOLSim extends Simulation {
 
     public GOLSim(HashMap<String,Double> params)
     {
-        super(10,10, 10,10, params);
+        super(0,0, 0,0, params);
+        setName("game_of_life");
     }
 
     public GOLSim(int width, int height, HashMap<String,Double> params)
@@ -19,6 +20,7 @@ public class GOLSim extends Simulation {
         initParams();
         createGrid(getRows(),getCols());
         setUpHashMap();
+        setName("game_of_life");
     }
 
     public GOLSim(int width, int height, HashMap<String,Double> params, Simulation sim)
@@ -27,6 +29,7 @@ public class GOLSim extends Simulation {
         initParams();
         createGridFromAnotherSim(sim);
         setUpHashMap();
+        setName("game_of_life");
     }
 
     public void createGrid(int numRows, int numCols) {
