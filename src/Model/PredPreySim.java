@@ -16,8 +16,7 @@ public class PredPreySim extends Simulation {
     private ArrayList<PredPreyCell> fishThatNeedToMove;
     private ArrayList<PredPreyCell> sharksThatNeedToMove;
 
-    public PredPreySim(int width, int height, HashMap<String,Double> params)
-    {
+    public PredPreySim(int width, int height, HashMap<String,Double> params) {
         super((int)(params.get("grid_height")*10)/10,(int)(params.get("grid_width")*10/10), width,height, params);
         initParams();
         createGrid(getRows(),getCols());
@@ -25,8 +24,7 @@ public class PredPreySim extends Simulation {
         setName("pred_prey");
     }
 
-    public PredPreySim(int width, int height, HashMap<String,Double> params, Simulation sim)
-    {
+    public PredPreySim(int width, int height, HashMap<String,Double> params, Simulation sim) {
         super((int)(params.get("grid_height")*10)/10,(int)(params.get("grid_width")*10/10), width,height, params);
         initParams();
         createGridFromAnotherSim(sim);
@@ -35,8 +33,7 @@ public class PredPreySim extends Simulation {
         setName("pred_prey");
     }
 
-    public void initParams()
-    {
+    public void initParams() {
         breedThreshFish = getParams().get("breedThreshFish");
         breedThreshShark = getParams().get("breedThreshShark");
         defaultSharkEnergy = getParams().get("defaultSharkEnergy");
@@ -48,7 +45,7 @@ public class PredPreySim extends Simulation {
         initAddToAgentNumberMap("kelp");
     }
 
-    public void initPredPreyGridFromFile(int numRows, int numCols) {
+    private void initPredPreyGridFromFile(int numRows, int numCols) {
         organismGrid = new PredPreyCell[numRows][numCols];
         for(int i = 0; i<getRows();i++) {
             for(int j = 0; j<getCols();j++) {
@@ -170,7 +167,7 @@ public class PredPreySim extends Simulation {
         addToColorMap("kelp", "black");
     }
 
-    public void moveAllSharks() {
+    private void moveAllSharks() {
         while (sharksThatNeedToMove.size()>0) {
             int sharkListIndex = (int)(Math.random()*sharksThatNeedToMove.size());
             PredPreyCell current = sharksThatNeedToMove.get(sharkListIndex);
@@ -195,28 +192,28 @@ public class PredPreySim extends Simulation {
         }
     }
 
-    public void eatFish(PredPreyCell source, PredPreyCell destination) {
+    private void eatFish(PredPreyCell source, PredPreyCell destination) {
         double currentEnergy = source.getEnergy();
         String name = source.getName();
         checkBreed(source);
         destination.setNextState(new PredPreyCell(destination.x, destination.y, name, source.getLives(), currentEnergy+defaultFishEnergy));
     }
 
-    public void sharkMovesToKelpCell(PredPreyCell source, PredPreyCell destination) {
+    private void sharkMovesToKelpCell(PredPreyCell source, PredPreyCell destination) {
         double currentEnergy = source.getEnergy();
         String name = source.getName();
         checkBreed(source);
         destination.setNextState(new PredPreyCell(destination.x, destination.y, name, source.getLives(), currentEnergy));
     }
 
-    public void fishMovesToKelpCell(PredPreyCell source, PredPreyCell destination) {
+    private void fishMovesToKelpCell(PredPreyCell source, PredPreyCell destination) {
         double currentEnergy = source.getEnergy();
         String name = source.getName();
         checkBreed(source);
         destination.setNextState(new PredPreyCell(destination.x, destination.y, name, source.getLives(), currentEnergy));
     }
 
-    public void checkBreed(PredPreyCell source) {
+    private void checkBreed(PredPreyCell source) {
 
         if(source.getName().equals("fish") && source.getLives()>breedThreshFish) {
             source.setNextState(new PredPreyCell(source.x, source.y, source.getName(), 0, defaultFishEnergy));

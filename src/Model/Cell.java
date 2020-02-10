@@ -79,7 +79,7 @@ public abstract class Cell {
         return neighbors;
     }
 
-    public boolean inGrid(int rows, int cols, Object[][] gridCopy) {
+    private boolean inGrid(int rows, int cols, Object[][] gridCopy) {
         if(rows >= 0 && rows < gridCopy.length && cols >= 0 && cols < gridCopy[0].length) {
             return true;
         }

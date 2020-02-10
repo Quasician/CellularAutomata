@@ -26,7 +26,7 @@ public class xml_creator {
         createGrid(sim);
     }
 
-    public static void createGrid(Simulation sim) {
+    private static void createGrid(Simulation sim) {
         try {
             xmlFilePath = String.format("data/%s%.0f.xml",sim.getName(), num);
             DocumentBuilderFactory documentFactory = DocumentBuilderFactory.newInstance();

@@ -20,8 +20,7 @@ public class SugarSim extends Simulation {
     private SugarCell[][] sugarGrid;
     private SugarCell[][] gridCopy;
 
-    public SugarSim(int width, int height, HashMap<String,Double> params)
-    {
+    public SugarSim(int width, int height, HashMap<String,Double> params) {
         super((int)(params.get("grid_height")*10)/10,(int)(params.get("grid_width")*10/10), width,height, params);
         initParams();
         createGrid(getRows(),getCols());
@@ -29,8 +28,7 @@ public class SugarSim extends Simulation {
         setName("sugar");
     }
 
-    public SugarSim(int width, int height, HashMap<String,Double> params, Simulation sim)
-    {
+    public SugarSim(int width, int height, HashMap<String,Double> params, Simulation sim) {
         super((int)(params.get("grid_height")*10)/10,(int)(params.get("grid_width")*10/10), width,height, params);
         initParams();
         createGridFromAnotherSim(sim);
@@ -84,7 +82,7 @@ public class SugarSim extends Simulation {
         gridCopier(sugarGrid);
     }
 
-    public void initSugarGridFromFile(int rows, int cols) {
+    private void initSugarGridFromFile(int rows, int cols) {
         sugarGrid = new SugarCell[rows][cols];
         for (int i = 0; i < getRows(); i++) {
             for (int j = 0; j < getCols(); j++) {
@@ -142,7 +140,7 @@ public class SugarSim extends Simulation {
         }
     }
 
-    public void moveAgents(SugarCell input) {
+    private void moveAgents(SugarCell input) {
         if (input.sugar < 0) {
             input.setNextState(new SugarCell(input.x, input.y, "sugar_zero", gridCopy[input.x][input.y].capacity, 0, 0));
             agentsMoved.add(input);
@@ -173,7 +171,7 @@ public class SugarSim extends Simulation {
         }
     }
 
-    public void updateSugar(SugarCell input) {
+    private void updateSugar(SugarCell input) {
         if (input.sugar < gridCopy[input.x][input.y].capacity) {
             input.increaseSugar((int)sugarRate);
             if (input.sugar > 0 && input.sugar < (defaultCapacity / 2)) {
@@ -194,7 +192,7 @@ public class SugarSim extends Simulation {
         }
     }
 
-    public ArrayList<SugarCell> neighborFilter(SugarCell input, String name) {
+    private ArrayList<SugarCell> neighborFilter(SugarCell input, String name) {
         ArrayList<SugarCell> neighbors = new ArrayList<>();
         neighbors = input.get4NeighborsTorroidal(input.x, input.y, sugarGrid, neighbors);
         ArrayList<SugarCell> result = new ArrayList<>();
@@ -206,7 +204,7 @@ public class SugarSim extends Simulation {
         return result;
     }
 
-    public void eatSugar(ArrayList<SugarCell> list, SugarCell input) {
+    private void eatSugar(ArrayList<SugarCell> list, SugarCell input) {
         int choice = (int) (Math.random() * list.size());
         SugarCell target = list.get(choice);
 

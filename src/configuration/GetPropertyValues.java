@@ -30,7 +30,7 @@ public class GetPropertyValues {
         return result;
     }
 
-    public void setPropValues(String key, String input) throws IOException {
+    private void setPropValues(String key, String input) throws IOException {
         File configFile = new File("src/configuration/config.properties");
         FileWriter writer = new FileWriter(configFile);
         Properties props = new Properties();

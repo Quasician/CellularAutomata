@@ -53,7 +53,7 @@ public class LoadSim {
         return load;
     }
 
-    public void button_action(xml_parser parser) throws XMLException{
+    private void button_action(xml_parser parser) throws XMLException{
         try {
             if (parser.getFileType().equals("fire.xml")) {
                 sim = new FireSim(WIDTH, HEIGHT, currentParams, dummyGrid);

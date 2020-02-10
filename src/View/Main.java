@@ -185,7 +185,7 @@ public class Main extends Application{
         });
     }
 
-    public void sim_helper(Simulation temp) {
+    private void sim_helper(Simulation temp) {
         currentSim = temp;
         Button back = new Button("Back");
         Button save = new Button("Save");
@@ -231,7 +231,7 @@ public class Main extends Application{
         return button;
     }
 
-    public void percSimSetup(TextField firstValue) throws NumberFormatException{
+    private void percSimSetup(TextField firstValue) throws NumberFormatException{
         Simulation sim2;
         if (firstValue.getText().equals("random")){
             sim2 = new PercSim( WIDTH, HEIGHT, currentParams);
@@ -251,7 +251,7 @@ public class Main extends Application{
         }
     }
 
-    public void segSimSetup(TextField firstValue) throws NumberFormatException{
+    private void segSimSetup(TextField firstValue) throws NumberFormatException{
         Simulation sim2;
         if (firstValue.getText().equals("random")){
             sim2 = new SegSim( WIDTH, HEIGHT, currentParams);
@@ -272,7 +272,7 @@ public class Main extends Application{
         }
     }
 
-    public void fireSimSetup(TextField firstValue) throws NumberFormatException{
+    private void fireSimSetup(TextField firstValue) throws NumberFormatException{
         Simulation sim2;
         if (firstValue.getText().equals("random")){
             sim2 = new FireSim( WIDTH, HEIGHT, currentParams);
@@ -292,7 +292,7 @@ public class Main extends Application{
         }
     }
 
-    public void golSimSetup(TextField firstValue) throws NumberFormatException{
+    private void golSimSetup(TextField firstValue) throws NumberFormatException{
         Simulation sim2;
         if (firstValue.getText().equals("random")){
             sim2 = new GOLSim( WIDTH, HEIGHT, currentParams);
@@ -311,7 +311,7 @@ public class Main extends Application{
         }
     }
 
-    public void predpreySimSetup(TextField firstValue) throws NumberFormatException{
+    private void predpreySimSetup(TextField firstValue) throws NumberFormatException{
         Simulation sim2;
         if (firstValue.getText().equals("random")){
             sim2 = new PredPreySim(WIDTH, HEIGHT, currentParams);
@@ -330,7 +330,7 @@ public class Main extends Application{
         }
     }
 
-    public void sugarSimSetup(TextField firstValue) throws NumberFormatException {
+    private void sugarSimSetup(TextField firstValue) throws NumberFormatException {
         Simulation sim2;
         if (firstValue.getText().equals("random")){
             sim2 = new SugarSim( WIDTH, HEIGHT, currentParams);
@@ -369,7 +369,7 @@ public class Main extends Application{
 //        }
 //    }
 
-    public void rpsSimSetup(TextField firstValue) throws NumberFormatException{
+    private void rpsSimSetup(TextField firstValue) throws NumberFormatException{
         Simulation sim2;
         if (firstValue.getText().equals("random")){
             sim2 = new RPSSim(WIDTH, HEIGHT, currentParams);
@@ -389,7 +389,7 @@ public class Main extends Application{
         }
     }
 
-    public XYChart.Series[] chartArray(int size){
+    private XYChart.Series[] chartArray(int size){
         XYChart.Series[] chart_data = new XYChart.Series[size];
         for (int i = 0; i<size; i++){
             XYChart.Series temp = new XYChart.Series();
