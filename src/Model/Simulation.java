@@ -1,6 +1,7 @@
 package Model;
 
 
+import javafx.scene.control.Alert;
 import javafx.scene.paint.Color;
 
 import java.util.HashMap;
@@ -24,7 +25,12 @@ public abstract class Simulation {
         this.simHeight = height;
         this.params = params;
         agentNumbers = new HashMap<>();
-        createGrid(new String[rows][cols]);
+        try {
+            createGrid(new String[rows][cols]);
+        }catch(NegativeArraySizeException e)
+        {
+            showError("Invalid Grid Dimensions");
+        }
     }
 
     public abstract void initParams();
@@ -157,5 +163,11 @@ public abstract class Simulation {
         return neighbors;
     }
 
+    private void showError(String mes)
+    {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setContentText(mes);
+        alert.showAndWait();
+    }
 
 }
