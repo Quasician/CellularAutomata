@@ -114,7 +114,7 @@ public class RPSSim extends Simulation{
         }
     }
 
-    public void updateRock(RPSCell input) {
+    private void updateRock(RPSCell input) {
         int paper = neighborFilter(input, "paper");
         if (paper >= defaultThreshold) {
             input.setNextState(new RPSCell(input.x, input.y, "paper", defaultThreshold));
@@ -124,7 +124,7 @@ public class RPSSim extends Simulation{
         }
     }
 
-    public void updateScissor(RPSCell input) {
+    private void updateScissor(RPSCell input) {
         int rock = neighborFilter(input, "rock");
         if (rock >= defaultThreshold) {
             input.setNextState(new RPSCell(input.x, input.y, "rock", defaultThreshold));
@@ -134,7 +134,7 @@ public class RPSSim extends Simulation{
         }
     }
 
-    public void updatePaper(RPSCell input) {
+    private void updatePaper(RPSCell input) {
         int scissor = neighborFilter(input, "scissor");
         if (scissor >= defaultThreshold) {
             input.setNextState(new RPSCell(input.x, input.y, "scissor", defaultThreshold));
@@ -144,7 +144,7 @@ public class RPSSim extends Simulation{
         }
     }
 
-    public int neighborFilter(RPSCell input, String name) {
+    private int neighborFilter(RPSCell input, String name) {
         int result = 0;
         ArrayList<RPSCell> neighbors = new ArrayList<>();
         neighbors = input.get8NeighborsFinite(input.x, input.y, rpsGrid, neighbors);

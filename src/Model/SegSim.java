@@ -116,7 +116,7 @@ public class SegSim extends Simulation {
         }
     }
 
-    public void generateEmptyCells(String[][] gridCopy) {
+    private void generateEmptyCells(String[][] gridCopy) {
         for (int i = 0; i < getRows(); i++) {
             for (int j = 0; j < getCols(); j++) {
                 if (gridCopy[i][j].equals("empty")) {
@@ -127,7 +127,7 @@ public class SegSim extends Simulation {
         }
     }
 
-    public ArrayList<Integer> chooseAnEmptyCell(String[][] gridCopy) {
+    private ArrayList<Integer> chooseAnEmptyCell(String[][] gridCopy) {
         ArrayList<Integer> result = new ArrayList<>();
         int index = (int) (x_empty_cells.size() * Math.random());
         result.add(x_empty_cells.get(index));

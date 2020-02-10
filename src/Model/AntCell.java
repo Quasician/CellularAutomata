@@ -14,11 +14,11 @@ public class AntCell extends Cell {
         this.food = food;
     }
 
-    public void setMission(String input) {this.mission = mission;}
-    public String getMission() {return mission;}
-    public void setNextState(AntCell input) {this.nextState = input;}
-    public AntCell getNextState() {return nextState;}
-    public int increasePhero(int input) {return this.pheromone += input;}
+    private void setMission(String input) {this.mission = mission;}
+    private String getMission() {return mission;}
+    private void setNextState(AntCell input) {this.nextState = input;}
+    private AntCell getNextState() {return nextState;}
+    private int increasePhero(int input) {return this.pheromone += input;}
 
 
     private AntCell top(AntCell[][] gridCopy, int x, int y) { return gridCopy[(x+gridCopy.length)%gridCopy.length][(y+1+gridCopy[0].length)%gridCopy[0].length];}

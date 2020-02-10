@@ -111,7 +111,7 @@ public class xml_parser {
         alert.showAndWait();
     }
 
-    public void addSimsToHashMap() {
+    private void addSimsToHashMap() {
         sims.putIfAbsent("pred_prey.xml",predPreyParams);
         sims.putIfAbsent("fire.xml",fireParams);
         sims.putIfAbsent("percolate.xml",percParams);
