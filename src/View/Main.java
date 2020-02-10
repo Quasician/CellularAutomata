@@ -89,53 +89,53 @@ public class Main extends Application{
         properties = new GetPropertyValues();
         Button button= new Button(properties.getPropValues(buttonName));
         rightButtons.getChildren().add(button);
-        TextField firstValue = new TextField();
+        TextField textField = new TextField();
         Button enter = new Button("Enter");
 
         button.setOnAction(e ->{
             leftButtons.getChildren().clear();
-            leftButtons.getChildren().addAll(firstValue,enter);
+            leftButtons.getChildren().addAll(textField,enter);
             xml_parser parser = new xml_parser();
             currentParams = parser.readFile(filename);
 
             if(filename.equals("segregation.xml")) {
                 enter.setOnAction(j ->{
-                    segSimSetup(firstValue);
+                    segSimSetup(textField);
                 });
 
             }else if(filename.equals("fire.xml")) {
                 enter.setOnAction(j ->{
-                    fireSimSetup(firstValue);
+                    fireSimSetup(textField);
                 });
 
             }else if(filename.equals("game_of_life.xml")) {
                 enter.setOnAction(j ->{
-                    golSimSetup(firstValue);
+                    golSimSetup(textField);
                 });
 
             }else if(filename.equals("pred_prey.xml")) {
                 enter.setOnAction(j ->{
-                    predpreySimSetup(firstValue);
+                    predpreySimSetup(textField);
                 });
 
             }else if(filename.equals("percolate.xml")) {
                 enter.setOnAction(j ->{
-                    percSimSetup(firstValue);
+                    percSimSetup(textField);
                 });
 
             }else if(filename.equals("sugar.xml")) {
                 enter.setOnAction(j ->{
-                    sugarSimSetup(firstValue);
+                    sugarSimSetup(textField);
                 });
 
             }else if(filename.equals("ant.xml")) {
                 enter.setOnAction(j ->{
-                    antSimSetup(firstValue);
+                    antSimSetup(textField);
                 });
 
             }else if(filename.equals("rps.xml")) {
                 enter.setOnAction(j ->{
-                    rpsSimSetup(firstValue);
+                    rpsSimSetup(textField);
                 });
             }
         });
@@ -312,7 +312,7 @@ public class Main extends Application{
             sim_helper(sim2);
         }
     }
-    
+
     public XYChart.Series[] chartArray(int size){
         XYChart.Series[] chart_data = new XYChart.Series[size];
         for (int i = 0; i<size; i++){
@@ -348,8 +348,8 @@ public class Main extends Application{
         simButtonSetup("buttonFire", "fire.xml", "standard");
         simButtonSetup("buttonPP", "pred_prey.xml", "standard");
         simButtonSetup("buttonSugar", "sugar.xml", "standard");
-        //simButtonSetup("buttonRPS", "sugar.xml", "standard");
-        //simButtonSetup("buttonAnt", "sugar.xml", "standard");
+        simButtonSetup("buttonRPS", "sugar.xml", "standard");
+        simButtonSetup("buttonAnt", "sugar.xml", "standard");
         Button fast = makeSpeedButton(properties.getPropValues("buttonFast"), seconds*5);
         Button normal = makeSpeedButton(properties.getPropValues("buttonNormal"), seconds);
         Button slow = makeSpeedButton(properties.getPropValues("buttonSlow"), seconds*0.5);
