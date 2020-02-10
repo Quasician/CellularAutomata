@@ -10,11 +10,11 @@ public class FireSim extends Simulation {
     private double probCatch;
     private double percentBurning;
 
-    public FireSim(double rows, double cols, int width, int height, HashMap<String,Double> params)
+    public FireSim(int width, int height, HashMap<String,Double> params)
     {
-        super((int)rows, (int)cols, width,height, params);
+        super((int)(params.get("grid_height")*10)/10,(int)(params.get("grid_width")*10/10), width,height, params);
         initParams();
-        createGrid((int)rows,(int)cols);
+        createGrid(getRows(),getCols());
         setUpHashMap();
     }
 

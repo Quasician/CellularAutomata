@@ -2,6 +2,7 @@ package View;
 
 import Model.*;
 import configuration.GetPropertyValues;
+import configuration.xml_creator;
 import configuration.xml_parser;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
@@ -162,20 +163,27 @@ public class Main extends Application{
     public void sim_helper(Simulation temp){
         currentSim = temp;
         Button back = new Button("Back");
+        Button save = new Button("Save");
         rightButtons2.getChildren().clear();
         rightButtons2.getChildren().add(back);
+        rightButtons2.getChildren().add(save);
         rightButtons2.getChildren().add(lineChart);
         lineChart.setPrefSize(500,500);
         curr_root.setBottom(bottomButtons);
         curr_root.setRight(rightButtons2);
 
-        final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss");
+        final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss:SS");
 
         back.setOnAction(e -> {
             currentTimeline.stop();
             myStage.setScene(start_scene);
             lineChart.getData().clear();
             curr_root.getChildren().clear();
+            return;
+        });
+
+        save.setOnAction(e -> {
+            xml_creator write = new xml_creator(currentSim);
             return;
         });
 
@@ -222,14 +230,14 @@ public class Main extends Application{
     public void percSimSetup(TextField firstValue){
         Simulation sim2;
         if (firstValue.getText().equals("random")){
-            sim2 = new PercSim(currentParams.get("grid_height"),currentParams.get("grid_width"), WIDTH, HEIGHT, currentParams);
+            sim2 = new PercSim( WIDTH, HEIGHT, currentParams);
             sim_helper(sim2);
         }
         else {
             String[] parameters = firstValue.getText().split(",");
             currentParams.put("percentEmpty", Double.parseDouble(parameters[0]));
             currentParams.put("percentBlocked", Double.parseDouble(parameters[1]));
-            sim2 = new PercSim(currentParams.get("grid_height"),currentParams.get("grid_width"), WIDTH, HEIGHT, currentParams);
+            sim2 = new PercSim( WIDTH, HEIGHT, currentParams);
             sim_helper(sim2);
         }
     }
@@ -237,7 +245,7 @@ public class Main extends Application{
     public void segSimSetup(TextField firstValue){
         Simulation sim2;
         if (firstValue.getText().equals("random")){
-            sim2 = new SegSim(currentParams.get("grid_height"),currentParams.get("grid_width"), WIDTH, HEIGHT, currentParams);
+            sim2 = new SegSim( WIDTH, HEIGHT, currentParams);
             sim_helper(sim2);
         }
         else {
@@ -245,7 +253,7 @@ public class Main extends Application{
             currentParams.put("probSatisfy", Double.parseDouble(parameters[0]));
             currentParams.put("Percent0", Double.parseDouble(parameters[1]));
             currentParams.put("PercentX", Double.parseDouble(parameters[2]));
-            sim2 = new SegSim(currentParams.get("grid_height"),currentParams.get("grid_width"), WIDTH, HEIGHT, currentParams);
+            sim2 = new SegSim( WIDTH, HEIGHT, currentParams);
             sim_helper(sim2);
         }
     }
@@ -253,14 +261,14 @@ public class Main extends Application{
     public void fireSimSetup(TextField firstValue){
         Simulation sim2;
         if (firstValue.getText().equals("random")){
-            sim2 = new FireSim(currentParams.get("grid_height"),currentParams.get("grid_width"), WIDTH, HEIGHT, currentParams);
+            sim2 = new FireSim( WIDTH, HEIGHT, currentParams);
             sim_helper(sim2);
         }
         else {
             String[] parameters = firstValue.getText().split(",");
             currentParams.put("probCatch", Double.parseDouble(parameters[0]));
             currentParams.put("probBurning", Double.parseDouble(parameters[1]));
-            sim2 = new FireSim(currentParams.get("grid_height"),currentParams.get("grid_width"), WIDTH, HEIGHT, currentParams);
+            sim2 = new FireSim( WIDTH, HEIGHT, currentParams);
             sim_helper(sim2);
         }
     }
@@ -268,13 +276,13 @@ public class Main extends Application{
     public void golSimSetup(TextField firstValue){
         Simulation sim2;
         if (firstValue.getText().equals("random")){
-            sim2 = new GOLSim(currentParams.get("grid_height"),currentParams.get("grid_width"), WIDTH, HEIGHT, currentParams);
+            sim2 = new GOLSim( WIDTH, HEIGHT, currentParams);
             sim_helper(sim2);
         }
         else {
             String[] parameters = firstValue.getText().split(",");
             currentParams.put("percentAlive", Double.parseDouble(parameters[0]));
-            sim2 = new GOLSim(currentParams.get("grid_height"),currentParams.get("grid_width"), WIDTH, HEIGHT, currentParams);
+            sim2 = new GOLSim( WIDTH, HEIGHT, currentParams);
             sim_helper(sim2);
         }
     }
@@ -282,14 +290,14 @@ public class Main extends Application{
     public void predpreySimSetup(TextField firstValue){
         Simulation sim2;
         if (firstValue.getText().equals("random")){
-            sim2 = new PredPreySim(currentParams.get("grid_height"),currentParams.get("grid_width"), WIDTH, HEIGHT, currentParams);
+            sim2 = new PredPreySim(WIDTH, HEIGHT, currentParams);
             sim_helper(sim2);
         }
         else {
             String[] parameters = firstValue.getText().split(",");
             currentParams.put("percentFish", Double.parseDouble(parameters[0]));
             currentParams.put("percentSharks", Double.parseDouble(parameters[1]));
-            sim2 = new PredPreySim(currentParams.get("grid_height"),currentParams.get("grid_width"), WIDTH, HEIGHT, currentParams);
+            sim2 = new PredPreySim(WIDTH, HEIGHT, currentParams);
             sim_helper(sim2);
         }
     }
@@ -297,7 +305,7 @@ public class Main extends Application{
     public void sugarSimSetup(TextField firstValue){
         Simulation sim2;
         if (firstValue.getText().equals("random")){
-            sim2 = new SugarSim(currentParams.get("grid_height"),currentParams.get("grid_width"), WIDTH, HEIGHT, currentParams);
+            sim2 = new SugarSim( WIDTH, HEIGHT, currentParams);
             sim_helper(sim2);
         }
         else {
@@ -306,7 +314,7 @@ public class Main extends Application{
             currentParams.put("percentSugarFull", Double.parseDouble(parameters[1]));
             currentParams.put("percentSugarHalf", Double.parseDouble(parameters[2]));
             currentParams.put("percentSugarZero", Double.parseDouble(parameters[3]));
-            sim2 = new SugarSim(currentParams.get("grid_height"),currentParams.get("grid_width"), WIDTH, HEIGHT, currentParams);
+            sim2 = new SugarSim(WIDTH, HEIGHT, currentParams);
             sim_helper(sim2);
         }
     }
