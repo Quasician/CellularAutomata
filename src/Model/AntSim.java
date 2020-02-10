@@ -19,10 +19,10 @@ public class AntSim extends Simulation {
     private ArrayList<AntCell> takenSpots;
     private ArrayList<AntCell> antsMoved;
 
-    public AntSim(int rows, int cols, int width, int height, HashMap<String, Double> params) {
-        super(rows, cols, width, height, params);
+    public AntSim(int width, int height, HashMap<String, Double> params) {
+        super((int)(params.get("grid_height")*10)/10,(int)(params.get("grid_width")*10/10), width,height, params);
         initParams();
-        createGrid((int) rows, (int) cols);
+        createGrid(getRows(), getCols());
         setUpHashMap();
     }
 
