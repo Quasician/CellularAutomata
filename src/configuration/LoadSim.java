@@ -7,8 +7,10 @@ import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
-import java.util.Map;
+import java.util.PropertyPermission;
+
 
 public class LoadSim {
     VBox button_box;
@@ -16,7 +18,7 @@ public class LoadSim {
     Stage stage;
     File selectedFile;
     private HashMap<String,Double> currentParams;
-    private String type_tag;
+    private GetPropertyValues properties = new GetPropertyValues();
     private Simulation sim;
     private boolean is_clicked = false;
     private final static int WIDTH = 500;
@@ -28,8 +30,8 @@ public class LoadSim {
         this.stage = stage;
     }
 
-    public Button create_button(){
-        Button new_button = new Button("Load Custom Sim");
+    public Button create_button() throws Exception {
+        Button new_button = new Button(properties.getPropValues("buttonLoadSim"));
         load = new_button;
         button_box.getChildren().add(load);
         load.setOnAction(e -> {
@@ -64,6 +66,12 @@ public class LoadSim {
         else if (parser.getFileType().equals("sugar.xml")){
             sim = new SugarSim( WIDTH, HEIGHT, currentParams, dummyGrid);
         }
+        else if (parser.getFileType().equals("ant.xml")){
+            sim = new AntSim(WIDTH, HEIGHT, currentParams);
+        }
+//        else if (parser.getFileType().equals("rps.xml")){
+//            sim = new RPSSim(WIDTH, HEIGHT, currentParams);
+//        }
     }
 
     public boolean is_clicked() {

@@ -195,7 +195,8 @@ public class SugarSim extends Simulation {
     }
 
     public ArrayList<SugarCell> neighborFilter(SugarCell input, String name) {
-        SugarCell[] neighbors = input.get4Neighbors(input.x, input.y, sugarGrid);
+        SugarCell[] neighbors = new SugarCell[4];
+        neighbors = input.get4NeighborsTorroidal(input.x, input.y, sugarGrid, neighbors);
         ArrayList<SugarCell> result = new ArrayList<>();
         for (SugarCell n : neighbors) {
             if (n.getName().equals(name) && !(takenSpots.contains(n))) {

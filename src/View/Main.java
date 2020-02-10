@@ -1,7 +1,6 @@
 package View;
 
 import Model.*;
-import configuration.*;
 import configuration.GetPropertyValues;
 import configuration.LoadSim;
 import configuration.xml_creator;
@@ -44,7 +43,7 @@ public class Main extends Application{
     private VBox rightButtons = new VBox();
     private VBox rightButtons2 = new VBox();
     private VBox leftButtons = new VBox();
-    private GetPropertyValues properties;
+    private GetPropertyValues properties = new GetPropertyValues();
     private Stage myStage;
     private Scene start_scene;
     private Scene curr_scene;
@@ -56,39 +55,25 @@ public class Main extends Application{
     @Override
     public void start(Stage primaryStage) throws Exception {
         myStage = primaryStage;
-        properties = new GetPropertyValues();
         myStage.setTitle(properties.getPropValues("title"));
         start_scene = new Scene(start_root, WIDTH + 500, HEIGHT);
         curr_scene = new Scene(curr_root, WIDTH + 500, HEIGHT);
         myStage.setScene(start_scene);
         myStage.show();
 
-        simButtonSetup("buttonSeg", "segregation.xml", "standard");
-        simButtonSetup("buttonGol", "game_of_life.xml", "standard");
-        simButtonSetup("buttonPerc", "percolate.xml", "standard");
-        simButtonSetup("buttonFire", "fire.xml", "standard");
-        simButtonSetup("buttonPP", "pred_prey.xml", "standard");
-        simButtonSetup("buttonSugar", "sugar.xml", "standard");
-
-        Button fast = makeSpeedButton(properties.getPropValues("buttonFast"), seconds*5);
-        Button normal = makeSpeedButton(properties.getPropValues("buttonNormal"), seconds);
-        Button slow = makeSpeedButton(properties.getPropValues("buttonSlow"), seconds*0.5);
-        Button play = makeSpeedButton(properties.getPropValues("buttonPlay"), seconds);
-        Button pause = makeSpeedButton(properties.getPropValues("buttonPause"), 0.0);
-
+        button_setup();
         load_sim.create_button();
-
+        lineChart.setPrefSize(500,500);
+        lineChart.setCreateSymbols(false);
+        xAxis.setAnimated(false);
+        yAxis.setAnimated(false);
         Button step= new Button(properties.getPropValues("buttonStep"));
-        step.setOnAction(e ->{
-            currentTimeline.setRate(0);
-            currentSim.updateGrid();
-            currentViz.colorGrid();
-        });
+        step_button(step);
 
         curr_root.setBottom(bottomButtons);
         start_root.setRight(rightButtons);
         start_root.setLeft(leftButtons);
-        bottomButtons.getChildren().addAll(slow,normal,fast,step, play, pause);
+        bottomButtons.getChildren().add(step);
 
         intialTimeline = new Timeline(
                 new KeyFrame(Duration.seconds(seconds), j -> {
@@ -97,106 +82,84 @@ public class Main extends Application{
         );
         intialTimeline.setCycleCount(Animation.INDEFINITE);
         intialTimeline.play();
-
     }
 
     private void simButtonSetup(String buttonName, String filename, String file_type) throws IOException {
-        properties = new GetPropertyValues();
         Button button= new Button(properties.getPropValues(buttonName));
         rightButtons.getChildren().add(button);
-        TextField firstValue = new TextField();
-        Button enter = new Button("Enter");
+        TextField textField = new TextField();
+        Button enter = new Button(properties.getPropValues("buttonEnter"));
 
         button.setOnAction(e ->{
-            Simulation sim;
+            leftButtons.getChildren().clear();
+            leftButtons.getChildren().addAll(textField,enter);
             xml_parser parser = new xml_parser();
             currentParams = parser.readFile(filename);
-            //String type_tag = xml_parser.get_type();
-            if(filename.equals("segregation.xml"))
-            {
-                leftButtons.getChildren().clear();
-                leftButtons.getChildren().addAll(firstValue,enter);
+
+            if(filename.equals("segregation.xml")) {
                 enter.setOnAction(j ->{
-                    segSimSetup(firstValue);
+                    segSimSetup(textField);
                 });
 
-            }else if(filename.equals("fire.xml"))
-            {
-                leftButtons.getChildren().clear();
-                leftButtons.getChildren().addAll(firstValue,enter);
+            }else if(filename.equals("fire.xml")) {
                 enter.setOnAction(j ->{
-                    fireSimSetup(firstValue);
+                    fireSimSetup(textField);
                 });
 
-            }else if(filename.equals("game_of_life.xml"))
-            {
-                leftButtons.getChildren().clear();
-                leftButtons.getChildren().addAll(firstValue,enter);
+            }else if(filename.equals("game_of_life.xml")) {
                 enter.setOnAction(j ->{
-                    golSimSetup(firstValue);
+                    golSimSetup(textField);
                 });
 
-            }else if(filename.equals("pred_prey.xml"))
-            {
-                leftButtons.getChildren().clear();
-                leftButtons.getChildren().addAll(firstValue,enter);
+            }else if(filename.equals("pred_prey.xml")) {
                 enter.setOnAction(j ->{
-                    predpreySimSetup(firstValue);
+                    predpreySimSetup(textField);
                 });
 
-            }else if(filename.equals("percolate.xml"))
-            {
-                leftButtons.getChildren().clear();
-                leftButtons.getChildren().addAll(firstValue,enter);
+            }else if(filename.equals("percolate.xml")) {
                 enter.setOnAction(j ->{
-                    percSimSetup(firstValue);
+                    percSimSetup(textField);
                 });
 
-            }else if(filename.equals("sugar.xml"))
-            {
-                leftButtons.getChildren().clear();
-                leftButtons.getChildren().addAll(firstValue,enter);
+            }else if(filename.equals("sugar.xml")) {
                 enter.setOnAction(j ->{
-                    sugarSimSetup(firstValue);
+                    sugarSimSetup(textField);
+                });}
+
+//            }else if(filename.equals("ant.xml")) {
+//                enter.setOnAction(j ->{
+//                    antSimSetup(textField);
+//                });
+//
+//            }
+            else if(filename.equals("rps.xml")) {
+                enter.setOnAction(j ->{
+                    rpsSimSetup(textField);
                 });
             }
         });
     }
 
-    public void sim_helper(Simulation temp){
+    public void sim_helper(Simulation temp) {
         currentSim = temp;
         Button back = new Button("Back");
         Button save = new Button("Save");
         rightButtons2.getChildren().clear();
-        rightButtons2.getChildren().add(back);
-        rightButtons2.getChildren().add(save);
-        rightButtons2.getChildren().add(lineChart);
-        lineChart.setPrefSize(500,500);
+        rightButtons2.getChildren().addAll(back,save,lineChart);
         curr_root.setBottom(bottomButtons);
         curr_root.setRight(rightButtons2);
+        myStage.setScene(curr_scene);
+        Visualizer vis1 = new Visualizer(curr_root, currentSim);
+        currentViz = vis1;
+        XYChart.Series[] data_array = chartArray(currentSim.getAgentNumberMap().entrySet().size());
 
         final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss:SS");
-
-        back.setOnAction(e -> {
-            currentTimeline.stop();
-            currentTimeline = intialTimeline;
-            myStage.setScene(start_scene);
-            lineChart.getData().clear();
-            curr_root.getChildren().clear();
-            return;
-        });
+        back_button(back);
 
         save.setOnAction(e -> {
             xml_creator write = new xml_creator(currentSim);
             return;
         });
-
-        myStage.setScene(curr_scene);
-        Visualizer vis1 = new Visualizer(curr_root, currentSim);
-        currentViz = vis1;
-        xAxis.setAnimated(false);
-        yAxis.setAnimated(false);
-        XYChart.Series[] data_array = chartArray(currentSim.getAgentNumberMap().entrySet().size());
 
         currentTimeline = new Timeline(
                 new KeyFrame(Duration.seconds(seconds), j -> {
@@ -204,9 +167,7 @@ public class Main extends Application{
                     vis1.colorGrid();
                     int count = 0;
                     Date now = new Date();
-                    for(Map.Entry<String,Double> entry : currentSim.getAgentNumberMap().entrySet())
-                    {
-                        System.out.format("key: %s, value: %.0f%n", entry.getKey(), entry.getValue());
+                    for(Map.Entry<String,Double> entry : currentSim.getAgentNumberMap().entrySet()) {
                         data_array[count].getData().add(new XYChart.Data(simpleDateFormat.format(now), entry.getValue()));
                         data_array[count].setName(entry.getKey());
                         count += 1;
@@ -221,6 +182,7 @@ public class Main extends Application{
     private Button makeSpeedButton(String name, Double speed) {
         Button button = new Button(name);
         button.setOnAction(e -> currentTimeline.setRate(speed));
+        bottomButtons.getChildren().add(button);
         return button;
     }
 
@@ -316,6 +278,40 @@ public class Main extends Application{
         }
     }
 
+//    public void antSimSetup(TextField firstValue){
+//        Simulation sim2;
+//        if (firstValue.getText().equals("random")){
+//            sim2 = new AntSim(WIDTH, HEIGHT, currentParams);
+//            sim_helper(sim2);
+//        }
+//        else {
+//            String[] parameters = firstValue.getText().split(",");
+//            currentParams.put("percentAgent", Double.parseDouble(parameters[0]));
+//            currentParams.put("percentSugarFull", Double.parseDouble(parameters[1]));
+//            currentParams.put("percentSugarHalf", Double.parseDouble(parameters[2]));
+//            currentParams.put("percentSugarZero", Double.parseDouble(parameters[3]));
+//            sim2 = new AntSim(WIDTH, HEIGHT, currentParams);
+//            sim_helper(sim2);
+//        }
+//    }
+
+    public void rpsSimSetup(TextField firstValue){
+        Simulation sim2;
+        if (firstValue.getText().equals("random")){
+            sim2 = new RPSSim(WIDTH, HEIGHT, currentParams);
+            sim_helper(sim2);
+        }
+        else {
+            String[] parameters = firstValue.getText().split(",");
+            currentParams.put("percentAgent", Double.parseDouble(parameters[0]));
+            currentParams.put("percentSugarFull", Double.parseDouble(parameters[1]));
+            currentParams.put("percentSugarHalf", Double.parseDouble(parameters[2]));
+            currentParams.put("percentSugarZero", Double.parseDouble(parameters[3]));
+            sim2 = new RPSSim(WIDTH, HEIGHT, currentParams);
+            sim_helper(sim2);
+        }
+    }
+
     public XYChart.Series[] chartArray(int size){
         XYChart.Series[] chart_data = new XYChart.Series[size];
         for (int i = 0; i<size; i++){
@@ -328,10 +324,44 @@ public class Main extends Application{
 
     private void checkCustomSim(){
         if (load_sim.is_clicked() == true){
-            System.out.println("YEEET");
             sim_helper(load_sim.getSim());
         }
         load_sim.set_clicked(false);
+    }
+
+    private void back_button(Button button){
+        button.setOnAction(e -> {
+            currentTimeline.stop();
+            currentTimeline = intialTimeline;
+            myStage.setScene(start_scene);
+            lineChart.getData().clear();
+            curr_root.getChildren().clear();
+            return;
+        });
+    }
+
+    private void button_setup() throws IOException {
+        simButtonSetup("buttonSeg", "segregation.xml", "standard");
+        simButtonSetup("buttonGol", "game_of_life.xml", "standard");
+        simButtonSetup("buttonPerc", "percolate.xml", "standard");
+        simButtonSetup("buttonFire", "fire.xml", "standard");
+        simButtonSetup("buttonPP", "pred_prey.xml", "standard");
+        simButtonSetup("buttonSugar", "sugar.xml", "standard");
+        simButtonSetup("buttonRPS", "sugar.xml", "standard");
+        simButtonSetup("buttonAnt", "sugar.xml", "standard");
+        Button fast = makeSpeedButton(properties.getPropValues("buttonFast"), seconds*5);
+        Button normal = makeSpeedButton(properties.getPropValues("buttonNormal"), seconds);
+        Button slow = makeSpeedButton(properties.getPropValues("buttonSlow"), seconds*0.5);
+        Button play = makeSpeedButton(properties.getPropValues("buttonPlay"), seconds);
+        Button pause = makeSpeedButton(properties.getPropValues("buttonPause"), 0.0);
+    }
+
+    private void step_button(Button button){
+        button.setOnAction(e ->{
+            currentTimeline.setRate(0);
+            currentSim.updateGrid();
+            currentViz.colorGrid();
+        });
     }
 
     public static void main (String[] args) {

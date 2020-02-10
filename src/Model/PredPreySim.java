@@ -12,9 +12,9 @@ public class PredPreySim extends Simulation {
     private double defaultFishEnergy;
     private double percentFish;
     private double percentSharks;
-    private Organism[][] organismGrid;
-    private ArrayList<Organism> fishThatNeedToMove;
-    private ArrayList<Organism> sharksThatNeedToMove;
+    private PredPreyCell[][] organismGrid;
+    private ArrayList<PredPreyCell> fishThatNeedToMove;
+    private ArrayList<PredPreyCell> sharksThatNeedToMove;
 
     public PredPreySim(int width, int height, HashMap<String,Double> params)
     {
@@ -76,18 +76,18 @@ public class PredPreySim extends Simulation {
                 double choice = Math.random();
                 //System.out.println(choice);
                 if (choice<=percentFish) {
-                    organismGrid[i][j] = new Organism(i,j,"fish",0, defaultFishEnergy);
-                    organismGrid[i][j].setNextState(new Organism(i,j,"fish",0,defaultFishEnergy));
+                    organismGrid[i][j] = new PredPreyCell(i,j,"fish",0, defaultFishEnergy);
+                    organismGrid[i][j].setNextState(new PredPreyCell(i,j,"fish",0,defaultFishEnergy));
                     setCell(i,j,"fish");
                 }
                 else if (choice>=percentFish+percentSharks) {
-                    organismGrid[i][j] = new Organism(i,j,"kelp",0,0);
-                    organismGrid[i][j].setNextState(new Organism(i,j,"kelp",0,0));
+                    organismGrid[i][j] = new PredPreyCell(i,j,"kelp",0,0);
+                    organismGrid[i][j].setNextState(new PredPreyCell(i,j,"kelp",0,0));
                     setCell(i,j,"kelp");
                 }
                 else {
-                    organismGrid[i][j] = new Organism(i,j,"shark", 0, defaultSharkEnergy);
-                    organismGrid[i][j].setNextState(new Organism(i,j,"shark", 0, defaultSharkEnergy));
+                    organismGrid[i][j] = new PredPreyCell(i,j,"shark", 0, defaultSharkEnergy);
+                    organismGrid[i][j].setNextState(new PredPreyCell(i,j,"shark", 0, defaultSharkEnergy));
                     setCell(i,j,"shark");
                 }
             }
@@ -140,7 +140,7 @@ public class PredPreySim extends Simulation {
             if(organismGrid[x][y].getName().equals("shark")) {
                 sharksThatNeedToMove.remove(organismGrid[x][y]);
             }
-            organismGrid[x][y].setNextState(new Organism(x,y,"kelp",0,0));
+            organismGrid[x][y].setNextState(new PredPreyCell(x,y,"kelp",0,0));
         }
         updateOrganism(organismGrid[x][y]);
     }
@@ -149,7 +149,7 @@ public class PredPreySim extends Simulation {
 //        organismGridCopy[x][y].move(x,y,organismGrid,organismGridCopy, emptyCells);
 //    }
 
-    private void updateOrganism(Organism org) {
+    private void updateOrganism(PredPreyCell org) {
         org.increaseLives();
         if(org.getName().equals("shark")) {
             org.decreaseEnergy();
@@ -174,12 +174,12 @@ public class PredPreySim extends Simulation {
     public void moveAllSharks() {
         while (sharksThatNeedToMove.size()>0) {
             int sharkListIndex = (int)(Math.random()*sharksThatNeedToMove.size());
-            Organism current = sharksThatNeedToMove.get(sharkListIndex);
+            PredPreyCell current = sharksThatNeedToMove.get(sharkListIndex);
             sharksThatNeedToMove.remove(current);
 
 
-            ArrayList<Organism> fishList = current.getFish(current.getX(), current.getY(), organismGrid);
-            ArrayList<Organism> kelpList = current.getKelpAndFutureEmpty(current.getX(), current.getY(), organismGrid);
+            ArrayList<PredPreyCell> fishList = current.getFish(current.getX(), current.getY(), organismGrid);
+            ArrayList<PredPreyCell> kelpList = current.getKelpAndFutureEmpty(current.getX(), current.getY(), organismGrid);
 
             if (fishList.size() > 0) {
                 int fishListIndex = (int)(Math.random()*fishList.size());
@@ -196,50 +196,50 @@ public class PredPreySim extends Simulation {
         }
     }
 
-    public void eatFish(Organism source, Organism destination) {
+    public void eatFish(PredPreyCell source, PredPreyCell destination) {
         double currentEnergy = source.getEnergy();
         String name = source.getName();
         checkBreed(source);
-        destination.setNextState(new Organism(destination.getX(), destination.getY(), name, source.getLives(), currentEnergy+defaultFishEnergy));
+        destination.setNextState(new PredPreyCell(destination.getX(), destination.getY(), name, source.getLives(), currentEnergy+defaultFishEnergy));
     }
 
-    public void sharkMovesToKelpCell(Organism source, Organism destination) {
+    public void sharkMovesToKelpCell(PredPreyCell source, PredPreyCell destination) {
         double currentEnergy = source.getEnergy();
         String name = source.getName();
         checkBreed(source);
-        destination.setNextState(new Organism(destination.getX(), destination.getY(), name, source.getLives(), currentEnergy));
+        destination.setNextState(new PredPreyCell(destination.getX(), destination.getY(), name, source.getLives(), currentEnergy));
     }
 
-    public void fishMovesToKelpCell(Organism source, Organism destination) {
+    public void fishMovesToKelpCell(PredPreyCell source, PredPreyCell destination) {
         double currentEnergy = source.getEnergy();
         String name = source.getName();
         checkBreed(source);
-        destination.setNextState(new Organism(destination.getX(), destination.getY(), name, source.getLives(), currentEnergy));
+        destination.setNextState(new PredPreyCell(destination.getX(), destination.getY(), name, source.getLives(), currentEnergy));
     }
 
-    public void checkBreed(Organism source) {
+    public void checkBreed(PredPreyCell source) {
 
         if(source.getName().equals("fish") && source.getLives()>breedThreshFish) {
-            source.setNextState(new Organism(source.getX(), source.getY(), source.getName(), 0, defaultFishEnergy));
+            source.setNextState(new PredPreyCell(source.getX(), source.getY(), source.getName(), 0, defaultFishEnergy));
             source.setLife(0);
         }
         else if(source.getName().equals("shark") && source.getLives()>breedThreshShark && source.getEnergy() > (defaultSharkEnergy / 2)) {
-            source.setNextState(new Organism(source.getX(), source.getY(), source.getName(), 0, defaultSharkEnergy));
+            source.setNextState(new PredPreyCell(source.getX(), source.getY(), source.getName(), 0, defaultSharkEnergy));
             source.setLife(0);
         }
          else {
             //System.out.println("YEET");
-            source.setNextState(new Organism(source.getX(), source.getY(), "kelp", 0, 0));
+            source.setNextState(new PredPreyCell(source.getX(), source.getY(), "kelp", 0, 0));
         }
     }
 
     private void moveAllFish() {
         while (fishThatNeedToMove.size() > 0) {
             int fishListIndex = (int)(Math.random()*fishThatNeedToMove.size());
-            Organism current = fishThatNeedToMove.get(fishListIndex);
+            PredPreyCell current = fishThatNeedToMove.get(fishListIndex);
             fishThatNeedToMove.remove(current);
 
-            ArrayList<Organism> kelpList = current.getKelpAndFutureEmpty(current.getX(),current.getY(),organismGrid);
+            ArrayList<PredPreyCell> kelpList = current.getKelpAndFutureEmpty(current.getX(),current.getY(),organismGrid);
 
             if (kelpList.size() > 0) {
                 int kelpListIndex = (int)(Math.random()*kelpList.size());
