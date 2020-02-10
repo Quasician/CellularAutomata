@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<title>Segregation xml file
+    <file_type>Sugar</file_type>
+    <grid_width>100</grid_width>
+    <grid_height>100</grid_height>
+    <defaultCapacity>20</defaultCapacity>
+    <defaultMetabolism>5</defaultMetabolism>
+    <defaultSugar>10</defaultSugar>
+    <sugarRate>1</sugarRate>
+    <percentAgent>0.05</percentAgent>
+    <percentSugarFull>0.1</percentSugarFull>
+    <percentSugarHalf>0.5</percentSugarHalf>
+    <percentSugarZero>0.35</percentSugarZero>
+</title>

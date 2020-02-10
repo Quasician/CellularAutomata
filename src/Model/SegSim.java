@@ -16,11 +16,11 @@ public class SegSim extends Simulation {
     private ArrayList<Integer> y_empty_cells;
 
 
-    public SegSim(double rows, double cols, int width, int height, HashMap<String,Double> params)
+    public SegSim(int width, int height, HashMap<String,Double> params)
     {
-        super((int)rows, (int)cols, width,height, params);
+        super((int)(params.get("grid_height")*10)/10,(int)(params.get("grid_width")*10/10), width,height, params);
         initParams();
-        createGrid((int)rows,(int)cols);
+        createGrid(getRows(),getCols());
         setUpHashMap();
     }
 
@@ -29,6 +29,9 @@ public class SegSim extends Simulation {
         probSatisfy = getParams().get("probSatisfy");
         percentO = getParams().get("percentO");
         percentX = getParams().get("percentX");
+        initAddToAgentNumberMap("x");
+        initAddToAgentNumberMap("o");
+        initAddToAgentNumberMap("empty");
     }
 
     public void createGrid(int numRows, int numCols) {
@@ -52,6 +55,7 @@ public class SegSim extends Simulation {
         }
     }
     public void updateGrid() {
+        resetAgentNumbers();
         String[][] gridCopy = new String[getRows()][getCols()];
         for(int i = 0; i<getRows();i++)
         {
@@ -70,6 +74,7 @@ public class SegSim extends Simulation {
                 updateCell(i,j,gridCopy);
             }
         }
+        countAgentNumbers();
     }
 
 

@@ -8,11 +8,24 @@ public class GOLSim extends Simulation {
 
     private double percentAlive;
 
-    public GOLSim(double rows, double cols, int width, int height, HashMap<String,Double> params)
+    public GOLSim(HashMap<String,Double> params)
     {
-        super((int)rows, (int)cols, width,height, params);
+        super(10,10, 10,10, params);
+    }
+
+    public GOLSim(int width, int height, HashMap<String,Double> params)
+    {
+        super((int)(params.get("grid_height")*10)/10,(int)(params.get("grid_width")*10/10), width,height, params);
         initParams();
-        createGrid((int)rows,(int)cols);
+        createGrid(getRows(),getCols());
+        setUpHashMap();
+    }
+
+    public GOLSim(int width, int height, HashMap<String,Double> params, Simulation sim)
+    {
+        super((int)(params.get("grid_height")*10)/10,(int)(params.get("grid_width")*10/10), width,height, params);
+        initParams();
+        createGridFromAnotherSim(sim);
         setUpHashMap();
     }
 
@@ -35,6 +48,7 @@ public class GOLSim extends Simulation {
 
 
     public void updateGrid() {
+        resetAgentNumbers();
         String[][] gridCopy = new String[getRows()][getCols()];
         for(int i = 0; i<getRows();i++)
         {
@@ -50,12 +64,17 @@ public class GOLSim extends Simulation {
                 updateCell(i,j,gridCopy);
             }
         }
+        countAgentNumbers();
     }
 
     @Override
     public void initParams() {
+
         percentAlive = getParams().get("percentAlive");
+        initAddToAgentNumberMap("alive");
+        initAddToAgentNumberMap("dead");
     }
+
 
     public void updateCell(int x, int y, String[][]gridCopy) {
         String[] neighbors = get8Neighbors(x,y, gridCopy);

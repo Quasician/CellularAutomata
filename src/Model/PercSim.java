@@ -9,11 +9,18 @@ public class PercSim extends Simulation {
     private double percentEmpty;
     private double percentBlocked;
 
-    public PercSim(double rows, double cols, int width, int height, HashMap<String,Double> params)
+    public PercSim(int width, int height, HashMap<String,Double> params)
     {
-        super((int)rows, (int)cols, width,height, params);
+        super((int)(params.get("grid_height")*10)/10,(int)(params.get("grid_width")*10/10), width,height, params);
         initParams();
-        createGrid((int)rows,(int)cols);
+        createGrid(getRows(),getCols());
+        setUpHashMap();
+    }
+
+    public PercSim(int width, int height, HashMap<String,Double> params, Simulation sim)
+    {
+        super((int)(params.get("grid_height")*10)/10,(int)(params.get("grid_width")*10/10), width,height, params);
+        initParams();
         setUpHashMap();
     }
 
@@ -21,6 +28,9 @@ public class PercSim extends Simulation {
     public void initParams() {
         percentEmpty =getParams().get("percentEmpty");
         percentBlocked = getParams().get("percentBlocked");
+        initAddToAgentNumberMap("empty");
+        initAddToAgentNumberMap("blocked");
+        initAddToAgentNumberMap("full");
     }
 
     public void createGrid(int numRows, int numCols) {
@@ -43,6 +53,7 @@ public class PercSim extends Simulation {
 
 
     public void updateGrid() {
+        resetAgentNumbers();
         String[][] gridCopy = new String[getRows()][getCols()];
         for(int i = 0; i<getRows();i++)
         {
@@ -58,6 +69,7 @@ public class PercSim extends Simulation {
                 updateCell(i,j,gridCopy);
             }
         }
+        countAgentNumbers();
     }
 
     public void updateCell(int x, int y, String[][]gridCopy) {

@@ -5,11 +5,11 @@ import java.util.ArrayList;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.*;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
+
+import Model.Simulation;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -17,19 +17,17 @@ import java.util.*;
 
 public class xml_creator {
 
-    public static final String xmlFilePath = "Resources/game_of_life.xml";
+    private static double num = Math.random() * 1000;
+    private static final String xmlFilePath = String.format("data/game_of_life%.0f.xml",num);
+    private Simulation sim;
 
+    public xml_creator(Simulation sim) {
+        this.sim = sim;
+        createGrid(sim);
+    }
 
-    public static void main(String argv[]) {
-
+    public static void createGrid(Simulation sim) {
         try {
-
-            String grid = "9";
-            int gridnum = 9;
-
-            ArrayList<String> options = new ArrayList<String>();
-            options.add("alive");
-            options.add("dead");
 
             DocumentBuilderFactory documentFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder documentBuilder = documentFactory.newDocumentBuilder();
@@ -43,32 +41,50 @@ public class xml_creator {
             author.appendChild(document.createTextNode("Vineet Alaparthi"));
             root.appendChild(author);
 
-            Element grid_size = document.createElement("grid_size");
-            grid_size.appendChild(document.createTextNode(grid));
-            root.appendChild(grid_size);
+            Element grid_width = document.createElement("grid_width");
+            grid_width.appendChild(document.createTextNode(sim.getCols() + ""));
+            root.appendChild(grid_width);
 
-            Element cell_config = document.createElement("cell_config");
-            root.appendChild(cell_config);
+            Element grid_height = document.createElement("grid_height");
+            grid_height.appendChild(document.createTextNode(sim.getRows() + ""));
+            root.appendChild(grid_height);
 
-            for (int i = 0; i<gridnum; i++){
-                Element tempcell = document.createElement("c" + String.valueOf(i+1));
-                tempcell.appendChild(document.createTextNode(options.get((int)Math.round(Math.random()))));
-                cell_config.appendChild(tempcell);
+            Element percentAlive = document.createElement("percentAlive");
+            percentAlive.appendChild(document.createTextNode(sim.getParams().get("percentAlive") + ""));
+            root.appendChild(percentAlive);
+
+            Element grid_config = document.createElement("grid_config");
+            root.appendChild(grid_config);
+
+            for (int i = 0; i < sim.getRows(); i++) {
+                Element row = document.createElement("row"+i);
+                grid_config.appendChild(row);
+                for (int j = 0; j < sim.getCols(); j++) {
+                    Element cell = document.createElement("cell" + i+""+j);
+                    cell.appendChild(document.createTextNode(sim.getCell(i,j)));
+                    row.appendChild(cell);
+                }
             }
 
-            TransformerFactory transformerFactory = TransformerFactory.newInstance();
-            Transformer transformer = transformerFactory.newTransformer();
-            DOMSource domSource = new DOMSource(document);
-            StreamResult streamResult = new StreamResult(new File(xmlFilePath));
+                TransformerFactory transformerFactory = TransformerFactory.newInstance();
+                Transformer transformer = transformerFactory.newTransformer();
+                transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+                transformer.setOutputProperty(OutputKeys.METHOD, "xml");
+                transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
+                DOMSource domSource = new DOMSource(document);
+                StreamResult streamResult = new StreamResult(new File(xmlFilePath));
 
-            transformer.transform(domSource, streamResult);
+                transformer.transform(domSource, streamResult);
 
-            System.out.println("Done creating XML File");
+                System.out.println("Done creating XML File");
 
-        } catch (ParserConfigurationException pce) {
-            pce.printStackTrace();
-        } catch (TransformerException tfe) {
-            tfe.printStackTrace();
+        } catch(TransformerConfigurationException e){
+            e.printStackTrace();
+        } catch(TransformerException e){
+            e.printStackTrace();
+        } catch(ParserConfigurationException e){
+            e.printStackTrace();
         }
     }
 }
+

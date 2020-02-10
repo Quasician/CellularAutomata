@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <title>Percolate xml file
     <author>Rodrigo Araujo</author>
-    <grid_width>125</grid_width>
-    <grid_height>125</grid_height>
+    <grid_width>50</grid_width>
+    <grid_height>50</grid_height>
     <percentEmpty>0.495</percentEmpty>
     <percentBlocked>0.495</percentBlocked>
+
 </title>
