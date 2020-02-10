@@ -15,6 +15,17 @@ public class RPSSim extends Simulation{
         initParams();
         createGrid(getRows(), getCols());
         setUpHashMap();
+        setName("rps");
+    }
+
+    public RPSSim(int width, int height, HashMap<String,Double> params, Simulation sim)
+    {
+        super((int)(params.get("grid_height")*10)/10,(int)(params.get("grid_width")*10/10), width,height, params);
+        initParams();
+        createGridFromAnotherSim(sim);
+        initRPSGridFromFile(getRows(),getCols());
+        setUpHashMap();
+        setName("rps");
     }
 
     public void initParams() {
@@ -27,7 +38,6 @@ public class RPSSim extends Simulation{
     }
 
     public void createGrid(int rows, int cols) {
-        createGrid(new String[rows][cols]);
         rpsGrid = new RPSCell[rows][cols];
         for (int i = 0; i < getRows(); i++) {
             for (int j = 0; j < getCols(); j++) {
@@ -50,6 +60,27 @@ public class RPSSim extends Simulation{
             }
         }
     }
+
+    public void initRPSGridFromFile(int rows, int cols) {
+        rpsGrid = new RPSCell[rows][cols];
+        for (int i = 0; i < getRows(); i++) {
+            for (int j = 0; j < getCols(); j++) {
+                if (getCell(i,j).equals("rock")) {
+                    rpsGrid[i][j] = new RPSCell(i, j, "rock", defaultThreshold);
+                    rpsGrid[i][j].setNextState(rpsGrid[i][j]);
+                }
+                else if (getCell(i,j).equals("scissor")) {
+                    rpsGrid[i][j] = new RPSCell(i, j, "scissor", defaultThreshold);
+                    rpsGrid[i][j].setNextState(rpsGrid[i][j]);
+                }
+                else {
+                    rpsGrid[i][j] = new RPSCell(i, j, "paper", defaultThreshold);
+                    rpsGrid[i][j].setNextState(rpsGrid[i][j]);
+                }
+            }
+        }
+    }
+
     public void updateGrid() {
         resetAgentNumbers();
         for (int i = 0; i < getRows(); i++) {

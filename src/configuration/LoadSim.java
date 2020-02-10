@@ -69,9 +69,9 @@ public class LoadSim {
         else if (parser.getFileType().equals("ant.xml")){
             sim = new AntSim(WIDTH, HEIGHT, currentParams);
         }
-//        else if (parser.getFileType().equals("rps.xml")){
-//            sim = new RPSSim(WIDTH, HEIGHT, currentParams);
-//        }
+        else if (parser.getFileType().equals("rps.xml")){
+            sim = new RPSSim(WIDTH, HEIGHT, currentParams);
+        }
     }
 
     public boolean is_clicked() {

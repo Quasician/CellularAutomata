@@ -54,6 +54,7 @@ public class xml_parser {
         }
         return paramMap;
     }
+
     public HashMap<String,Double> readSavedFile(File file) {
         sims.putIfAbsent("pred_prey.xml",predPreyParams);
         sims.putIfAbsent("fire.xml",fireParams);
@@ -61,6 +62,7 @@ public class xml_parser {
         sims.putIfAbsent("game_of_life.xml",GOLParams);
         sims.putIfAbsent("segregation.xml",segParams);
         sims.putIfAbsent("sugar.xml",sugarParams);
+        sims.putIfAbsent("rps.xml",RPSParams);
         String fileName = file.toString().replaceAll("[0-9]", "");
         String[] paths = fileName.split("/");
         fileType= paths[paths.length-1];
