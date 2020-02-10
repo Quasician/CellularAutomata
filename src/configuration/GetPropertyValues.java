@@ -1,8 +1,6 @@
 package configuration;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.Properties;
 
 public class GetPropertyValues {
@@ -30,5 +28,14 @@ public class GetPropertyValues {
             inputStream.close();
         }
         return result;
+    }
+
+    public void setPropValues(String key, String input) throws IOException {
+        File configFile = new File("src/configuration/config.properties");
+        FileWriter writer = new FileWriter(configFile);
+        Properties props = new Properties();
+        props.setProperty(key, input);
+        props.store(writer, "host settings");
+        writer.close();
     }
 }
