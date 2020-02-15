@@ -72,7 +72,8 @@ public class SugarCell extends Cell{
      * Purpose: Method to increase the number of sugar of an agent
      * by a determined input in the simulation.
      *
-     * Assumptions: Calling this method on an object that is not
+     * Assumptions: Inputting the wrong values would cause it
+     * to fail or calling this method on an object that is not
      * of the subclass cell would cause it to fail.
      *
      * Return: N/A
@@ -84,7 +85,8 @@ public class SugarCell extends Cell{
      * Purpose: Method to decrease the number of sugar of an agent
      * by a determined input in the simulation.
      *
-     * Assumptions: Calling this method on an object that is not
+     * Assumptions: Inputting the wrong values would cause it
+     * to fail or calling this method on an object that is not
      * of the subclass cell would cause it to fail.
      *
      * Return: N/A

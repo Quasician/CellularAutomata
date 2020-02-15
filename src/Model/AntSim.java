@@ -129,7 +129,8 @@ public class AntSim extends Simulation {
                 antGrid[i][j] = antGrid[i][j].getNextState();
                 if (antGrid[i][j].getName().equals("tl_ant") || antGrid[i][j].getName().equals("tr_ant") || antGrid[i][j].getName().equals("bl_ant") || antGrid[i][j].getName().equals("br_ant")) {
                     System.out.println("ANT: " + i + " " + j);
-                    AntCell[] list = antGrid[i][j].get4Neighbors(antGrid[i][j].x, antGrid[i][j].y, antGrid);
+                    ArrayList<AntCell> list = new ArrayList<>();
+                    list = antGrid[i][j].get4NeighborsTorroidal(antGrid[i][j].x, antGrid[i][j].y, antGrid, list);
                     for (AntCell l : list) {
                         System.out.println("NEIGHBOR: " + l.x + " " + l.y);
                     }
