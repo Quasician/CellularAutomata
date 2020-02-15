@@ -10,7 +10,7 @@ import java.util.ArrayList;
  * by multiple subclasses to create new
  * cell types for simulations.
  *
- * Assumptions: Inputting the wrong values would cause the simulation
+ * Assumptions: Inputting the wrong values would cause the cell
  * class to fail.
  *
  * Dependencies: All files in the model package, specifically

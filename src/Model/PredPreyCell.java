@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * class and implements the necessary variables and
  * methods to create the Predator Prey simulation.
  *
- * Assumptions: Inputting the wrong values would cause the simulation
+ * Assumptions: Inputting the wrong values would cause the cell
  * class to fail.
  *
  * Dependencies: This subclass is dependent on the abstract

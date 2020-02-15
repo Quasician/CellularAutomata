@@ -7,7 +7,7 @@ package Model;
  * class and implements the necessary variables and
  * methods to create the Rock, Paper, Scissors simulation.
  *
- * Assumptions: Inputting the wrong values would cause the simulation
+ * Assumptions: Inputting the wrong values would cause the cell
  * class to fail.
  *
  * Dependencies: This subclass is dependent on the abstract
@@ -61,6 +61,6 @@ public class RPSCell extends Cell{
      *
      * Return: N/A
      */
-    
+
     public void setNextState(RPSCell input) {nextState = input;}
 }
