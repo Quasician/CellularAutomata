@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * @author Rodrigo Araujo, Thomas Chemmanoor
+ *
  * Purpose: An abstract simulation class to define
  * common behaviors that can be inherited
  * by multiple subclasses to create new
@@ -21,12 +23,11 @@ import java.util.Map;
  * all of the subclass simulations depend on the simulation class
  *
  * Example:
- * 
+ *
  *          public class NewExSim extends Simulation {
  *              ...
  *          }
  *
- * @author Rodrigo Araujo, Thomas Chemmanoor
  */
 
 public abstract class Simulation {
