@@ -2,6 +2,27 @@ package Model;
 
 import java.util.ArrayList;
 
+/**
+ * @author Rodrigo Araujo
+ *
+ * Purpose: An abstract cell class to define
+ * common behaviors that can be inherited
+ * by multiple subclasses to create new
+ * cell types for simulations.
+ *
+ * Assumptions: Inputting the wrong values would cause the simulation
+ * class to fail.
+ *
+ * Dependencies: All files in the model package, specifically
+ * all of the subclass cell classes depend on the abstract cell class
+ *
+ * Example:
+ *
+ *          public class NewExCell extends Cell {
+ *              ...
+ *          }
+ */
+
 public abstract class Cell {
     private String name;
     protected int x;
@@ -13,7 +34,27 @@ public abstract class Cell {
         this.name = name;
     }
 
+    /**
+     * Purpose: Method to return the name of the cell
+     *
+     * Assumptions: Calling this method on an object that is not
+     * of the subclass simulation would cause it to fail.
+     *
+     * Return: string
+     */
+
     public String getName() {return name;}
+
+    /**
+     * Purpose: Method to update the name of the cell
+     *
+     * Assumptions: Inputting the wrong values would cause it
+     * to fail or calling this method on an object that is not
+     * of the subclass cell would cause it to fail.
+     *
+     * Return: N/A
+     */
+
     public void setName(String input) {this.name = input;}
     private <Type> Type top(Type[][] gridCopy, int x, int y) { return gridCopy[(x+gridCopy.length)%gridCopy.length][(y+1+gridCopy[0].length)%gridCopy[0].length];}
     private <Type> Type top_right(Type[][] gridCopy, int x, int y) { return gridCopy[(x+1+gridCopy.length)%gridCopy.length][(y+1+gridCopy[0].length)%gridCopy[0].length];}
@@ -23,6 +64,16 @@ public abstract class Cell {
     private <Type> Type bottom_left(Type[][] gridCopy, int x, int y) { return gridCopy[(x-1+gridCopy.length)%gridCopy.length][(y-1+gridCopy[0].length)%gridCopy[0].length];}
     private <Type> Type left(Type[][] gridCopy, int x, int y) { return gridCopy[(x-1+gridCopy.length)%gridCopy.length][(y+gridCopy[0].length)%gridCopy[0].length];}
     private <Type> Type right(Type[][] gridCopy, int x, int y) { return gridCopy[(x+1+gridCopy.length)%gridCopy.length][(y+gridCopy[0].length)%gridCopy[0].length];}
+
+    /**
+     * Purpose: Method to return the 4 torroidal neighbors of a cell
+     *
+     * Assumptions: Inputting the wrong values would cause it
+     * to fail or calling this method on an object that is not
+     * of the subclass cell would cause it to fail.
+     *
+     * Return: ArrayList of generic cell type (the same as generic type passed into neighbor)
+     */
 
     public <Type> ArrayList<Type> get4NeighborsTorroidal(int x, int y, Type[][] gridCopy, ArrayList<Type> neighbors) {
         for(int i = x-1; i<=x+1;i++) {
@@ -38,6 +89,15 @@ public abstract class Cell {
         return neighbors;
     }
 
+    /**
+     * Purpose: Method to return the 8 torroidal neighbors of a cell
+     *
+     * Assumptions: Inputting the wrong values would cause it
+     * to fail or calling this method on an object that is not
+     * of the subclass cell would cause it to fail.
+     *
+     * Return: ArrayList of generic cell type (the same as generic type passed into neighbor)
+     */
 
     public <Type> ArrayList<Type>  get8NeighborsTorroidal(int x, int y, Type[][] gridCopy, ArrayList<Type> neighbors) {
         neighbors.add(top(gridCopy, x, y));
@@ -50,6 +110,16 @@ public abstract class Cell {
         neighbors.add(bottom_left(gridCopy, x, y));
         return neighbors;
     }
+
+    /**
+     * Purpose: Method to return the 4 finite neighbors of a cell
+     *
+     * Assumptions: Inputting the wrong values would cause it
+     * to fail or calling this method on an object that is not
+     * of the subclass cell would cause it to fail.
+     *
+     * Return: ArrayList of generic cell type (the same as generic type passed into neighbor)
+     */
 
     public <Type> ArrayList<Type> get4NeighborsFinite(int x, int y, Type[][] gridCopy, ArrayList<Type> neighbors) {
         for(int i = x-1; i<=x+1;i++) {
@@ -64,6 +134,16 @@ public abstract class Cell {
         }
         return neighbors;
     }
+
+    /**
+     * Purpose: Method to return the 8 finite neighbors of a cell
+     *
+     * Assumptions: Inputting the wrong values would cause it
+     * to fail or calling this method on an object that is not
+     * of the subclass cell would cause it to fail.
+     *
+     * Return: ArrayList of generic cell type (the same as generic type passed into neighbor)
+     */
 
     public <Type> ArrayList<Type> get8NeighborsFinite(int x, int y, Type[][] gridCopy, ArrayList<Type> neighbors) {
         for(int i = x-1; i<=x+1;i++) {
