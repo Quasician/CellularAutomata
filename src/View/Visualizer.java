@@ -1,15 +1,22 @@
 package View;
 
 import Model.Simulation;
-import javafx.scene.Parent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
-import javafx.stage.Stage;
 
 import java.util.HashMap;
 
+
+/**
+ * Purpose: Creates a Visualizer instance that creates the grid of cells and colors them
+ * Assumptions: Assumes that the simulation has a full color hashMap of type <String,String>
+ * Dependencies: Dependent on access to the current simulation's abstract methods (getCell, getColorMap. getRows, etc...)
+ * an example of how to use it
+ * Visualizer vis1 = new Visualizer(curr_root, currentSim);
+ * This creates the grid and automatically takes care of auto-scaling and coloring
+ */
 public class Visualizer {
 
     private int visRow, visCol;
@@ -31,7 +38,7 @@ public class Visualizer {
         initialize();
     }
 
-    public void createRecGrid()
+    private void createRecGrid()
     {
         recList = new Rectangle[visRow][visCol];
         double cellWidth = width / (double) visCol;
@@ -52,7 +59,7 @@ public class Visualizer {
         }
     }
 
-    public void createHexGrid()
+    private void createHexGrid()
     {
         hexList = new Polygon[visRow][visCol];
         double cellWidth = (width / (double) visCol)/2.0;
@@ -70,11 +77,18 @@ public class Visualizer {
         }
     }
 
-    public void initialize() {
+    private void initialize() {
         createRecGrid();
         colorGrid();
     }
 
+    /**
+     * Purpose: This method sets the shape list to be whatever color specified by the simulation
+     * Assumptions:
+     * Assumes that the simulation provided the method with a full hashMap of colors
+     * Assumes that the hashMap provided is ot type <String,String>
+     * return value: void
+     */
     public void colorGrid() {
         for (int i = 0; i < visRow; i++) {
             for (int j = 0; j < visCol; j++) {

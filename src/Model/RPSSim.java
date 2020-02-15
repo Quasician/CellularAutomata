@@ -237,6 +237,7 @@ public class RPSSim extends Simulation{
         return result;
     }
 
+
     /**
      * Purpose: Method that updates the updates the color scheme
      * for different cell names.
@@ -248,6 +249,7 @@ public class RPSSim extends Simulation{
      */
 
     public void setUpHashMap() {
+
         createColorMap(new HashMap<>());
         addToColorMap("rock", "red");
         addToColorMap("paper", "blue");

@@ -16,6 +16,14 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
+/**
+ * Purpose: Creates an xml parser that can either parse a file with a cell grid or without one
+ * It creates a hashMap of the parameters in the file
+ * Assumptions: Assumes that the xml has the right tags for each simulation
+ * Dependencies: Dependent on the simulation method createInitialGridFromFile
+ * xml_parser parser = new xml_parser();
+ * This creates the parser and automatically takes care of creating the hashMap
+ */
 public class xml_parser {
     private HashMap<String, ArrayList<String>> sims = new HashMap<>();
     final static ArrayList<String> fireParams = new ArrayList<String>(Arrays.asList("grid_width", "grid_height", "probCatch", "percentBurning"));
@@ -36,7 +44,12 @@ public class xml_parser {
         fileType = "";
     }
 
-
+    /**
+     * Purpose: Reads files without cell grid and generates hashMap
+     * Assumptions: Assumes that the file has the right tags
+     * @param file -> file selected from project library
+     * @return HashMap<String,Double>
+     */
     public HashMap<String,Double> readFile(String file) {
         fileType = file;
         addSimsToHashMap();
@@ -54,10 +67,13 @@ public class xml_parser {
     }
 
 
-    /*
-    Reads custom files and parses them
-    Takes in file path and reduces the file name to its original variant
-    From this it loads the rules of that variant within the doc
+    /**
+     * Purpose: Reads custom files and parses them
+     * Takes in file path and reduces the file name to its original variant
+     * From this it loads the rules of that variant within the doc through the use of a hashmap
+     * Assumptions: Assumes that the file has the right tags
+     * @param file -> file selected from project library (file explorer)
+     * @return HashMap<String,Double>
      */
     public HashMap<String,Double> readSavedFile(File file) {
         addSimsToHashMap();
@@ -79,11 +95,21 @@ public class xml_parser {
         return paramMap;
     }
 
+    /**
+     * Purpose: Gets the current sim from the parsing of the xml file
+     * Assumptions: Assumes that the sim variable has been correctly instantiated
+     * @return Simulation
+     */
     public Simulation getSim()
     {
         return sim;
     }
 
+    /**
+     * Purpose: Gets the name of the file (file type)
+     * Assumptions: Assumes the fileType has been initialized
+     * @return String
+     */
     public String getFileType()
     {
         return fileType;

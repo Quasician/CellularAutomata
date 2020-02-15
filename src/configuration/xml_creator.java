@@ -16,6 +16,14 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import java.util.*;
 
+/**
+ * Purpose: To create an instance of an xml creator that can create xml files based on each individual cell state
+ * Assumptions: If the simulation is somehow missing a grid
+ * Dependencies: it is dependent on the simulations abstract methods (getCell)
+ * an example of how to use it
+ *  xml_creator write = new xml_creator(currentSim);
+ *  This creates a new type of sim stored in the data folder with a random number attached to it so it won't be overwritten
+ */
 public class xml_creator {
 
     private static double num = Math.random() * 1000;
