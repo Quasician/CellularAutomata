@@ -3,6 +3,28 @@ package Model;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * @author Rodrigo Araujo
+ *
+ * Purpose: A class that extends the abstract simulation
+ * class and implements the rules to create the Ant
+ * simulation.
+ *
+ * Assumptions: Typically, negative values would cause
+ * the simulation method to fail; however, we catch
+ * negative values and print out an error. Besides that,
+ * inputting the wrong values would cause the simulation
+ * class to fail.
+ *
+ * Dependencies: This subclass is dependent on the abstract
+ * simulation class.
+ *
+ * Example:
+ *
+ *          AntSim exSim = new AntSim(30, 30, params);
+ *
+ */
+
 public class AntSim extends Simulation {
 
     private AntCell[][] antGrid;
@@ -19,6 +41,16 @@ public class AntSim extends Simulation {
     private ArrayList<AntCell> takenSpots;
     private ArrayList<AntCell> antsMoved;
 
+    /**
+     * Purpose: AntSim constructor that defines variables
+     * to be used.
+     *
+     * Assumptions: Inputting the wrong values would cause it
+     * to fail.
+     *
+     * Return: N/A
+     */
+
     public AntSim(int width, int height, HashMap<String, Double> params) {
         super((int)(params.get("grid_height")*10)/10,(int)(params.get("grid_width")*10/10), width,height, params);
         initParams();
@@ -26,9 +58,29 @@ public class AntSim extends Simulation {
         setUpHashMap();
     }
 
+    /**
+     * Purpose: Method to set the starting configuration values
+     * for the simulation.
+     *
+     * Assumptions: Calling this method on an object that is not
+     * of the subclass simulation would cause it to fail.
+     *
+     * Return: N/A
+     */
+
     public void initParams() {
 
     }
+
+    /**
+     * Purpose: Method to create 2D array of cell objects grid by using
+     * setCell to set the string value by cell location.
+     *
+     * Assumptions: Inputting the wrong values would cause it
+     * to fail.
+     *
+     * Return: N/A
+     */
 
     public void createGrid(int rows, int cols) {
         createGrid(new String[rows][cols]);
@@ -54,6 +106,17 @@ public class AntSim extends Simulation {
         gridCopier(antGrid);
         antSpawn();
     }
+
+    /**
+     * Purpose: Method to update the individual cells in the
+     * 2D array of cell objects grid by using updateCell, which contains
+     * the game rules, to set the string value by cell location.
+     *
+     * Assumptions: Calling this method on an object that is not
+     * of the subclass simulation would cause it to fail.
+     *
+     * Return: N/A
+     */
 
     public void updateGrid() {
         takenSpots = new ArrayList<>();
@@ -81,6 +144,17 @@ public class AntSim extends Simulation {
         }
         updateStringArray();
     }
+
+    /**
+     * Purpose: Method that contains the rules to
+     * update the cells by.
+     *
+     * Assumptions: Inputting the wrong values would cause it
+     * to fail or calling this method on an object that is not
+     * of the subclass simulation would cause it to fail.
+     *
+     * Return: N/A
+     */
 
     public void updateCell(AntCell input) {
         if ((input.getName().equals("tl_ant") || input.getName().equals("tr_ant") || input.getName().equals("bl_ant") || input.getName().equals("br_ant")) && !(antsMoved.contains(input))) {
@@ -314,6 +388,16 @@ public class AntSim extends Simulation {
         }
         return home;
     }
+
+    /**
+     * Purpose: Method that updates the updates the color scheme
+     * for different cell names.
+     *
+     * Assumptions: Calling this method on an object that is not
+     * of the subclass simulation would cause it to fail.
+     *
+     * Return: N/A
+     */
 
     public void setUpHashMap() {
         createColorMap(new HashMap<>());

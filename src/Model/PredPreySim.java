@@ -1,8 +1,29 @@
 package Model;
 
-
 import java.util.ArrayList;
 import java.util.HashMap;
+
+/**
+ * @author Rodrigo Araujo, Thomas Chemmanoor
+ *
+ * Purpose: A class that extends the abstract simulation
+ * class and implements the rules to create the Predator
+ * Prey simulation.
+ *
+ * Assumptions: Typically, negative values would cause
+ * the simulation method to fail; however, we catch
+ * negative values and print out an error. Besides that,
+ * inputting the wrong values would cause the simulation
+ * class to fail.
+ *
+ * Dependencies: This subclass is dependent on the abstract
+ * simulation class.
+ *
+ * Example:
+ *
+ *          PredPreySim exSim = new PredPreySim(30, 30, params);
+ *
+ */
 
 public class PredPreySim extends Simulation {
 
@@ -16,6 +37,16 @@ public class PredPreySim extends Simulation {
     private ArrayList<PredPreyCell> fishThatNeedToMove;
     private ArrayList<PredPreyCell> sharksThatNeedToMove;
 
+    /**
+     * Purpose: PredPreySim constructor that defines variables
+     * to be used.
+     *
+     * Assumptions: Inputting the wrong values would cause it
+     * to fail.
+     *
+     * Return: N/A
+     */
+
     public PredPreySim(int width, int height, HashMap<String,Double> params) {
         super((int)(params.get("grid_height")*10)/10,(int)(params.get("grid_width")*10/10), width,height, params);
         initParams();
@@ -23,6 +54,16 @@ public class PredPreySim extends Simulation {
         setUpHashMap();
         setName("pred_prey");
     }
+
+    /**
+     * Purpose: PredPreySim constructor that defines variables
+     * to be used and allows user to load a past simulation.
+     *
+     * Assumptions: Inputting the wrong values would cause it
+     * to fail.
+     *
+     * Return: N/A
+     */
 
     public PredPreySim(int width, int height, HashMap<String,Double> params, Simulation sim) {
         super((int)(params.get("grid_height")*10)/10,(int)(params.get("grid_width")*10/10), width,height, params);
@@ -32,6 +73,16 @@ public class PredPreySim extends Simulation {
         setUpHashMap();
         setName("pred_prey");
     }
+
+    /**
+     * Purpose: Method to set the starting configuration values
+     * for the simulation.
+     *
+     * Assumptions: Calling this method on an object that is not
+     * of the subclass simulation would cause it to fail.
+     *
+     * Return: N/A
+     */
 
     public void initParams() {
         breedThreshFish = getParams().get("breedThreshFish");
@@ -44,6 +95,8 @@ public class PredPreySim extends Simulation {
         initAddToAgentNumberMap("fish");
         initAddToAgentNumberMap("kelp");
     }
+
+
 
     private void initPredPreyGridFromFile(int numRows, int numCols) {
         organismGrid = new PredPreyCell[numRows][numCols];
@@ -64,6 +117,16 @@ public class PredPreySim extends Simulation {
             }
         }
     }
+
+    /**
+     * Purpose: Method to create 2D array of cell objects grid by using
+     * setCell to set the values by cell location.
+     *
+     * Assumptions: Inputting the wrong values would cause it
+     * to fail.
+     *
+     * Return: N/A
+     */
 
     public void createGrid(int numRows, int numCols) {
         organismGrid = new PredPreyCell[numRows][numCols];
@@ -90,6 +153,16 @@ public class PredPreySim extends Simulation {
         }
     }
 
+    /**
+     * Purpose: Method to update the individual cells in the
+     * 2D array of cell objects grid by using updateCell, which contains
+     * the game rules, to set the string value by cell location.
+     *
+     * Assumptions: Calling this method on an object that is not
+     * of the subclass simulation would cause it to fail.
+     *
+     * Return: N/A
+     */
 
     public void updateGrid() {
         resetAgentNumbers();
@@ -116,6 +189,16 @@ public class PredPreySim extends Simulation {
         countAgentNumbers();
     }
 
+    /**
+     * Purpose: Method that contains the rules to
+     * update the cells by.
+     *
+     * Assumptions: Inputting the wrong values would cause it
+     * to fail or calling this method on an object that is not
+     * of the subclass simulation would cause it to fail.
+     *
+     * Return: N/A
+     */
 
     public void updateCell(int x, int y) {
         if(organismGrid[x][y].getName().equals("fish")) {
@@ -159,6 +242,16 @@ public class PredPreySim extends Simulation {
             }
         }
     }
+
+    /**
+     * Purpose: Method that updates the updates the color scheme
+     * for different cell names.
+     *
+     * Assumptions: Calling this method on an object that is not
+     * of the subclass simulation would cause it to fail.
+     *
+     * Return: N/A
+     */
 
     public void setUpHashMap() {
         createColorMap(new HashMap<>());

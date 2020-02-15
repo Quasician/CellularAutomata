@@ -1,11 +1,30 @@
 package Model;
 
 import configuration.GetPropertyValues;
-
-import java.io.IOException;
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
+
+/**
+ * @author Rodrigo Araujo
+ *
+ * Purpose: A class that extends the abstract simulation
+ * class and implements the rules to create the Rock,
+ * Paper, Scissors simulation.
+ *
+ * Assumptions: Typically, negative values would cause
+ * the simulation method to fail; however, we catch
+ * negative values and print out an error. Besides that,
+ * inputting the wrong values would cause the simulation
+ * class to fail.
+ *
+ * Dependencies: This subclass is dependent on the abstract
+ * simulation class.
+ *
+ * Example:
+ *
+ *          RPSSIM exSim = new RPSSIM(30, 30, params);
+ *
+ */
 
 public class RPSSim extends Simulation{
     private GetPropertyValues properties = new GetPropertyValues();
@@ -15,6 +34,16 @@ public class RPSSim extends Simulation{
 //    private String boundary = properties.getPropValues("boundary");
     private RPSCell[][] rpsGrid;
 
+    /**
+     * Purpose: RPSSim constructor that defines variables
+     * to be used.
+     *
+     * Assumptions: Inputting the wrong values would cause it
+     * to fail.
+     *
+     * Return: N/A
+     */
+
     public RPSSim(int width, int height, HashMap<String, Double> params) {
         super((int)(params.get("grid_height")*10)/10,(int)(params.get("grid_width")*10/10), width,height, params);
         initParams();
@@ -22,6 +51,16 @@ public class RPSSim extends Simulation{
         setUpHashMap();
         setName("rps");
     }
+
+    /**
+     * Purpose: RPSSim constructor that defines variables
+     * to be used and allows user to load a past simulation.
+     *
+     * Assumptions: Inputting the wrong values would cause it
+     * to fail.
+     *
+     * Return: N/A
+     */
 
     public RPSSim(int width, int height, HashMap<String,Double> params, Simulation sim){
         super((int)(params.get("grid_height")*10)/10,(int)(params.get("grid_width")*10/10), width,height, params);
@@ -32,6 +71,16 @@ public class RPSSim extends Simulation{
         setName("rps");
     }
 
+    /**
+     * Purpose: Method to set the starting configuration values
+     * for the simulation.
+     *
+     * Assumptions: Calling this method on an object that is not
+     * of the subclass simulation would cause it to fail.
+     *
+     * Return: N/A
+     */
+
     public void initParams() {
         defaultThreshold = (int) (getParams().get("threshold") * 10) / 10;
         percentRock = getParams().get("percentRock");
@@ -40,6 +89,16 @@ public class RPSSim extends Simulation{
         initAddToAgentNumberMap("paper");
         initAddToAgentNumberMap("scissor");
     }
+
+    /**
+     * Purpose: Method to create 2D array of cell objects grid by using
+     * setCell to set the values by cell location.
+     *
+     * Assumptions: Inputting the wrong values would cause it
+     * to fail.
+     *
+     * Return: N/A
+     */
 
     public void createGrid(int rows, int cols) {
         rpsGrid = new RPSCell[rows][cols];
@@ -65,7 +124,7 @@ public class RPSSim extends Simulation{
         }
     }
 
-    public void initRPSGridFromFile(int rows, int cols) {
+    private void initRPSGridFromFile(int rows, int cols) {
         rpsGrid = new RPSCell[rows][cols];
         for (int i = 0; i < getRows(); i++) {
             for (int j = 0; j < getCols(); j++) {
@@ -85,6 +144,17 @@ public class RPSSim extends Simulation{
         }
     }
 
+    /**
+     * Purpose: Method to update the individual cells in the
+     * 2D array of cell objects grid by using updateCell, which contains
+     * the game rules, to set the string value by cell location.
+     *
+     * Assumptions: Calling this method on an object that is not
+     * of the subclass simulation would cause it to fail.
+     *
+     * Return: N/A
+     */
+
     public void updateGrid() {
         resetAgentNumbers();
         for (int i = 0; i < getRows(); i++) {
@@ -101,6 +171,17 @@ public class RPSSim extends Simulation{
         updateStringArray();
         countAgentNumbers();
     }
+
+    /**
+     * Purpose: Method that contains the rules to
+     * update the cells by.
+     *
+     * Assumptions: Inputting the wrong values would cause it
+     * to fail or calling this method on an object that is not
+     * of the subclass simulation would cause it to fail.
+     *
+     * Return: N/A
+     */
 
     public void updateCell(RPSCell input) {
         if (input.getName().equals("rock")) {
@@ -156,7 +237,19 @@ public class RPSSim extends Simulation{
         return result;
     }
 
-    public  void setUpHashMap() {
+
+    /**
+     * Purpose: Method that updates the updates the color scheme
+     * for different cell names.
+     *
+     * Assumptions: Calling this method on an object that is not
+     * of the subclass simulation would cause it to fail.
+     *
+     * Return: N/A
+     */
+
+    public void setUpHashMap() {
+
         createColorMap(new HashMap<>());
         addToColorMap("rock", "red");
         addToColorMap("paper", "blue");

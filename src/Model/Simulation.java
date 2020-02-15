@@ -45,7 +45,8 @@ public abstract class Simulation {
      * Purpose: Simulation constructor that defines variables
      * to be used within the simulations.
      *
-     * Assumptions:
+     * Assumptions: Inputting the wrong values would cause it
+     * to fail.
      *
      * Return: N/A
      */
@@ -67,56 +68,103 @@ public abstract class Simulation {
     }
 
     /**
-     * Abstract method to allow each simulation subclass
+     * Purpose: Abstract method to allow each simulation subclass
      * to inherit their respective variables from the xml
+     *
+     * Assumptions: Calling this method on an object that is not
+     * of the subclass simulation would cause it to fail.
+     *
+     * Return: N/A
      */
 
     public abstract void initParams();
 
     /**
-     * Method to return the number of rows in the simulation
+     * Purpose: Method to return the number of rows in the simulation
+     *
+     * Assumptions: Calling this method on an object that is not
+     * of the subclass simulation would cause it to fail.
+     *
+     * Return: integer
      */
 
     public int getRows(){return simRows;}
 
     /**
-     * Method to update the name of the simulation
+     * Purpose: Method to update the name of the simulation
+     *
+     * Assumptions: Inputting the wrong values would cause it
+     * to fail or calling this method on an object that is not
+     * of the subclass simulation would cause it to fail.
+     *
+     * Return: N/A
      */
 
     public void setName(String name){this.name = name;}
 
     /**
-     * Method to return the name of the simulation
+     * Purpose: Method to return the name of the simulation
+     *
+     * Assumptions: Calling this method on an object that is not
+     * of the subclass simulation would cause it to fail.
+     *
+     * Return: string
      */
 
     public String getName(){return name;}
 
     /**
-     * Method to return the number of columns in the simulation
+     * Purpose: Method to return the number of columns in the simulation
+     *
+     * Assumptions: Calling this method on an object that is not
+     * of the subclass simulation would cause it to fail.
+     *
+     * Return: integer
      */
 
     public int getCols(){return simCols;}
 
     /**
-     * Method to return the pixel width of the simulation window
+     * Purpose: Method to return the pixel width of the simulation window
+     *
+     * Assumptions: Calling this method on an object that is not
+     * of the subclass simulation would cause it to fail.
+     *
+     * Return: integer
      */
 
     public int getSimWidth(){return simWidth;}
 
     /**
-     * Method to return the pixel height of the simulation window
+     * Purpose: Method to return the pixel height of the simulation window
+     *
+     * Assumptions: Calling this method on an object that is not
+     * of the subclass simulation would cause it to fail.
+     *
+     * Return: integer
      */
 
     public int getSimHeight(){return simHeight;}
 
     /**
-     * Method to return the parameters Hashmap that stores the initial values for the simulation
+     * Purpose: Method to return the parameters Hashmap that stores the initial values for the simulation
+     *
+     * Assumptions: Calling this method on an object that is not
+     * of the subclass simulation would cause it to fail.
+     *
+     * Return: HashMap<String, Double>
      */
 
     public HashMap<String, Double> getParams(){return params;}
 
     /**
-     * Method to overwrite the colormap Hashmap that stores the color values for the cells of the simulation
+     * Purpose: Method to overwrite the colormap Hashmap that stores the color values for the cells of the simulation
+     *
+     * Assumptions: Inputting the wrong values would cause it
+     * to fail or calling this method on an object that is not
+     * of the subclass simulation would cause it to fail.
+     *
+     * Return: N/A
      */
 
     public void createColorMap(HashMap<String, String> colorMap){
@@ -124,7 +172,13 @@ public abstract class Simulation {
     }
 
     /**
-     * Method to add a new key to the agentNumbers Hashmap, which stores the number of cells in a simulation
+     * Purpose: Method to add a new key to the agentNumbers Hashmap, which stores the number of cells in a simulation
+     *
+     * Assumptions: Inputting the wrong values would cause it
+     * to fail or calling this method on an object that is not
+     * of the subclass simulation would cause it to fail.
+     *
+     * Return: N/A
      */
 
     public void initAddToAgentNumberMap(String type)
@@ -133,7 +187,13 @@ public abstract class Simulation {
     }
 
     /**
-     * Method to update a key in the agentNumbers Hashmap, which stores the number of cells in a simulation
+     * Purpose: Method to update a key in the agentNumbers Hashmap, which stores the number of cells in a simulation
+     *
+     * Assumptions: Inputting the wrong values would cause it
+     * to fail or calling this method on an object that is not
+     * of the subclass simulation would cause it to fail.
+     *
+     * Return: N/A
      */
 
     public void updateAgentNumberMap(String type, Double num)
@@ -142,13 +202,24 @@ public abstract class Simulation {
     }
 
     /**
-     * Method to return the agentNumbers Hashmap, which stores the number of cells in a simulation
+     * Purpose: Method to return the agentNumbers Hashmap, which stores the number of cells in a simulation
+     *
+     * Assumptions: Calling this method on an object that is not
+     * of the subclass simulation would cause it to fail.
+     *
+     * Return: HashMap<String, Double>
      */
 
     public HashMap<String, Double> getAgentNumberMap(){return agentNumbers;}
 
     /**
-     * Method to update the 2D array grid, which stores name values of each cell from a simulation
+     * Purpose: Method to update the 2D array grid, which stores name values of each cell from a simulation
+     *
+     * Assumptions: Inputting the wrong values would cause it
+     * to fail or calling this method on an object that is not
+     * of the subclass simulation would cause it to fail.
+     *
+     * Return: N/A
      */
 
     public void createInitialGridFromFile(String[][] grid)
@@ -157,7 +228,13 @@ public abstract class Simulation {
     }
 
     /**
-     * Method to update the 2D array grid, using any simulation subclass
+     * Purpose: Method to update the 2D array grid, using any simulation subclass
+     *
+     * Assumptions: Inputting the wrong values would cause it
+     * to fail or calling this method on an object that is not
+     * of the subclass simulation would cause it to fail.
+     *
+     * Return: N/A
      */
 
     public void createGridFromAnotherSim(Simulation sim) {
@@ -169,7 +246,12 @@ public abstract class Simulation {
     }
 
     /**
-     * Method to count the cells in the agentNumbers Hashmap
+     * Purpose: Method to count the cells in the agentNumbers Hashmap
+     *
+     * Assumptions: Calling this method on an object that is not
+     * of the subclass simulation would cause it to fail.
+     *
+     * Return: N/A
      */
 
     public void countAgentNumbers() {
@@ -181,7 +263,12 @@ public abstract class Simulation {
     }
 
     /**
-     * Method to reset the count of all cells in the agentNumbers Hashmap
+     * Purpose: Method to reset the count of all cells in the agentNumbers Hashmap
+     *
+     * Assumptions: Calling this method on an object that is not
+     * of the subclass simulation would cause it to fail.
+     *
+     * Return: N/A
      */
 
     public void resetAgentNumbers() {
@@ -191,7 +278,13 @@ public abstract class Simulation {
     }
 
     /**
-     * Method to add a new color key to the colormap Hashmap
+     * Purpose: Method to add a new color key to the colormap Hashmap
+     *
+     * Assumptions: Inputting the wrong values would cause it
+     * to fail or calling this method on an object that is not
+     * of the subclass simulation would cause it to fail.
+     *
+     * Return: N/A
      */
 
     public void addToColorMap(String type, String color)
@@ -200,7 +293,13 @@ public abstract class Simulation {
     }
 
     /**
-     * Method to update the 2D string array grid
+     * Purpose: Method to update the 2D string array grid
+     *
+     * Assumptions: Inputting the wrong values would cause it
+     * to fail or calling this method on an object that is not
+     * of the subclass simulation would cause it to fail.
+     *
+     * Return: N/A
      */
 
     public void createGrid(String[][] grid)
@@ -209,7 +308,13 @@ public abstract class Simulation {
     }
 
     /**
-     * Method to return the string value of a specific cell in the grid
+     * Purpose: Method to return the string value of a specific cell in the grid
+     *
+     * Assumptions: Inputting the wrong values would cause it
+     * to fail or calling this method on an object that is not
+     * of the subclass simulation would cause it to fail.
+     *
+     * Return: string
      */
 
     public String getCell(int x, int y)
@@ -218,7 +323,13 @@ public abstract class Simulation {
     }
 
     /**
-     * Method to update the string value of a specific cell in the grid
+     * Purpose: Method to update the string value of a specific cell in the grid
+     *
+     * Assumptions: Inputting the wrong values would cause it
+     * to fail or calling this method on an object that is not
+     * of the subclass simulation would cause it to fail.
+     *
+     * Return: N/A
      */
 
     public void setCell(int x, int y, String value)
@@ -227,34 +338,61 @@ public abstract class Simulation {
     }
 
     /**
-     * Abstract method for the subclass simulations to create a grid
+     * Purpose: Abstract method for the subclass simulations to create a grid
      * using either a 2D array of strings or a 2D array of cells
+     *
+     * Assumptions: Inputting the wrong values would cause it
+     * to fail or calling this method on an object that is not
+     * of the subclass simulation would cause it to fail.
+     *
+     * Return: N/A
      */
 
     public abstract void createGrid(int numRows, int numCols);
 
     /**
-     * Abstract method for the subclass simulations to update
+     * Purpose: Abstract method for the subclass simulations to update
      * their grids
+     *
+     * Assumptions: Calling this method on an object that is not
+     * of the subclass simulation would cause it to fail.
+     *
+     * Return: N/A
      */
 
     public abstract void updateGrid();
 
     /**
-     * Abstract method for the subclass simulations to set the color
+     * Purpose: Abstract method for the subclass simulations to set the color
      * schemes for the cell types
+     *
+     * Assumptions: Calling this method on an object that is not
+     * of the subclass simulation would cause it to fail.
+     *
+     * Return: N/A
      */
 
     public abstract void setUpHashMap();
 
     /**
-     * Method to return the colorMap Hashmap of the simulation
+     * Purpose: Method to return the colorMap Hashmap of the simulation
+     *
+     * Assumptions: Calling this method on an object that is not
+     * of the subclass simulation would cause it to fail.
+     *
+     * Return: HashMap<String,String>
      */
 
     public HashMap<String, String> getColorMap() {return colorMap;}
 
     /**
-     * Method to check if an x,y value exists within the grid
+     * Purpose: Method to check if an x,y value exists within the grid
+     *
+     * Assumptions: Inputting the wrong values would cause it
+     * to fail or calling this method on an object that is not
+     * of the subclass simulation would cause it to fail.
+     *
+     * Return: Boolean
      */
 
     public boolean inGrid(int rows, int cols) {
@@ -265,8 +403,14 @@ public abstract class Simulation {
     }
 
     /**
-     * Method to return an array of the 4 finite neighbor cells in the grid
+     * Purpose: Method to return an array of the 4 finite neighbor cells in the grid
      * for a predetermined x,y location
+     *
+     * Assumptions: Inputting the wrong values would cause it
+     * to fail or calling this method on an object that is not
+     * of the subclass simulation would cause it to fail.
+     *
+     * Return: String[]
      */
 
     public String[] get4Neighbors(int x, int y, String[][] gridCopy) {
@@ -293,8 +437,14 @@ public abstract class Simulation {
     }
 
     /**
-     * Method to return an array of the 8 finite neighbor cells in the grid
+     * Purpose: Method to return an array of the 8 finite neighbor cells in the grid
      * for a predetermined x,y location
+     *
+     * Assumptions: Inputting the wrong values would cause it
+     * to fail or calling this method on an object that is not
+     * of the subclass simulation would cause it to fail.
+     *
+     * Return: String[]
      */
 
     public String[] get8Neighbors(int x, int y, String[][] gridCopy) {
