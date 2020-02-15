@@ -77,7 +77,7 @@ public class LoadSim {
                 sim = new AntSim(WIDTH, HEIGHT, currentParams);
                 return;
             } else if (parser.getFileType().equals("rps.xml")) {
-                sim = new RPSSim(WIDTH, HEIGHT, currentParams);
+                sim = new RPSSim(WIDTH, HEIGHT, currentParams, dummyGrid);
                 return;
             }
             throw new XMLException("Wrong File", parser.getFileType());

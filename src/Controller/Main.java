@@ -1,6 +1,7 @@
-package View;
+package Controller;
 
 import Model.*;
+import View.Visualizer;
 import configuration.*;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;

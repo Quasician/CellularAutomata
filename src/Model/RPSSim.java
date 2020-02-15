@@ -23,7 +23,7 @@ public class RPSSim extends Simulation{
         setName("rps");
     }
 
-    public RPSSim(int width, int height, HashMap<String,Double> params, Simulation sim) throws IOException {
+    public RPSSim(int width, int height, HashMap<String,Double> params, Simulation sim){
         super((int)(params.get("grid_height")*10)/10,(int)(params.get("grid_width")*10/10), width,height, params);
         initParams();
         createGridFromAnotherSim(sim);
