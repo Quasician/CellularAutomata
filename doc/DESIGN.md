@@ -14,7 +14,7 @@
   I created common methods used across all simulations to keep track of the number of each sim's states so
   that we could supply this info to the graph. Worked on exception handling towards the end of the project with Vineet.
 
- * Rodrigo Araujo
+ * Rodrigo Araujo: Rodrigo worked mainly on the various simulations for the project, and helped with the visualization as well.
 
  * Vineet Alaparthi: Worked on configuration and visualization, on tasks such as XML parsing and creating, as well as designing and creating the UI for the project and bringing all the components together.
 
