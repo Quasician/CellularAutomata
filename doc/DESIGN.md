@@ -10,9 +10,9 @@
 ## Team Roles and Responsibilities
 
  * Thomas Chemmanoor": Generalist. Helped create and debug basic implementation simulations, revamped xml writing (writing each cell into a file to load from)
- * and xml parsing (file that created sims from files). I created the Visualizer class as well as the autoscaling cell feature for the window. 
- * I created common methods used across all simulations to keep track of the number of each sim's states so
- * that we could supply this info to the graph. Worked on exception handling towards the end of the project with Vineet.
+  and xml parsing (file that created sims from files). I created the Visualizer class as well as the autoscaling cell feature for the window. 
+  I created common methods used across all simulations to keep track of the number of each sim's states so
+  that we could supply this info to the graph. Worked on exception handling towards the end of the project with Vineet.
 
  * Rodrigo Araujo
 
