@@ -156,7 +156,7 @@ public class RPSSim extends Simulation{
         return result;
     }
 
-    public void setUpHashMap() {
+    public  void setUpHashMap() {
         createColorMap(new HashMap<>());
         addToColorMap("rock", "red");
         addToColorMap("paper", "blue");
