@@ -38,7 +38,7 @@ public abstract class Cell {
      * Purpose: Method to return the name of the cell
      *
      * Assumptions: Calling this method on an object that is not
-     * of the subclass simulation would cause it to fail.
+     * of the subclass cell would cause it to fail.
      *
      * Return: string
      */
