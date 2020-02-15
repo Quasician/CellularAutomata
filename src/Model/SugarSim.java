@@ -1,9 +1,29 @@
 package Model;
 
-import javafx.scene.paint.Color;
-
 import java.util.ArrayList;
 import java.util.HashMap;
+
+/**
+ * @author Rodrigo Araujo
+ *
+ * Purpose: A class that extends the abstract simulation
+ * class and implements the rules to create the Sugar
+ * simulation.
+ *
+ * Assumptions: Typically, negative values would cause
+ * the simulation method to fail; however, we catch
+ * negative values and print out an error. Besides that,
+ * inputting the wrong values would cause the simulation
+ * class to fail.
+ *
+ * Dependencies: This subclass is dependent on the abstract
+ * simulation class.
+ *
+ * Example:
+ *
+ *          SugarSim exSim = new SugarSim(30, 30, params);
+ *
+ */
 
 public class SugarSim extends Simulation {
 
@@ -20,6 +40,16 @@ public class SugarSim extends Simulation {
     private SugarCell[][] sugarGrid;
     private SugarCell[][] gridCopy;
 
+    /**
+     * Purpose: SugarSim constructor that defines variables
+     * to be used.
+     *
+     * Assumptions: Inputting the wrong values would cause it
+     * to fail.
+     *
+     * Return: N/A
+     */
+
     public SugarSim(int width, int height, HashMap<String,Double> params) {
         super((int)(params.get("grid_height")*10)/10,(int)(params.get("grid_width")*10/10), width,height, params);
         initParams();
@@ -27,6 +57,16 @@ public class SugarSim extends Simulation {
         setUpHashMap();
         setName("sugar");
     }
+
+    /**
+     * Purpose: SugarSim constructor that defines variables
+     * to be used and allows user to load a past simulation.
+     *
+     * Assumptions: Inputting the wrong values would cause it
+     * to fail.
+     *
+     * Return: N/A
+     */
 
     public SugarSim(int width, int height, HashMap<String,Double> params, Simulation sim) {
         super((int)(params.get("grid_height")*10)/10,(int)(params.get("grid_width")*10/10), width,height, params);
@@ -36,6 +76,16 @@ public class SugarSim extends Simulation {
         setUpHashMap();
         setName("sugar");
     }
+
+    /**
+     * Purpose: Method to set the starting configuration values
+     * for the simulation.
+     *
+     * Assumptions: Calling this method on an object that is not
+     * of the subclass simulation would cause it to fail.
+     *
+     * Return: N/A
+     */
 
     public void initParams() {
         defaultCapacity = getParams().get("defaultCapacity");
@@ -53,6 +103,16 @@ public class SugarSim extends Simulation {
         initAddToAgentNumberMap("sugar_half");
         initAddToAgentNumberMap("sugar_full");
     }
+
+    /**
+     * Purpose: Method to create 2D array of cell objects grid by using
+     * setCell to set the values by cell location.
+     *
+     * Assumptions: Inputting the wrong values would cause it
+     * to fail.
+     *
+     * Return: N/A
+     */
 
     public void createGrid(int rows, int cols) {
         sugarGrid = new SugarCell[rows][cols];
@@ -111,6 +171,16 @@ public class SugarSim extends Simulation {
         gridCopier(sugarGrid);
     }
 
+    /**
+     * Purpose: Method to update the individual cells in the
+     * 2D array of cell objects grid by using updateCell, which contains
+     * the game rules, to set the string value by cell location.
+     *
+     * Assumptions: Calling this method on an object that is not
+     * of the subclass simulation would cause it to fail.
+     *
+     * Return: N/A
+     */
 
     public void updateGrid() {
         resetAgentNumbers();
@@ -130,6 +200,17 @@ public class SugarSim extends Simulation {
         updateStringArray();
         countAgentNumbers();
     }
+
+    /**
+     * Purpose: Method that contains the rules to
+     * update the cells by.
+     *
+     * Assumptions: Inputting the wrong values would cause it
+     * to fail or calling this method on an object that is not
+     * of the subclass simulation would cause it to fail.
+     *
+     * Return: N/A
+     */
 
     public void updateCell(SugarCell input) {
         if (input.getName().equals("agent") && !(agentsMoved.contains(input))) {
@@ -217,6 +298,16 @@ public class SugarSim extends Simulation {
         takenSpots.add(target);
         agentsMoved.add(input);
     }
+
+    /**
+     * Purpose: Method that updates the updates the color scheme
+     * for different cell names.
+     *
+     * Assumptions: Calling this method on an object that is not
+     * of the subclass simulation would cause it to fail.
+     *
+     * Return: N/A
+     */
 
     public void setUpHashMap() {
         createColorMap(new HashMap<>());
