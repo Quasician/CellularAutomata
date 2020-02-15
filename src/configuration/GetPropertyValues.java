@@ -3,9 +3,39 @@ package configuration;
 import java.io.*;
 import java.util.Properties;
 
+/**
+ * @author Rodrigo Araujo
+ *
+ * Purpose: A class that allows the user to set and pull
+ * unchanging label names (such as buttons, simulation names, etc.)
+ *
+ * Assumptions: Inputting the wrong values would cause the cell
+ * class to fail.
+ *
+ * Dependencies: This class is dependent on the java.util.Properties
+ * package.
+ *
+ * Example:
+ *
+ *          GetPropertyValues prop = new GetPropertyValues();
+ *          prop.getPropValues("sampleButtonLabel");
+ *
+ *
+ */
+
 public class GetPropertyValues {
     String result = "";
     InputStream inputStream;
+
+    /**
+     * Purpose: Method to pull labels from the config.properties file
+     *
+     * Assumptions: Inputting the wrong values would cause it
+     * to fail or calling this method on an object that is not
+     * of the class GetPropertyValues would cause it to fail.
+     *
+     * Return: String
+     */
 
     public String getPropValues(String input) throws IOException {
 
