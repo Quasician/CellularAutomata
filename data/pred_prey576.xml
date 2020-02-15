@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <title>
     pred_prey.xml
-    <author>Vineet Alaparthi</author>
+    <author>Thomas Chemmanoor</author>
     <grid_width>125</grid_width>
     <grid_height>125</grid_height>
     <defaultSharkEnergy>4.0</defaultSharkEnergy>

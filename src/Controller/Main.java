@@ -26,6 +26,13 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Purpose: Runs the program and creates many of the UI components as well as visual components outside of the simulation
+ * Dependencies: Dependent on all the other classes as it is the runner class for the program
+ */
+
+
+
 public class Main extends Application{
 
     private final static int WIDTH = 500;
@@ -182,7 +189,6 @@ public class Main extends Application{
                     }
                 });
             }
-
         });
     }
 
