@@ -6,10 +6,25 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * An abstract simulation class to define
+ * Purpose: An abstract simulation class to define
  * common behaviors that can be inherited
  * by multiple subclasses to create new
  * simulations.
+ *
+ * Assumptions: Typically, negative values would cause
+ * the simulation method to fail; however, we catch
+ * negative values and print out an error. Besides that,
+ * inputting the wrong values would cause the simulation
+ * class to fail.
+ *
+ * Dependencies: All files in the model package, specifically
+ * all of the subclass simulations depend on the simulation class
+ *
+ * Example:
+ * 
+ *          public class NewExSim extends Simulation {
+ *              ...
+ *          }
  *
  * @author Rodrigo Araujo, Thomas Chemmanoor
  */
@@ -170,34 +185,72 @@ public abstract class Simulation {
         }
     }
 
+    /**
+     * Method to add a new color key to the colormap Hashmap
+     */
+
     public void addToColorMap(String type, String color)
     {
         colorMap.putIfAbsent(type, color);
     }
+
+    /**
+     * Method to update the 2D string array grid
+     */
+
     public void createGrid(String[][] grid)
     {
         this.grid = grid;
     }
+
+    /**
+     * Method to return the string value of a specific cell in the grid
+     */
 
     public String getCell(int x, int y)
     {
         return grid[x][y];
     }
 
+    /**
+     * Method to update the string value of a specific cell in the grid
+     */
+
     public void setCell(int x, int y, String value)
     {
         grid[x][y] = value;
     }
 
+    /**
+     * Abstract method for the subclass simulations to create a grid
+     * using either a 2D array of strings or a 2D array of cells
+     */
 
     public abstract void createGrid(int numRows, int numCols);
 
+    /**
+     * Abstract method for the subclass simulations to update
+     * their grids
+     */
+
     public abstract void updateGrid();
+
+    /**
+     * Abstract method for the subclass simulations to set the color
+     * schemes for the cell types
+     */
 
     public abstract void setUpHashMap();
 
+    /**
+     * Method to return the colorMap Hashmap of the simulation
+     */
 
     public HashMap<String, String> getColorMap() {return colorMap;}
+
+    /**
+     * Method to check if an x,y value exists within the grid
+     */
 
     public boolean inGrid(int rows, int cols) {
         if(rows>=0 && rows <simRows && cols>=0 && cols<simCols) {
@@ -205,6 +258,11 @@ public abstract class Simulation {
         }
         return false;
     }
+
+    /**
+     * Method to return an array of the 4 finite neighbor cells in the grid
+     * for a predetermined x,y location
+     */
 
     public String[] get4Neighbors(int x, int y, String[][] gridCopy) {
         String[] neighbors = new String[4];
@@ -228,6 +286,11 @@ public abstract class Simulation {
         }
         return neighbors;
     }
+
+    /**
+     * Method to return an array of the 8 finite neighbor cells in the grid
+     * for a predetermined x,y location
+     */
 
     public String[] get8Neighbors(int x, int y, String[][] gridCopy) {
         String[] neighbors = new String[8];
