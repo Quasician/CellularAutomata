@@ -42,8 +42,12 @@ public abstract class Simulation {
     private String[][] grid;
 
     /**
-     * Simulation constructor that defines variables
+     * Purpose: Simulation constructor that defines variables
      * to be used within the simulations.
+     *
+     * Assumptions:
+     *
+     * Return: N/A
      */
 
     public Simulation(int rows, int cols, int width, int height, HashMap<String, Double> params){
