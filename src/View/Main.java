@@ -25,11 +25,12 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+
 public class Main extends Application{
 
     private final static int WIDTH = 500;
     private final static int HEIGHT = 500;
-    private Timeline intialTimeline;
+    private Timeline initialTimeline;
     private Timeline currentTimeline;
     private HashMap<String,Double> currentParams;
     private Simulation currentSim;
@@ -82,13 +83,13 @@ public class Main extends Application{
         start_root.setLeft(leftButtons);
         bottomButtons.getChildren().add(step);
 
-        intialTimeline = new Timeline(
+        initialTimeline = new Timeline(
                 new KeyFrame(Duration.seconds(seconds), j -> {
                     checkCustomSim();
                 })
         );
-        intialTimeline.setCycleCount(Animation.INDEFINITE);
-        intialTimeline.play();
+        initialTimeline.setCycleCount(Animation.INDEFINITE);
+        initialTimeline.play();
     }
 
     private void simButtonSetup(String buttonName, String filename, String file_type) throws IOException {
@@ -409,7 +410,7 @@ public class Main extends Application{
     private void back_button(Button button){
         button.setOnAction(e -> {
             currentTimeline.stop();
-            currentTimeline = intialTimeline;
+            currentTimeline = initialTimeline;
             myStage.setScene(start_scene);
             lineChart.getData().clear();
             curr_root.getChildren().clear();
