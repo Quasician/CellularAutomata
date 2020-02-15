@@ -57,41 +57,13 @@ public class Visualizer {
         hexList = new Polygon[visRow][visCol];
         double cellWidth = (width / (double) visCol)/2.0;
         double cellHeight = (height / (double) visRow)/2.0;
-
-
         double x = cellWidth;
         double y = cellHeight;
         for (int i = 0; i < visRow; i++) {
             for (int j = 0; j < visCol; j++) {
-                double[] xVals = new double[6];
-                double[] yVals = new double[6];
-                for(int k = 0; k<6;k++)
-                {
-                    xVals[k] = cellWidth * Math.cos(2*Math.PI*k/6 ) + x;
-                    yVals[k] = cellHeight * Math.sin(2*Math.PI*k/6 ) + y;
-                }
-                double[] combined = new double [12];
-                for(int k = 0; k<6;k++)
-                {
-                    combined[2*k] = xVals[k];
-                    combined[2*k+1] = yVals[k];
-                }
-                Polygon hex = new Polygon(combined);
-                root.getChildren().add(hex);
-                hexList[i][j] = hex;
+                createHexagon(x,y,i,j,cellWidth,cellHeight);
                 x += 2*cellWidth;
-
-
-                if (j % 2 == 0) {
-                    y += cellHeight;
-                    if(j == visCol-1)
-                    {
-                        y -= cellHeight;
-                    }
-                } else {
-                    y -= cellHeight;
-                }
-
+                y = updateY(j,y,cellHeight);
             }
             x = cellWidth;
             y += 2*cellHeight;
@@ -104,13 +76,43 @@ public class Visualizer {
     }
 
     public void colorGrid() {
-        //System.out.println("YEET!");
         for (int i = 0; i < visRow; i++) {
             for (int j = 0; j < visCol; j++) {
-                //System.out.println("I: " + i + "J: "+ j);
-                recList[i][j].setFill(Color.web(colorMap.get(sim.getCell(i,j))));
+                recList[i][j].setFill(Color.web(colorMap.get(sim.getCell(i, j))));
             }
         }
-        //System.out.println("END YEET!");
+    }
+
+    private void createHexagon(double x, double y, int i, int j, double cellWidth, double cellHeight)
+    {
+        double[] xVals = new double[6];
+        double[] yVals = new double[6];
+        for(int k = 0; k<6;k++)
+        {
+            xVals[k] = cellWidth * Math.cos(2*Math.PI*k/6 ) + x;
+            yVals[k] = cellHeight * Math.sin(2*Math.PI*k/6 ) + y;
+        }
+        double[] combined = new double [12];
+        for(int k = 0; k<6;k++)
+        {
+            combined[2*k] = xVals[k];
+            combined[2*k+1] = yVals[k];
+        }
+        Polygon hex = new Polygon(combined);
+        root.getChildren().add(hex);
+        hexList[i][j] = hex;
+    }
+
+    private double updateY(int j, double y, double cellHeight)
+    {
+        if (j % 2 == 0) {
+            y += cellHeight;
+            if(j == visCol-1) {
+                y -= cellHeight;
+            }
+        } else {
+            y -= cellHeight;
+        }
+        return y;
     }
 }
