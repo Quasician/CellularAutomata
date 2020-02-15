@@ -10,6 +10,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import Model.Simulation;
+import javafx.scene.control.Alert;
 import org.w3c.dom.Attr;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -19,7 +20,9 @@ public class xml_creator {
 
     private static double num = Math.random() * 1000;
     private static String xmlFilePath = "";
-    private Simulation sim;
+    private static Simulation sim;
+    private static Element currentRoot;
+    private static Document currentDocument;
 
     public xml_creator(Simulation sim) {
         this.sim = sim;
@@ -27,59 +30,81 @@ public class xml_creator {
     }
 
     private static void createGrid(Simulation sim) {
-        try {
-            xmlFilePath = String.format("data/%s%.0f.xml",sim.getName(), num);
-            DocumentBuilderFactory documentFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder documentBuilder = documentFactory.newDocumentBuilder();
-            Document document = documentBuilder.newDocument();
+            Document document = createDocandInitialTags();
+            createParams();
+            createCells();
+            createTransformer(document);
+    }
 
-            Element root = document.createElement("title");
-            root.appendChild(document.createTextNode(String.format("%s.xml",sim.getName())));
-            document.appendChild(root);
+    private static void showError(String mes)
+    {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setContentText(mes);
+        alert.showAndWait();
+    }
 
-            Element author = document.createElement("author");
-            author.appendChild(document.createTextNode("Vineet Alaparthi"));
-            root.appendChild(author);
-
-            for(Map.Entry<String,Double> entry: sim.getParams().entrySet())
-            {
-                Element param = document.createElement(entry.getKey());
-                param.appendChild(document.createTextNode(entry.getValue() + ""));
-                root.appendChild(param);
-            }
-
-
-            Element grid_config = document.createElement("grid_config");
-            root.appendChild(grid_config);
-
-            for (int i = 0; i < sim.getRows(); i++) {
-                Element row = document.createElement("row"+i);
-                grid_config.appendChild(row);
-                for (int j = 0; j < sim.getCols(); j++) {
-                    Element cell = document.createElement("cell" + i+""+j);
-                    cell.appendChild(document.createTextNode(sim.getCell(i,j)));
-                    row.appendChild(cell);
-                }
-            }
-
-                TransformerFactory transformerFactory = TransformerFactory.newInstance();
-                Transformer transformer = transformerFactory.newTransformer();
-                transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-                transformer.setOutputProperty(OutputKeys.METHOD, "xml");
-                transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
-                DOMSource domSource = new DOMSource(document);
-                StreamResult streamResult = new StreamResult(new File(xmlFilePath));
-
-                transformer.transform(domSource, streamResult);
-
-                System.out.println("Done creating XML File");
-
+    private static void createTransformer(Document document)
+    {
+        try{
+        TransformerFactory transformerFactory = TransformerFactory.newInstance();
+        Transformer transformer = transformerFactory.newTransformer();
+        transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+        transformer.setOutputProperty(OutputKeys.METHOD, "xml");
+        transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "4");
+        DOMSource domSource = new DOMSource(document);
+        StreamResult streamResult = new StreamResult(new File(xmlFilePath));
+        transformer.transform(domSource, streamResult);
         } catch(TransformerConfigurationException e){
-            e.printStackTrace();
-        } catch(TransformerException e){
-            e.printStackTrace();
-        } catch(ParserConfigurationException e){
-            e.printStackTrace();
+            showError(e.getMessage());
+        }catch(TransformerException e){
+            showError(e.getMessage());
+        }
+    }
+
+    private static Document createDocandInitialTags() {
+        try{
+        xmlFilePath = String.format("data/%s%.0f.xml", sim.getName(), num);
+        DocumentBuilderFactory documentFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder documentBuilder = documentFactory.newDocumentBuilder();
+        Document document = documentBuilder.newDocument();
+        currentDocument = document;
+        Element root = document.createElement("title");
+        currentRoot = root;
+        root.appendChild(document.createTextNode(String.format("%s.xml", sim.getName())));
+        document.appendChild(root);
+
+        Element author = document.createElement("author");
+        author.appendChild(document.createTextNode("Vineet Alaparthi"));
+        root.appendChild(author);
+        }
+            catch(ParserConfigurationException e){
+            showError(e.getMessage());
+        }
+        return currentDocument;
+    }
+
+    private static void createParams() {
+        for(Map.Entry<String,Double> entry: sim.getParams().entrySet())
+        {
+            Element param = currentDocument.createElement(entry.getKey());
+            param.appendChild(currentDocument.createTextNode(entry.getValue() + ""));
+            currentRoot.appendChild(param);
+        }
+    }
+
+    private static void createCells()
+    {
+        Element grid_config = currentDocument.createElement("grid_config");
+        currentRoot.appendChild(grid_config);
+
+        for (int i = 0; i < sim.getRows(); i++) {
+            Element row = currentDocument.createElement("row"+i);
+            grid_config.appendChild(row);
+            for (int j = 0; j < sim.getCols(); j++) {
+                Element cell = currentDocument.createElement("cell" + i+""+j);
+                cell.appendChild(currentDocument.createTextNode(sim.getCell(i,j)));
+                row.appendChild(cell);
+            }
         }
     }
 }
