@@ -39,6 +39,28 @@ public class RPSCell extends Cell{
         this.threshold = threshold;
     }
 
+    /**
+     * Purpose: Method to return the future state of the cell.
+     * This makes it easier to update the cell in the simulation.
+     *
+     * Assumptions: Calling this method on an object that is not
+     * of the subclass cell would cause it to fail.
+     *
+     * Return: RPSCell
+     */
+
     public RPSCell getNextState() {return nextState;}
+
+    /**
+     * Purpose: Method to update the future state of the cell.
+     * This makes it easier to update the cell in the simulation.
+     *
+     * Assumptions: Inputting the wrong values would cause it
+     * to fail or calling this method on an object that is not
+     * of the subclass cell would cause it to fail.
+     *
+     * Return: N/A
+     */
+    
     public void setNextState(RPSCell input) {nextState = input;}
 }
