@@ -1,5 +1,16 @@
 package configuration;
 
+/**
+ * Purpose: To load in a custom simulation that has been saved by the user
+ * Assumptions: that the user has not added any new tags or changed the formatting of the XML file
+ * Dependencies: it is dependent on the simulation class and the xml parser class.
+ * an example of how to use it
+ *  LoadSim load = new LoadSim(stage,Vbox);
+ *  This creates a new loadSim object that adds the button the the given Vbox, and uses the stage passed as a parameter
+ *  for actions such as opening the file explorer.
+ */
+
+
 import Model.*;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -10,7 +21,6 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.PropertyPermission;
 
 
 public class LoadSim {
@@ -31,6 +41,13 @@ public class LoadSim {
         this.stage = stage;
     }
 
+
+    /**
+     * Creates button that saves parameters of selected simulation configuration file
+     * @return Button that opens file explorer and saves file
+     * @throws IOException
+     * @throws XMLException
+     */
     public Button create_button() throws IOException,XMLException {
         Button new_button = new Button(properties.getPropValues("buttonLoadSim"));
         load = new_button;
@@ -88,13 +105,26 @@ public class LoadSim {
         }
     }
 
+
+    /**
+     * Getter method
+     * @return If the button is clicked or not
+     */
     public boolean is_clicked() {
         return is_clicked;
     }
 
+    /**
+     * Setter method
+     */
     public void set_clicked(boolean is_clicked) {
         this.is_clicked = is_clicked;
     }
+
+    /**
+     * Getter method
+     * @return Simulation created by loading custom configuration
+     */
 
     public Simulation getSim() {
         return sim;
