@@ -13,6 +13,7 @@ import Model.GOLSim;
 import Model.Simulation;
 import javafx.scene.control.Alert;
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
 public class xml_parser {
@@ -26,6 +27,9 @@ public class xml_parser {
     final static ArrayList<String> RPSParams = new ArrayList<String>(Arrays.asList("grid_width", "grid_height", "percentRock","percentScissors","threshold"));
     private Simulation sim;
     private String fileType;
+    private static String[][] currentGrid;
+    private static Document currentDocument;
+    private static HashMap<String,Double> paramHashMap;
 
     public xml_parser()
     {
@@ -39,16 +43,11 @@ public class xml_parser {
         HashMap<String,Double> paramMap = new HashMap<>();
         try {
             File inputFile = new File("data/"+file);
-
-            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-            Document doc = dBuilder.parse(inputFile);
-            doc.getDocumentElement().normalize();
-            for(String s: sims.get(file))
-            {
-                paramMap.putIfAbsent(s,Double.parseDouble(doc.getDocumentElement().getElementsByTagName(s).item(0).getTextContent()));
+            createDocument(inputFile);
+            for(String s: sims.get(file)) {
+                paramMap.putIfAbsent(s,Double.parseDouble(currentDocument.getDocumentElement().getElementsByTagName(s).item(0).getTextContent()));
             }
-        } catch (NullPointerException | IOException | SAXException  | ParserConfigurationException e) {
+        } catch (NullPointerException e) {
             showError("Wrong formatting of XML");
         }
         return paramMap;
@@ -67,36 +66,14 @@ public class xml_parser {
         String[] paths = fileName.split("/");
         fileType= paths[paths.length-1];
         HashMap<String,Double> paramMap = new HashMap<>();
+        paramHashMap = paramMap;
         try {
-            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-            Document doc = dBuilder.parse(file);
-            doc.getDocumentElement().normalize();
-            for(String s: sims.get(fileType))
-            {
-                System.out.println(s);
-                double paramValue = Double.parseDouble(doc.getDocumentElement().getElementsByTagName(s).item(0).getTextContent());
-                if(paramValue<0)
-                {
-                    throw new XMLException("Negative value",paramValue);
-                }
-                paramMap.putIfAbsent(s,paramValue);
-            }
-            int rows = (int)(paramMap.get("grid_height")*10)/10;
-            int cols = (int)(paramMap.get("grid_width")*10)/10;
-            String[][] grid = new String[rows][cols];
-            for(int i  = 0; i<rows;i++)
-            {
-                for(int j  = 0; j<cols;j++)
-                {
-                    grid[i][j] = doc.getDocumentElement().getElementsByTagName("cell"+i+""+j).item(0).getTextContent();
-                }
-            }
+            createDocument(file);
+            setUpParamHashMap();
+            setUpCells();
             sim = new GOLSim(new HashMap<String,Double>());
-            sim.createInitialGridFromFile(grid);
-        } catch (NullPointerException | IOException | SAXException  | ParserConfigurationException e) {
-            showError("Wrong formatting of XML");
-        }catch (XMLException e) {
+            sim.createInitialGridFromFile(currentGrid);
+        } catch (XMLException e) {
             showError(e.getMessage());
         }
         return paramMap;
@@ -127,5 +104,46 @@ public class xml_parser {
         sims.putIfAbsent("segregation.xml",segParams);
         sims.putIfAbsent("sugar.xml",sugarParams);
         sims.putIfAbsent("rps.xml",RPSParams);
+    }
+
+    private void createDocument(File inputFile)
+    {
+        try {
+            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+            Document doc = dBuilder.parse(inputFile);
+            doc.getDocumentElement().normalize();
+            currentDocument = doc;
+        } catch (NullPointerException | IOException | SAXException  | ParserConfigurationException e) {
+            showError("Wrong formatting of XML");
+        }
+    }
+
+    private void setUpParamHashMap()
+    {
+        for(String s: sims.get(fileType))
+        {
+            double paramValue = Double.parseDouble(currentDocument.getDocumentElement().getElementsByTagName(s).item(0).getTextContent());
+            if(paramValue<0)
+            {
+                showError("XML contains inappropriate value.");
+            }
+            paramHashMap.putIfAbsent(s,paramValue);
+        }
+    }
+
+    private void setUpCells()
+    {
+        int rows = (int)(paramHashMap.get("grid_height")*10)/10;
+        int cols = (int)(paramHashMap.get("grid_width")*10)/10;
+        String[][] grid = new String[rows][cols];
+        currentGrid = grid;
+        for(int i  = 0; i<rows;i++)
+        {
+            for(int j  = 0; j<cols;j++)
+            {
+                grid[i][j] = currentDocument.getDocumentElement().getElementsByTagName("cell"+i+""+j).item(0).getTextContent();
+            }
+        }
     }
 }
