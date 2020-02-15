@@ -14,7 +14,10 @@
   I created common methods used across all simulations to keep track of the number of each sim's states so
   that we could supply this info to the graph. Worked on exception handling towards the end of the project with Vineet.
 
- * Rodrigo Araujo: Rodrigo worked mainly on the various simulations for the project, and helped with the visualization as well.
+ * Rodrigo Araujo: Tasked with simulation and configuration. I worked mainly on the all of the simulations for the project. Worked mainly on the abstract simulation
+  class and the abstract cell class. Made it so the abstract cell class could provide control over whether or not a simulation would be torroidal or finite based on 
+  how many neighbor cells were desired in the simulation (either 4 or 8). I also created the config.properties file as well as the GetPropertyValues class that allowed 
+  one to edit and pull from the config.properties file. Helped out with the visualizations, UI, and XML. 
 
  * Vineet Alaparthi: Worked on configuration and visualization, on tasks such as XML parsing and creating, as well as designing and creating the UI for the project and bringing all the components together.
 
